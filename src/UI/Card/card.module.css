@@ -1,0 +1,22 @@
+.card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  min-width: 55vh;
+  background: rgb(7,29,124);
+  background: linear-gradient(180deg, rgba(7,29,124,1) 0%, rgba(10,62,180,1) 45%, rgba(13,149,209,1) 100%); 
+  border-radius: 20px;
+}
+
+/* .card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  min-width: 55vh;
+  background-color: purple;
+  border-radius: 20px;
+} */

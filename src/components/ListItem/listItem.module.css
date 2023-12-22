@@ -1,0 +1,38 @@
+.card{
+    display: flex;
+    flex-flow: column wrap;
+    border-radius: 10px;
+    border: 2.5px solid black;
+    margin: 10px;
+    height: 30vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.card p {
+    margin: 5px;
+    padding: 0;
+}
+
+.card img {
+    width: 18vh;
+}
+
+@media screen and (max-width: 300px){
+    .card{
+        margin: 0;
+        padding: 0;
+        max-width: 80%;
+        min-width: 100px;
+    }
+
+    .card img {
+        width: 20vh;
+    } 
+}
+
+@media only screen and (max-width: 400px){
+    .card p {
+        word-break: break-all;
+    }
+}

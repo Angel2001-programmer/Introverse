@@ -1,0 +1,70 @@
+.row{
+    display: flex;
+    text-overflow: clip;
+    max-width: 55vh;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    align-items: center;
+    flex-direction: row;
+}
+
+.Textcolumn{
+    display: flex;
+    text-overflow: clip;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2vh;
+    max-width: 400px;
+    text-wrap: wrap;
+    word-wrap: break-word;
+    overflow-y: scroll;
+}
+
+.icon{
+    height: 80px;
+}
+
+.title{
+    display: flex;
+    text-overflow: clip;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    margin-right: 20px;
+    word-wrap: break-word;
+
+}
+
+.subtitle{
+    color: grey;
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 60px;
+    background-color: grey;
+    border-radius: 10px;
+    /* margin-right: 25px; */
+    border: 4px #4C4B4B solid;
+}
+
+.profilePicture{
+    display: flex;
+    /* width: 50px; */
+    height: 50px;
+}
+
+@media all and (min-width: 360px) {
+    .row{
+        width: 96%;
+    }
+}

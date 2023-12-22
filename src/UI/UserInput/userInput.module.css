@@ -1,0 +1,35 @@
+.title{
+    font-size: 40px;
+    color: white;
+    margin: 0;
+    font-weight: 400;
+    text-align: center;
+}
+
+.closeModal{
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    color: white;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.userLabel{
+    display: flex;
+    color: white;
+    font-size: 24px;
+}
+
+.userField{
+    display: flex;
+    padding: 10px;
+    min-width: 96%;
+    font-size: 24px;
+    background-color: #D9D9D9;
+    box-shadow: 0 4px 4px #00000025;
+}
+

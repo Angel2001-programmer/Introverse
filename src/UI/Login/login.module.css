@@ -1,0 +1,38 @@
+.login{
+    display: flex;
+    flex-direction: column;
+}
+
+.signUp{
+    color: white;
+    padding: 0;
+    margin: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.signUpLink{
+    color: #FFC700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.noAccount{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.bottomContainer{
+    display: flex;
+    margin-top: 30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.errorMessage{
+    color: rgb(255, 0, 0);
+    text-shadow: 6px 6px 10px rgba(0, 0, 0, 0.51);
+}

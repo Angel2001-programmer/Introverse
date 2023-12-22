@@ -1,0 +1,40 @@
+.profile {
+	display: flex;
+	flex-direction: column;
+	max-width: 250px;
+	word-wrap: break-word;
+	flex-basis: 22.22222%;
+}
+
+.profileContainer {
+	display: flex;
+	background-color: #9c9c9c;
+	border: 6px solid #4c4b4b;
+	border-radius: 15px;
+	padding: 5px;
+	justify-content: center;
+	box-shadow: rgba(0, 0, 0, 0.139) 5px 5px 5px 5px;
+}
+
+.profileContainer img {
+	height: 250px;
+	width: 250px;
+	box-shadow: none;
+}
+
+.favouriteActivity {
+	margin: 0;
+	padding: 0;
+}
+
+.profileIMG {
+	height: 250px;
+	width: 250px;
+	border-radius: 20px;
+	box-shadow: rgba(0, 0, 0, 0.139) 5px 5px 5px 5px;
+	object-fit: cover;
+}
+
+li {
+	list-style-type: none;
+}

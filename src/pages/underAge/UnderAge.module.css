@@ -1,0 +1,40 @@
+.UnderAge{
+  background-image: url(../../assets/images/backgrounds/Agebackground.png); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.ErrorContainer{
+        background-color: #433E8E;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+      
+.ErrorMessage { 
+    color: whitesmoke;
+    text-align: center;
+}
+      
+.AdditionalTextBelow {
+    color: whitesmoke;
+    text-align: center;
+}
+      
+      .backButton {
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        font-size: 16px;
+        color: white;
+        background-color: #4BA5E1;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }

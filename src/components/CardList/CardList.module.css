@@ -1,0 +1,21 @@
+.CardContainer{
+    display: flex;
+    border: 15px black;
+    margin: 0;
+    padding: 0;
+}
+
+.CardRow{
+    display: flex;
+    margin: 0;
+    padding: 15px;
+    flex-flow: row wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 800px){
+    .CardRow{
+        margin: 0;
+    }
+}

@@ -1,0 +1,75 @@
+.banner {
+	position: relative;
+	display: flex;
+	align-items: end;
+	justify-content: center;
+	z-index: 0;
+	height: 45vh;
+	width: 100%;
+	background-image: url('../../assets/images/backgrounds/sergey-shmidt-koy6FlCCy5s-unsplash.jpg');
+	background-position: center;
+	background-size: cover;
+}
+
+.profile {
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	flex-direction: row;
+	position: absolute;
+	height: 200px;
+	width: 200px;
+	background-color: gray;
+	border-radius: 15px;
+	border: 5px solid rgb(47, 47, 47);
+	top: 27vh;
+	left: 2vh;
+	gap: 70px;
+}
+
+.profilePicture {
+	display: flex;
+	width: 220px;
+	height: 200px;
+	justify-content: center;
+	align-items: baseline;
+}
+
+.profileName {
+	position: absolute;
+	background-color: #f0f0f0;
+	height: fit-content;
+	padding: 10px;
+	margin: 0;
+	border-radius: 9px;
+	box-shadow: 2px 2px 6px black;
+	font-size: 40px;
+	margin-top: 100px;
+	left: 230px;
+}
+
+@media all and (max-width: 820px) {
+	.profilePicture {
+		width: 15vh;
+		height: 15vh;
+	}
+
+	.profile {
+		width: 15vh;
+		height: 15vh;
+		top: 31vh;
+	}
+
+	.profileName {
+		left: 140px;
+		bottom: 20px;
+		font-size: 20px;
+		top: -25px;
+	}
+}
+
+@media all and (min-width: 360px){
+	.banner h2 {
+		margin-left: 14vh;
+	}
+}

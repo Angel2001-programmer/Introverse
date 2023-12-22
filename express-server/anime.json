@@ -1,0 +1,86 @@
+[
+	{
+		"Anime_ID" : 1,
+		"Anime_Name" : "Bleach",
+		"Anime_Genre" : "Shonen",
+		"Where_TW" : "Disney+",
+		"Anime_Script" : "Ichigo Kurosaki is a teenager from Karakura Town who can see ghosts, a talent allowing him to meet a supernatural human Rukia Kuchiki, who enters the town in search of a Hollow, a kind of monstrous lost soul who can harm both ghosts and humans."
+	},
+	{
+		"Anime_ID" : 2,
+		"Anime_Name" : "Naruto",
+		"Anime_Genre" : "Shonen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "The Village Hidden in the Leaves is home to the stealthiest ninja. But twelve years earlier, a fearsome Nine-tailed Fox terrorized the village before it was subdued and its spirit sealed within the body of a baby boy."
+	},
+	{
+		"Anime_ID" : 3,
+		"Anime_Name" : "Jujutsu Kaisen",
+		"Anime_Genre" : "Shonen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Yuji Itadori is a boy with tremendous physical strength, though he lives a completely ordinary high school life. One day, to save a classmate who has been attacked by curses, he eats the finger of Ryomen Sukuna, taking the curse into his own soul. From then on, he shares one body with Ryomen Sukuna. Guided by the most powerful of sorcerers, Satoru Gojo, Itadori is admitted to Tokyo Jujutsu High School, an organization that fights the curses... and thus begins the heroic tale of a boy who became a curse to exorcise a curse, a life from which he could never turn back."
+	},
+	{
+		"Anime_ID" : 4,
+		"Anime_Name" : "One Piece",
+		"Anime_Genre" : "Shonen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Monkey. D. Luffy refuses to let anyone or anything stand in the way of his quest to become the king of all pirates. With a course charted for the treacherous waters of the Grand Line and beyond, this is one captain who will never give up until he has claimed the greatest treasure on Earth: the Legendary One Piece!"
+	},
+	{
+		"Anime_ID" : 5,
+		"Anime_Name" : "Attack on Titan",
+		"Anime_Genre" : "Seinen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Known in Japan as Shingeki no Kyojin, many years ago, the last remnants of humanity were forced to retreat behind the towering walls of a fortified city to escape the massive, man-eating Titans that roamed the land outside their fortress. Only the heroic members of the Scouting Legion dared to stray beyond the safety of the walls – but even those brave warriors seldom returned alive. Those within the city clung to the illusion of a peaceful existence until the day that dream was shattered, and their slim chance at survival was reduced to one horrifying choice: kill – or be devoured!"
+	},
+	{
+		"Anime_ID" : 6,
+		"Anime_Name" : "Tokyo Ghoul",
+		"Anime_Genre" : "Seinen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Haise Sasaki has been tasked with teaching Qs Squad how to be outstanding investigators, but his assignment is complicated by the troublesome personalities of his students and his own uncertain grasp of his Ghoul powers. Can he pull them together as a team, or will Qs Squad first assignment be their last?"
+	},
+	{
+		"Anime_ID" : 7,
+		"Anime_Name" : "Berserk",
+		"Anime_Genre" : "Seinen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Spurred by the flame raging in his heart, the Black Swordsman Guts continues his seemingly endless quest for revenge. Standing in his path are heinous outlaws, delusional evil spirits, and a devout child of god.Even as it chips away at his life, Guts continues to fight his enemies, who wield repulsive and inhumane power, with nary but his body and sword—his strength as a human. What lies at the end of his travels? The answer is shrouded in the night."
+	},
+	{
+		"Anime_ID" : 8,
+		"Anime_Name" : "Death Note",
+		"Anime_Genre" : "Seinen",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "An intelligent high school student goes on a secret crusade to eliminate criminals from the world after discovering a notebook capable of killing anyone whose name is written into it."
+	},
+	{
+		"Anime_ID" : 9,
+		"Anime_Name" : "Chainsaw Man",
+		"Anime_Genre" : "Fantasy",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Denji is a young boy who works as a Devil Hunter with the Chainsaw Devil Pochita. One day, as he was living his miserable life trying to pay off the debt he inherited from his parents, he got betrayed and killed. As he was losing his consciousness, he made a deal with Pochita, and got resurrected as the Chainsaw Man: the owner of the Devil’s heart."
+	},
+	{
+		"Anime_ID" : 10,
+		"Anime_Name" : "JoJos Bizarre Adventure",
+		"Anime_Genre" : "Fantasy",
+		"Where_TW" : "Netflix",
+		"Anime_Script" : "In ancient Mexico, people of Aztec had prospered. They had historic and strange Stone Mask. It was a miraculous mask which brings eternal life and the power of authentic ruler. But the mask suddenly disappeared. A long time after that, in late 19th centuries when the thought and life of people were suddenly changing, Jonathan Joestar met with Dio Brando. They spend time together through boyhood to youth, and the Stone Mask brings curious fate to them."
+	},
+	{
+		"Anime_ID" : 11,
+		"Anime_Name" : "Black Clover",
+		"Anime_Genre" : "Fantasy",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "In a world where magic is everything, Asta and Yuno are both found abandoned at a church on the same day. While Yuno is gifted with exceptional magical powers, Asta is the only one in this world without any. At the age of fifteen, both receive grimoires, magic books that amplify their holder’s magic. Asta’s is a rare Grimoire of Anti-Magic that negates and repels his opponent’s spells. Being opposite but good rivals, Yuno and Asta are ready for the hardest of challenges to achieve their common dream: to be the Wizard King. Giving up is never an option!"
+	},
+	{
+		"Anime_ID" : 12,
+		"Anime_Name" : "Link Click",
+		"Anime_Genre" : "Fantasy",
+		"Where_TW" : "Crunchyroll",
+		"Anime_Script" : "Using superpowers to enter their clientele’s photos one by one, Cheng Xiaoshi and Lu Guang take their work seriously at Time Photo Studio, a small photography shop set in the backdrop of a modern metropolis. Each job can be full of danger, but nothing is more important than fulfilling every order, no matter the scale…or peril involved!"
+	}
+]

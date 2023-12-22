@@ -1,0 +1,21 @@
+.button{
+    width: fit-content;
+    background-image: linear-gradient(#D00000, #D07D00);
+    border-radius: 10px;
+    color: white;
+    font-size: 24px;
+    padding: 13px;
+    margin-right: 3vh;
+    box-shadow: #D1730170 5px 5px 5px;
+}
+
+.button p {
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+}
+
+.button:hover{
+    background-image: black;
+    cursor: pointer;
+}

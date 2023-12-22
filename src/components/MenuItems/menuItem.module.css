@@ -1,0 +1,21 @@
+ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.item {
+    padding: 7px;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.item a{
+    color: black;
+}
+
+.item:hover{
+    background-color: rgb(145, 234, 55);
+}

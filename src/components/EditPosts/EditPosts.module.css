@@ -1,0 +1,65 @@
+.postMessageContainer {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	gap: 5px;
+	font-size: 18px;
+	padding-left: 15px;
+}
+
+.post {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	align-items: start;
+	width: 600px;
+	background-color: #d9d9d9;
+	padding: 0 5px;
+	margin-bottom: 10px;
+}
+
+.postProfilecontainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+}
+
+.userPhotoContainer {
+	display: flex;
+	background-color: grey;
+	width: 5vh;
+	height: 5vh;
+	border-radius: 5px;
+	border: rgb(63, 63, 63) 3.5px solid;
+}
+
+.userInfocontainer {
+	line-height: 0.1;
+}
+
+.postMessageContainer {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	gap: 5px;
+	font-size: 18px;
+	padding-left: 15px;
+}
+
+.postContent {
+	background-color: #fff;
+	padding: 5px;
+	border-radius: 5px;
+	min-width: 580px;
+
+}
+
+.postsContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 10px auto 30px;
+	padding: 0 10px;
+}

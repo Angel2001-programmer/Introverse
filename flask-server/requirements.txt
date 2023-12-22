@@ -1,0 +1,14 @@
+flask
+flask-sqlalchemy
+flask-bcrypt
+flask-cors
+flask-session
+redis
+python-dotenv
+mysql-connector
+mysql-connector-python
+pymysql
+cryptography
+flask_jwt_extended
+flask_restx
+email_validator

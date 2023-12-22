@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
+
+body{
+  background-color: rgb(72, 72, 72);
+}
+
+li a{
+  text-decoration: none;
+  color: black;
+}
+
+.navbar h1 {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.mainText{
+  font-size: 35px;
+  margin: 0;
+  margin-top: 190px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.main section {
+  display: flex;
+  flex-flow: column wrap;
+  padding-left: 15px;
+  width: 100%;
+  background-color: rgb(215, 215, 215);
+}
+
+.headingTitles{
+  font-size: 5vh;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+}
+
+.mainText{
+  color: black;
+  margin-top: 8vh;
+}
+
+.mainText2{
+  color: black;
+  margin-top: 1vh;
+  font-weight: 600;
+  font-size: 27px;
+}
+
+.card{
+  height: 10vh;
+  min-width: 5%;
+  background-color: black;
+}
+
+.modal{
+  background-color: purple;
+  max-width: 500px;
+  padding: 15px;
+}
+
+#modalBG{
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.672);
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.errorMessage{
+  color: rgb(255, 0, 0);
+  text-shadow: 6px 6px 10px rgba(0, 0, 0, 0.51);
+  font-size: 20px;
+  margin: 0;
+}
+
+.missionTitle{
+  margin: 0;
+  padding: 0;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.missionText{
+  display: flex;
+  max-width: 96%;
+  font-size: 18px;
+  text-align: justify;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.dropDownMenuContainer{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dropDownMenu{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 400px;
+  justify-content: center;
+  top: 182px;
+  border-radius: 0 0 10px 10px;
+  z-index: 1;
+}
+
+.dropMenuItem{
+  font-size: 18px;
+  font-weight: 700;
+  padding: 2px;
+  margin: 0;
+  text-decoration: none;
+}
+
+.dropMenuItem:hover{
+  background-color: rgb(224, 224, 224);
+}
+
+.dropMenuItem:last-child{
+  border-radius: 0 0 10px 10px;
+}
+
+.link{
+  text-decoration: none;
+  color: black;
+}
+
+@media all and (min-width: 800px) {
+  html{
+    overflow-x: hidden;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  
+  .main section {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  section.content{
+    height: 100vh;
+  }
+}
+
+@media all and (min-width: 360px){
+  .mainText{
+    margin-top: 12vh;
+  }
+}

@@ -1,0 +1,68 @@
+.messsage{
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+    background-color: rgb(43, 43, 43);
+    padding: 15px;
+    border-radius: 15px;
+    width: 50vh;
+    height: fit-content;
+    color: white;
+}
+
+h1{
+    text-align: center;
+    font-size: 120px;
+    margin: 0;
+    padding: 0;
+}
+
+p{
+    text-align: center;
+}
+
+button{
+    justify-content: center;
+    background-color: orange;
+    padding: 10px;
+    border: 2px solid rgb(217, 60, 3);
+  
+}
+
+button a{
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+
+button:hover{
+    background-color: rgb(217, 60, 3);
+}
+
+button a:hover{
+    color: white;
+}
+
+@media only screen and (max-width: 460px) {
+    .messsage{
+        width: 42vh;
+    }
+}
+
+@media only screen and (max-width: 411px) {
+    .messsage{
+        width: 41vh;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .messsage{
+        width: 35vh;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .messsage{
+        width: 30vh;
+    }
+}

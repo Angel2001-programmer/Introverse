@@ -1,0 +1,57 @@
+.main{
+    display: flex;
+    background: linear-gradient(0deg, rgba(106, 0, 255, 0.252), rgba(0, 0, 0, 0.794)), url("../../assets/images/alex-knight-Akz00I_GGjU-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 75vh;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.post{
+    min-height: 30vh;
+    font-size: 20px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 90vh;
+    gap: 20px;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: end;
+}
+
+.title{
+    margin: 0;
+    padding: 0;
+    font-size: 25px;
+}
+
+.NoPosts{
+    text-align: center;
+}
+
+
+@media all and (min-width: 360px) {
+    .main{
+        height: 150vh;
+    }
+}
