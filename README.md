@@ -16,7 +16,7 @@ Follow the following steps to get frontend of application running in your termin
 5. Enjoy exploring our website.
 ```
 
-## Backend
+# Backend
 ## To set up and run the server
 1. Install the required packages with pip
 ```
