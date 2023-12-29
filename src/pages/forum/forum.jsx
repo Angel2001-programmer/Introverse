@@ -16,7 +16,6 @@ import httpClient from '../../httpClient';
 // import api from "../../jsonAPI/posts.json";
 import API from '../../httpClient';
 import axios from 'axios';
-import { create } from 'react-test-renderer';
 
 export default function Forum() {  
     const [isClicked, setIsClicked] = useState(false);
@@ -129,7 +128,10 @@ export default function Forum() {
       UIcolor="#D9D9D9" 
       borderRadius="10px">
       <div className={styles.container}>
+      <div className={styles.titleContainer}>
+      <h3 className={styles.close} onClick={() => setIsPost(false)}>X</h3>
       <h3 className={styles.title}>Create Post</h3>
+      </div>
       <h3 className={styles.title}>{title}</h3>
       <textarea 
       className={styles.post} 
