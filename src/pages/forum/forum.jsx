@@ -27,7 +27,7 @@ export default function Forum() {
     const [isPressed, setIsPressed] = useState(false);
     const [posts, setPosts] = useState("");
     const [filteredposts, setfilteredposts] = useState([]);
-    const currDate = new Date().toISOString().slice(0, 10);
+    const currDate = new Date().toLocaleString();
     let postID = null;
 
     let error = '';
@@ -44,12 +44,14 @@ export default function Forum() {
     const forumHandler = (category) => {
       setTitle(category.title)
       setIsClicked(true)
-      console.log("Clicked");
-      console.log(category)
+      // console.log("Clicked");
+      // console.log(category)
       filterArray(category.title);
     }
 
     const submitPost = async () => {
+      console.log(currDate);
+
       httpClient({
         method: "POST",
         url: "http://127.0.0.1:5000/forum",
@@ -62,17 +64,17 @@ export default function Forum() {
         }
       })
       .then((response) => {
-        console.log(response)
+        // console.log(response)
         setIsNewPost(!newPost)
         setfilteredposts([...filteredposts, response])
         filterArray(title);
-        console.log(filteredposts)
+        // console.log(filteredposts)
         alert('Post Added!, \n please refresh browser.')
       }).catch((error) => {
         if (error.response) {
-          console.log(error.response)
-          console.log(error.response.status)
-          console.log(error.response.headers)
+          // console.log(error.response)
+          // console.log(error.response.status)
+          // console.log(error.response.headers)
           setIsNewPost(false)
           if (error.response.status === 401) {
             alert("Invalid Post");
@@ -81,7 +83,7 @@ export default function Forum() {
       })
     }
 
-    console.log(posts)
+    // console.log(posts)
   
   // Post request needs to be implemented
   const createPost = () => {
@@ -94,8 +96,8 @@ export default function Forum() {
   
 
 	useEffect(() => {
-      console.log(newPost);
-      console.log(posts);
+      // console.log(newPost);
+      // console.log(posts);
       const getForms = async () => {
         const res = await axios.get("http://localhost:5000/forum")
         .then(res => { 
@@ -114,11 +116,11 @@ export default function Forum() {
 	},[newPost])
 
   const filterArray = (category) => {
-    console.log(category);
+    // console.log(category);
     postID = (posts[posts.length - 1].post_id);
     let filterList = posts.filter((list) => list.post_category === category)
     setfilteredposts(filterList);
-    console.log(posts);
+    // console.log(posts);
   }
 
   return (
