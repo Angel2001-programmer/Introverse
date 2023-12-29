@@ -2,7 +2,6 @@ import { Fragment, useState } from 'react';
 import styles from './about.module.css';
 import Angel from '../../assets/img/TeamMembers/angel.jpg';
 import Katherine from '../../assets/img/TeamMembers/katherine.png';
-import haiying from '../../assets/img/TeamMembers/haiying.jpg';
 import Katalin from '../../assets/img/TeamMembers/katalin.png';
 import Abbie from '../../assets/img/TeamMembers/abbie.jpg';
 import TeamMemeber from '../../components/TeamMember/teamMember';
@@ -54,13 +53,6 @@ In this journey, we are not just building a website; we are crafting a sanctuary
 							profilepictrue={Katherine}
 							hobby='I enjoy running and kickboxing'
 							description='Running feels freeing and helps me think. Kickboxing makes me feel connected and in control. I love to challenge myself and work hard to progress and improve.'
-						/>
-
-						<TeamMemeber
-							name='Haiying Liao'
-							profilepictrue={haiying}
-							hobby='I like to keep learning new stuff'
-							description='because I enjoy leaning :)'
 						/>
 					</div>
 					<Charities/>
