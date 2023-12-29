@@ -180,6 +180,7 @@ export default function Forum() {
             key={category.title}
             icon={category.icon} 
             title={category.title} 
+            isComments={false}
             click={() => {
               forumHandler(category)
             }}
@@ -192,13 +193,13 @@ export default function Forum() {
         <Card UIcolor="#D9D9D9" 
         borderRadius="10px">
         <div className={styles.row}>
-          <h2 onClick={() => {
+          <h2 className={styles.arrow} onClick={() => {
           setIsClicked(false)
           setPosts(posts)
           setTitle("")
           }}>←</h2>
           <h2>{title}</h2>  
-          <h2 onClick={() => {
+          <h2 className={styles.createpost} onClick={() => {
             createPost()
           }}>Create Post</h2>  
         </div>
@@ -216,6 +217,7 @@ export default function Forum() {
           icon=""
           title={category.post_content} 
           userName={category.post_author}
+          isComments={true}
         />
         ):
 				<div className={styles.NoPosts}>
