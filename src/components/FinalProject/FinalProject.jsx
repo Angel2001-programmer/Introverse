@@ -61,7 +61,7 @@ const FinalProject = () => {
         </StyleMobileNavContext.Provider>
       </UserNameContext.Provider>
       <div className={styles.messageContainer}>
-        {!isChatRoom ? (
+        {isChatRoom ? (
           <Card UIcolor='#FFFFFF'>
             <input
               className={styles.inputField}
