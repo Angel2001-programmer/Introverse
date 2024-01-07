@@ -1,4 +1,5 @@
 .button{
+    display: flex;
     width: fit-content;
     background-image: linear-gradient(#D00000, #D07D00);
     border-radius: 10px;
@@ -7,6 +8,8 @@
     padding: 13px;
     margin-right: 3vh;
     box-shadow: #D1730170 5px 5px 5px;
+    justify-content: center;
+    align-items: center;
 }
 
 .button p {
@@ -16,6 +19,6 @@
 }
 
 .button:hover{
-    background-image: black;
+    background-image: rgba(0, 0, 0, 0.425);
     cursor: pointer;
 }
