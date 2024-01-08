@@ -33,6 +33,7 @@ profile_model=api.model("Profile", {
 
 books_model=api.model("Books", {
     "Book_ID": fields.Integer,
+    "Book_Image": fields.String,
     "Book_Name": fields.String,
     "Book_Author": fields.String,
     "Book_Genre": fields.String,
@@ -42,6 +43,7 @@ books_model=api.model("Books", {
 
 anime_model=api.model("Anime", {
     "Anime_ID": fields.Integer,
+    "Anime_Image": fields.String,
     "Anime_Name": fields.String,
     "Anime_Genre": fields.String,
     "Where_TW": fields.String,
@@ -50,6 +52,7 @@ anime_model=api.model("Anime", {
 
 games_model=api.model("Games", {
     "Game_ID": fields.Integer,
+    "Game_Image": fields.String,
     "Game_Name": fields.String,
     "Game_Genre": fields.String,
     "W_Console": fields.String,

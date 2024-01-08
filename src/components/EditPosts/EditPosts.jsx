@@ -24,6 +24,10 @@ const EditPosts = props => {
 							<p>
 								{post.post_date}
 							</p>
+							<div className={styles.commentContainer}>
+            				<img className={styles.comment} src={require("../../assets/icons/comments.png")} alt="comments"/>
+            				<p>0</p>
+        					</div> 
 						</div>
 					))}
 				</div>
