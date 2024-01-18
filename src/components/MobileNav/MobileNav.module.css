@@ -1,38 +1,38 @@
-.MobileNav{
-    display: none;
+.MobileNav {
+  display: none;
 }
 
-@media all and (max-width: 875px){
-    .MobileNav{
-        position: absolute;
-        z-index: 1;
-        top: 21.3vh;
-        justify-content: center;
-        width: 100%;
-    }
-    .navItemsMobile{
-        display: flex;
-        flex-direction: column;
-        background-color: #353be552;
-        width: 100%;
-    }
-    
-    .navItemMobile{
-        font-size: 20px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        font-weight: 500;
-        width: 100%;
-        text-align: center;
-        margin: 0 auto;
-    }
-    
-    .navItemMobile:hover{
-        background-color: #2d32c052;
-    }
-    
-    .navLink{
-        color: white;
-        text-decoration: none;
-    }
+@media all and (max-width: 875px) {
+  .MobileNav {
+    position: absolute;
+    z-index: 1;
+    top: 21.3vh;
+    justify-content: center;
+    width: 100%;
+  }
+  .navItemsMobile {
+    display: flex;
+    flex-direction: column;
+    background-color: #353be552;
+    width: 100%;
+  }
+
+  .navItemMobile {
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .navItemMobile:hover {
+    background-color: #2d32c052;
+  }
+
+  .navLink {
+    color: white;
+    text-decoration: none;
+  }
 }
