@@ -21,6 +21,7 @@ const FinalProject = () => {
   const [users, setIsUsers] = useState([]);
   const [otherUser, setOtherUser] = useState('UserName');
   const [userInput, setUserInput] = useState();
+  const [messageInput, setMessageInput] = useState();
   const usersList = ['User1', 'User2', 'User3'];
   let [userName, setUserName] = useState('User');
   let style2 = null;
@@ -73,7 +74,13 @@ const FinalProject = () => {
               {users.map((name) => (
                 <li
                   className={styles.userItem}
-                  onClick={() => setOtherUser(name)}
+                  onClick={() => {
+                    setOtherUser(name);
+                    setIsUsers([]);
+                    setUserName('');
+                    setUserInput('');
+                    setMessageInput('');
+                  }}
                 >
                   {name}
                 </li>
@@ -100,8 +107,16 @@ const FinalProject = () => {
               <input
                 className={styles.inputField}
                 placeholder='Type your Message'
+                value={messageInput}
+                onChange={(e) => {
+                  setMessageInput(e.target.value);
+                }}
               ></input>
               <Button
+                click={() => {
+                  console.log(messageInput);
+                  setMessageInput('');
+                }}
                 UIcolor='purple'
                 borderColor='rgb(200, 0, 255)'
                 text='Send Message'
