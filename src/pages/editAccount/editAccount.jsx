@@ -25,7 +25,6 @@ const EditAccount = () => {
 		const getForms = async () => {
 			const res = await axios.get("http://localhost:5000/forum")
 			.then(res => { 
-			//   APIres = res.data
 			  setPosts(res.data)    
 			  filteredList = res.data.filter((list) => list.post_author === "User2")
     		  console.log(filteredList);

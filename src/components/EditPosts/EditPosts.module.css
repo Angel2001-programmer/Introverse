@@ -63,3 +63,10 @@
 	margin: 10px auto 30px;
 	padding: 0 10px;
 }
+
+.commentContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
