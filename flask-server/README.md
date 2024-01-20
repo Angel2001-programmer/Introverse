@@ -14,7 +14,7 @@ If you have any issues with modules not being installed properly try pip install
 pip install --user -r requirements.txt
 ```
 If they are installed but the file shows not imported properly try changing the Python interpreter (Ctrl+Shift+P in VS code) and reinstalling if necessary. Have the virtual environment selected.
-3. Change mysqlconfig.py to your credentials
+3. Set up .env file, can create a copy of (or rename) .env.example and save as .env, follow the instructions to add a secret key and MySQL credentials
 4. Create the database if does not already exist - either through the SQL script or with Python
 To create from Python run the create_db.py file
 ```
