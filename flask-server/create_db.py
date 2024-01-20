@@ -1,11 +1,15 @@
 # Run this file only if database is not yet created
+from dotenv import load_dotenv
+import os
 import mysql.connector
-from mysqlconfig import HOST, USER, PASSWORD
+# from mysqlconfig import HOST, USER, PASSWORD
+
+load_dotenv()
 
 mydb = mysql.connector.connect(
-    host=HOST,
-    user=USER,
-    passwd=PASSWORD,
+    host=os.getenv("HOST"),
+    user=os.getenv("USER"),
+    passwd=os.getenv("PASSWORD"),
 )
 
 my_cursor = mydb.cursor()
