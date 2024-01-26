@@ -63,50 +63,50 @@ VALUES
 -- Content tables for recommendations
 CREATE TABLE Books ( 
 	Book_ID INTEGER PRIMARY KEY NOT NULL,
+    Book_Image VARCHAR(100) UNIQUE NOT NULL,
 	Book_Name VARCHAR(100) UNIQUE NOT NULL,
     Book_Author VARCHAR(30),
     Book_Genre VARCHAR(25),
 	Price FLOAT NOT NULL, 
-    Book_Script VARCHAR(1000),
-    Book_Image VARCHAR(100) UNIQUE
+    Book_Script VARCHAR(1000) 
     );
 
 CREATE TABLE Anime ( 
 	Anime_ID INTEGER PRIMARY KEY NOT NULL,
+    Anime_Image VARCHAR(100) UNIQUE NOT NULL,
 	Anime_Name VARCHAR(50) UNIQUE NOT NULL,
     Anime_Genre VARCHAR(25),
 	Where_TW VARCHAR(25), 
-    Anime_Script VARCHAR(1000),
-    Anime_Image VARCHAR(100) UNIQUE
+    Anime_Script VARCHAR(1000) 
     );
 
 CREATE TABLE Games ( 
 	Game_ID INTEGER PRIMARY KEY NOT NULL,
+    Game_Image VARCHAR(100) UNIQUE NOT NULL,
 	Game_Name VARCHAR(50) UNIQUE NOT NULL,
     Game_Genre VARCHAR(30),
 	W_Console VARCHAR(100), 
     Price FLOAT NOT NULL,
-    Game_Script VARCHAR(1000),
-    Game_Image VARCHAR(100) UNIQUE
+    Game_Script VARCHAR(1000) 
     );
 
 
 -- Values for recommendation tables    
 INSERT INTO Books
-(Book_ID, Book_Name, Book_Author, Book_Genre, Price, Book_Script, Book_Image)
+(Book_ID, Book_Image, Book_Name, Book_Author, Book_Genre, Price, Book_Script)
 VALUES
-(1, 'Fourth Wing', 'Rebecca Yarros', 'Fantasy', 9.19, 'Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history. Now, the commanding general-also known as her tough-as-talons mother-has ordered Violet to join the hundreds of candidates striving to become the elite of Navarre: dragon riders.', 'https://rb.gy/a7n2nv'),
-(2, 'The Harry Potter Series', 'J.K. Rowling', 'Fantasy', 51.65, 'The Harry Potter books follow a young wizard named Harry as he attends Hogwarts School of Witchcraft and Wizardry. Alongside his friends Ron and Hermione, Harry faces challenges, discovers his past, and confronts the dark wizard Voldemort across seven books, filled with magic, friendship, and the battle between good and evil.', 'https://rb.gy/mioh6n'),
-(3, 'A Court of Thorns and Roses Series', 'Sarah J. Maas', 'Fantasy', 31.74, 'ACOTAR Follows Feyre, a huntress who accidentally kills a faerie and is taken to the faerie lands as punishment. There, she navigates faerie politics, forms relationships with powerful fae like Tamlin and Rhysand, and becomes involved in a high-stakes battle that could impact both human and faerie realms across several books filled with magic, romance, and conflicts.', 'https://rb.gy/ydq70j'),
-(4, 'To Kill a Kingdom', 'Alexandra Christo', 'Fantasy', 4.67, 'Princess Lira is siren royalty and the most lethal of them all. With the hearts of seventeen princes in her collection, she is revered across the sea. Until a twist of fate forces her to kill one of her own. To punish her daughter, the Sea Queen transforms Lira into the one thing they loathe most - a human. Robbed of her song, Lira has until the winter solstice to deliver Prince Elians heart to the Sea Queen or remain a human forever.', 'https://rb.gy/09jtlo'),
-(5, 'Elizabeth Bathory: Life and Legacy of Historys Most Prolific Female Serial Killer', 'James Oliver', 'History', 6.12, 'This book explains the life and times of this powerful woman - and how she came to be accused of so many heinous crimes. Youll gain access to a variety of historical versions, perspectives, and accounts of her life - some of which paint her as a villain and others as a victim!', 'https://rb.gy/du98fq'),
-(6, 'The Great Empires of the Ancient World', 'Thomas Harrison', 'History', 11.63, 'A distinguished team of internationally renowned scholars surveys the great empires from 1600 BC to AD 500, from the ancient Mediterranean to China. Exploring the very nature of empire itself, the authors show how profoundly imperialism in the distant past influenced the 19th-century powers and the modern United States.', 'tiny.cc/2iitvz'),
-(7, 'Landlines', 'Raynor Winn', 'History', 6.00, 'Embarking on a journey across the Cape Wrath Trail, over 200 miles of gruelling terrain through Scotlands remotest mountains and lochs, Raynor and Moth look to an uncertain future. Fearing that miracles dont often repeat themselves.', 'tiny.cc/ziitvz'), 
-(8, 'Unbroken: A World War II Story of Survival', 'Lauren Hillenbrand', 'History', 4.71, 'On a May afternoon in 1943, an Army Air Forces bomber crashed into the Pacific Ocean and disappeared, leaving only a spray of debris and a slick of oil, gasoline, and blood. Then, on the ocean surface, a face appeared. It was that of a young lieutenant, the planes bombardier, who was struggling to a life raft and pulling himself aboard. So began one of the most extraordinary odysseys of the Second World War.', 'tiny.cc/djitvz'), 
-(9, 'The Haunting of Hill House', 'Shirley Jackson', 'Horror', 9.90, 'Welcome to Hill House, an eerie mansion with a chilling past. When a group of individuals sets out to uncover its supernatural secrets, they find themselves trapped in a world where reality blurs with the terrifying unknown. Shirley Jacksons classic tale weaves a haunting narrative that explores the eerie power of a house that seems to have a mind of its own.', 'tiny.cc/sjitvz'), 
-(10, 'Dracula', 'Bram Stoker', 'Horror', 14.29, 'When Jonathan Harker visits Transylvania to help Count Dracula with the purchase of a London house, he makes a series of horrific discoveries about his client. Soon afterwards, various bizarre incidents unfold in England: an apparently unmanned ship is wrecked off the coast of Whitby; a young woman discovers strange puncture marks on her neck; and the inmate of a lunatic asylum raves about the Master and his imminent arrival.', 'tiny.cc/1kitvz'),
-(11, 'The Shining', 'Stephen King', 'Horror', 10.11, 'Danny is only five years old, but in the words of old Mr Hallorann he is a shiner, aglow with psychic voltage. When his father becomes caretaker of the Overlook Hotel, Dannys visions grow out of control. As winter closes in and blizzards cut them off, the hotel seems to develop a life of its own. It is meant to be empty. So who is the lady in Room 217 and who are the masked guests going up and down in the elevator? And why do the hedges shaped like animals seem so alive? Somewhere, somehow, there is an evil force in the hotel - and that, too, is beginning to shine.', 'tiny.cc/kkitvz'),
-(12, 'The Exorcist', 'William Peter Blatty', 'Horror', 9.19, 'The terror begins unobtrusively. Noises in the attic. In the childs room, an odd smell, the displacement of furniture, an icy chill. At first, easy explanations are offered. Then frightening changes begin to appear in eleven-year-old Regan. Medical tests fail to shed any light on her symptoms, but it is as if a different personality has invaded her body.', 'tiny.cc/9litvz');
+(1, 'https://rb.gy/a7n2nv', 'Fourth Wing', 'Rebecca Yarros', 'Fantasy', 9.19, 'Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history. Now, the commanding general-also known as her tough-as-talons mother-has ordered Violet to join the hundreds of candidates striving to become the elite of Navarre: dragon riders.'),
+(2, 'https://rb.gy/mioh6n', 'The Harry Potter Series', 'J.K. Rowling', 'Fantasy', 51.65, 'The Harry Potter books follow a young wizard named Harry as he attends Hogwarts School of Witchcraft and Wizardry. Alongside his friends Ron and Hermione, Harry faces challenges, discovers his past, and confronts the dark wizard Voldemort across seven books, filled with magic, friendship, and the battle between good and evil.'),
+(3, 'https://rb.gy/ydq70j', 'A Court of Thorns and Roses Series', 'Sarah J. Maas', 'Fantasy', 31.74, 'ACOTAR Follows Feyre, a huntress who accidentally kills a faerie and is taken to the faerie lands as punishment. There, she navigates faerie politics, forms relationships with powerful fae like Tamlin and Rhysand, and becomes involved in a high-stakes battle that could impact both human and faerie realms across several books filled with magic, romance, and conflicts.'),
+(4, 'https://rb.gy/09jtlo', 'To Kill a Kingdom', 'Alexandra Christo', 'Fantasy', 4.67, 'Princess Lira is siren royalty and the most lethal of them all. With the hearts of seventeen princes in her collection, she is revered across the sea. Until a twist of fate forces her to kill one of her own. To punish her daughter, the Sea Queen transforms Lira into the one thing they loathe most - a human. Robbed of her song, Lira has until the winter solstice to deliver Prince Elians heart to the Sea Queen or remain a human forever.'),
+(5, 'https://rb.gy/du98fq', 'Elizabeth Bathory: Life and Legacy of Historys Most Prolific Female Serial Killer', 'James Oliver', 'History', 6.12, 'This book explains the life and times of this powerful woman - and how she came to be accused of so many heinous crimes. Youll gain access to a variety of historical versions, perspectives, and accounts of her life - some of which paint her as a villain and others as a victim!'),
+(6, 'tiny.cc/2iitvz', 'The Great Empires of the Ancient World', 'Thomas Harrison', 'History', 11.63, 'A distinguished team of internationally renowned scholars surveys the great empires from 1600 BC to AD 500, from the ancient Mediterranean to China. Exploring the very nature of empire itself, the authors show how profoundly imperialism in the distant past influenced the 19th-century powers and the modern United States.'),
+(7, 'tiny.cc/ziitvz', 'Landlines', 'Raynor Winn', 'History', 6.00, 'Embarking on a journey across the Cape Wrath Trail, over 200 miles of gruelling terrain through Scotlands remotest mountains and lochs, Raynor and Moth look to an uncertain future. Fearing that miracles dont often repeat themselves.'), 
+(8, 'tiny.cc/djitvz', 'Unbroken: A World War II Story of Survival', 'Lauren Hillenbrand', 'History', 4.71, 'On a May afternoon in 1943, an Army Air Forces bomber crashed into the Pacific Ocean and disappeared, leaving only a spray of debris and a slick of oil, gasoline, and blood. Then, on the ocean surface, a face appeared. It was that of a young lieutenant, the planes bombardier, who was struggling to a life raft and pulling himself aboard. So began one of the most extraordinary odysseys of the Second World War.'), 
+(9, 'tiny.cc/sjitvz', 'The Haunting of Hill House', 'Shirley Jackson', 'Horror', 9.90, 'Welcome to Hill House, an eerie mansion with a chilling past. When a group of individuals sets out to uncover its supernatural secrets, they find themselves trapped in a world where reality blurs with the terrifying unknown. Shirley Jacksons classic tale weaves a haunting narrative that explores the eerie power of a house that seems to have a mind of its own.'), 
+(10, 'tiny.cc/1kitvz', 'Dracula', 'Bram Stoker', 'Horror', 14.29, 'When Jonathan Harker visits Transylvania to help Count Dracula with the purchase of a London house, he makes a series of horrific discoveries about his client. Soon afterwards, various bizarre incidents unfold in England: an apparently unmanned ship is wrecked off the coast of Whitby; a young woman discovers strange puncture marks on her neck; and the inmate of a lunatic asylum raves about the Master and his imminent arrival.'),
+(11, 'tiny.cc/kkitvz', 'The Shining', 'Stephen King', 'Horror', 10.11, 'Danny is only five years old, but in the words of old Mr Hallorann he is a shiner, aglow with psychic voltage. When his father becomes caretaker of the Overlook Hotel, Dannys visions grow out of control. As winter closes in and blizzards cut them off, the hotel seems to develop a life of its own. It is meant to be empty. So who is the lady in Room 217 and who are the masked guests going up and down in the elevator? And why do the hedges shaped like animals seem so alive? Somewhere, somehow, there is an evil force in the hotel - and that, too, is beginning to shine.'),
+(12, 'tiny.cc/9litvz', 'The Exorcist', 'William Peter Blatty', 'Horror', 9.19, 'The terror begins unobtrusively. Noises in the attic. In the childs room, an odd smell, the displacement of furniture, an icy chill. At first, easy explanations are offered. Then frightening changes begin to appear in eleven-year-old Regan. Medical tests fail to shed any light on her symptoms, but it is as if a different personality has invaded her body.');
 
 INSERT INTO Anime
 (Anime_ID, Anime_Name, Anime_Genre, Where_TW, Anime_Script)

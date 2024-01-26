@@ -1,5 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import db
+import sys
+sys.path.append("..")
+from exts import db
 from uuid import uuid4
 from datetime import datetime as dt  # To make a timestamp
 

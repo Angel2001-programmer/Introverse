@@ -10,9 +10,9 @@ from email_validator import validate_email, EmailNotValidError
 # Would separate into different namespaces but don't have time unfortunately
 
 # Create an application instance
-app = create_app()  # By default uses application config
+app = create_app()  # By default uses development config
 api = Api(app)  # Passing our app through the Api class from Flask RestX
-# api = Api(app, doc="/docs") 
+# api = Api(app, doc="/docs") So can set the docs to that url, check why not working
 
 # Model serialiser so can be displayed as a JSON, takes in model class and then the output format
 message_model=api.model("Message", {
