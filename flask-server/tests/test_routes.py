@@ -10,6 +10,7 @@ from routes import register_user
 
 class APITestCase(TestCase):
     # This function will set up our test database
+    # Will need to rewrite this
     def setUp(self):
         self.app=create_app(TestConfig)
 

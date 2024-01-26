@@ -25,8 +25,19 @@ python create_db.py
 python create_tables.py
 ```
 6. Insert the message_board, book, game, and anime data from the SQL file
-7. Run routes.py to start the server
+7. Run app.py to start the server
 ```
-python routes.py
+python app.py
 ```
 Enjoy!
+
+Flask migrate instructions
+flask db upgrade
+To push through the latest migration changes
+
+flask db migrate -m "Message"
+To create a migration file when you change a table, then run upgrade
+
+I need to learn more but I think essentially
+Create the database (Have renamed it to introverse_dev)
+Run flask db upgrade to get the latest migration of tables, or flask db init, flask db migrate, flask db upgrade (if that doesn't work)

@@ -1,6 +1,6 @@
 -- Run create database
-CREATE DATABASE introverse;
-USE introverse;
+CREATE DATABASE introverse_dev;
+USE introverse_dev;
 
 
 -- Table for forum message board, this table needs to be created in MySQL so that it can have the MySQL default method of getting the time for the example data

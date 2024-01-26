@@ -14,7 +14,7 @@ mydb = mysql.connector.connect(
 
 my_cursor = mydb.cursor()
 
-my_cursor.execute("CREATE DATABASE introverse")
+my_cursor.execute("CREATE DATABASE introverse_dev")
 
 # Can run this bit below too if you want to see all the databases in your MySQL (and will confirm creation of new one)
 my_cursor.execute("SHOW DATABASES")
