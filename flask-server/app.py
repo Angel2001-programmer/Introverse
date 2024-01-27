@@ -19,8 +19,8 @@ cors = CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 # Separated out routes so file doesn't get too big, this file just sets up the app
 
-# api = Api(app)  # Passing our app through the Api class from Flask RestX
-api = Api(app, doc="/docs") # So can set the docs to that url
+api = Api(app)  # Passing our app through the Api class from Flask RestX
+# api = Api(app, doc="/docs") # So can set the docs to that url
 
 
 # Model serialiser so can be displayed as a JSON, takes in model class and then the output format
@@ -82,9 +82,10 @@ def check_email(email):
         return False
     
 
-@app.route("/")
-def home():
-    return {"message": "hello"}
+@api.route("/hello")
+class HomeResource(Resource):
+    def get(self):
+        return {"message": "hello"}
 
 
 # Register
