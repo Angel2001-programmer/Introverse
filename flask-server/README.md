@@ -14,7 +14,7 @@ If you have any issues with modules not being installed properly try pip install
 pip install --user -r requirements.txt
 ```
 If they are installed but the file shows not imported properly try changing the Python interpreter (Ctrl+Shift+P in VS code) and reinstalling if necessary. Have the virtual environment selected.
-3. Change mysqlconfig.py to your credentials
+3. Set up .env file, can create a copy of (or rename) .env.example and save as .env, follow the instructions to add a secret key and MySQL credentials
 4. Create the database if does not already exist - either through the SQL script or with Python
 To create from Python run the create_db.py file
 ```
@@ -25,8 +25,19 @@ python create_db.py
 python create_tables.py
 ```
 6. Insert the message_board, book, game, and anime data from the SQL file
-7. Run routes.py to start the server
+7. Run app.py to start the server
 ```
-python routes.py
+python app.py
 ```
 Enjoy!
+
+Flask migrate instructions
+flask db upgrade
+To push through the latest migration changes
+
+flask db migrate -m "Message"
+To create a migration file when you change a table, then run upgrade
+
+I need to learn more but I think essentially
+Create the database (Have renamed it to introverse_dev)
+Run flask db upgrade to get the latest migration of tables, or flask db init, flask db migrate, flask db upgrade (if that doesn't work)

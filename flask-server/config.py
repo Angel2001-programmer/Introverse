@@ -1,23 +1,42 @@
-from dotenv import load_dotenv
+from dotenv import load_dotenv  # dotenv vs decouple
 import os
 import redis
-from mysqlconfig import HOST, USER, PASSWORD
+# from mysqlconfig import HOST, USER, PASSWORD
 
 load_dotenv()
 
+host = os.getenv("HOST")
+user = os.getenv("USER")
+password = os.getenv("PASSWORD")
+port = os.getenv("PORT")
+database = os.getenv("DATABASE")
 
-class ApplicationConfig:
+# MySQL database connection
+mysql_uri = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+
+# For SQLite DB
+sqlite_uri = r"sqlite:///./db.sqlite"
+
+
+# Base config class
+class Config:
     SECRET_KEY = os.environ["SECRET_KEY"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+# Development config
+class DevConfig(Config):
+    SQLALCHEMY_DATABASE_URI = mysql_uri
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:3306/introverse"  # Assuming default 3306 port for MySQL, change if not default
-
-    # Can comment the above and uncomment below to use the SQLite DB instead
-    # SQLALCHEMY_DATABASE_URI = r"sqlite:///./db.sqlite"
 
 
-class TestConfig:
-    SECRET_KEY = os.environ["SECRET_KEY"]
+# Production config
+class ProdConfig(Config):
+    pass
+
+
+# Testing config
+class TestConfig(Config):
+    SQLALCHEMY_DATABASE_URI = mysql_uri
     SQLALCHEMY_ECHO = False
-    SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:3306/introverse"
     Testing=True  # No data gets actually passed into the database
