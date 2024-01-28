@@ -149,24 +149,23 @@ class Register(Resource):
 @api.route("/login")
 class Login(Resource):
     def post(self):
-        pass
-@app.route("/login", methods=["POST"])
-def login_user():
-    username = request.json["username"]  # Gets it from the json
-    password = request.json["password"]
-    
-    user = User.query.filter_by(username=username).first()
+        "Login a user"
+        data=request.get_json()
+        username = data.get("username")
+        password = data.get("password")
 
-    if user is None:
-        return jsonify({"error": "Unauthorised"}), 401
-    
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorised"}), 401
-    
-    access_token = create_access_token(identity=user.username)
-    refresh_token = create_refresh_token(identity=user.username)
-    return jsonify(
-        {"access_token": access_token, "refresh_token": refresh_token})
+        user = User.query.filter_by(username=username).first()
+
+        if user is None:
+            return make_response(jsonify({"error": "Invalid credentials"}), 401)
+        
+        if not bcrypt.check_password_hash(user.password, password):
+            return make_response(jsonify({"error": "Invalid credentials"}), 401)
+        
+        access_token, refresh_token = user_access_tokens(user)
+        return jsonify(
+            {"access_token": access_token, "refresh_token": refresh_token})
+
 
 
 # Logout
