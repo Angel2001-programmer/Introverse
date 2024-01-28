@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_restx import Api, Resource, fields
@@ -106,7 +106,6 @@ class HomeResource(Resource):
 @api.route("/register")
 class Register(Resource):
     def post(self):
-        "Register a new user"
         username = request.json["username"]  # Getting each value from the json
         first_name = request.json["first_name"]
         last_name = request.json["last_name"]
@@ -116,22 +115,22 @@ class Register(Resource):
         username_exists = User.query.filter_by(username=username).first() is not None
         email_exists = Profile.query.filter_by(email=email).first() is not None
 
-        # Ok need to fix something here, it is not liking this return type
         if username_exists:
-            return make_response(jsonify({"error": "Username is already taken"}), 409)
+            return jsonify({"error": "Username is already taken"}), 409
         
         if email_exists:
-            return make_response(jsonify({"error": "Email is already registered"}), 409)
+            return jsonify({"error": "Email is already registered"}), 409
         
         # Make validation neater later
         if len(username) < 1 or len(username) > 30:
-            return make_response(jsonify({"error": "Username must be between 1 and 30 characters"}), 400)
+            return jsonify({"error": "Username must be between 1 and 30 characters"}), 400
         if len(first_name) < 1 or len(first_name) > 50:
-            return make_response(jsonify({"error": "First name must be between 1 and 50 characters"}), 400)
+            return jsonify({"error": "First name must be between 1 and 50 characters"}), 400
         if len(last_name) < 1 or len(last_name) > 50:
-            return make_response(jsonify({"error": "Last name must be between 1 and 50 characters"}), 400)
+            return jsonify({"error": "Last name must be between 1 and 50 characters"}), 400
         if check_email(email) == False:
-            return make_response(jsonify({"error": "Email address is invalid"}), 400)
+            return jsonify({"error": "Email address is invalid"}), 400
+
 
         hashed_password = bcrypt.generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)
