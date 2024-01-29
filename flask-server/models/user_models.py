@@ -107,6 +107,10 @@ class Message(db.Model):
     -------
     __repr__
         Returns a string representation of the constructed object.
+    create
+        Adds a new message to the database.
+    delete
+        Deletes a message from the database.
     """
 
     __tablename__ = "message_board"
@@ -119,3 +123,13 @@ class Message(db.Model):
     def __repr__(self):
         """Returns a string representation of constructed object."""
         return f"<Message ID {self.post_id}, by user {self.post_author}, posted at {self.post_date}.>"
+    
+    def create(self):
+        """Adds a new message to the database."""
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        """Deletes a message from the database."""
+        db.session.delete(self)
+        db.session.commit()

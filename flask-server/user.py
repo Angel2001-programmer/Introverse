@@ -4,7 +4,10 @@ from models.user_models import User, Profile, Message
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, unset_jwt_cookies, get_jwt_identity, jwt_required
 from email_validator import validate_email, EmailNotValidError
 from exts import db
-from app import bcrypt
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
+# Might need diff way of bcrypting now not sure
 
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
 
@@ -22,15 +25,22 @@ user_model=user_ns.model("User", {
     "password": fields.String
 })
 
-# Creates an access and refresh token which is needed at the front end
+message_model=user_ns.model("Message", {
+    "post_id": fields.Integer,
+    "post_content": fields.String,
+    "post_category": fields.String,
+    "post_author": fields.String,
+    "post_date": fields.DateTime(dt_format='rfc822')
+})
 
 def user_access_tokens(user):
+    """Return an access and refresh token for the user"""
     access_token = create_access_token(identity=user.username)
     refresh_token = create_refresh_token(identity=user.username)
     return access_token, refresh_token
 
-# Might use this function to check emails
 def check_email(email):
+    """Validate email function, return True if valid format"""
     try:
         v = validate_email(email)
         email = v["email"]
@@ -39,12 +49,12 @@ def check_email(email):
         print(str(e))
         return False
 
-# Register
+
 @user_ns.route("/register")
 class Register(Resource):
     def post(self):
-        "Register a new user"
-        username = request.json["username"]  # Getting each value from the json
+        """Register a new user"""
+        username = request.json["username"]
         first_name = request.json["first_name"]
         last_name = request.json["last_name"]
         email = request.json["email"]
@@ -53,7 +63,6 @@ class Register(Resource):
         username_exists = User.query.filter_by(username=username).first() is not None
         email_exists = Profile.query.filter_by(email=email).first() is not None
 
-        # Ok need to fix something here, it is not liking this return type
         if username_exists:
             return make_response(jsonify({"error": "Username is already taken"}), 409)
         
@@ -79,15 +88,14 @@ class Register(Resource):
 
         access_token, refresh_token = user_access_tokens(new_user)
         return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token})
-    
+            {"access_token": access_token, "refresh_token": refresh_token})   
 
-# Login
+
 @user_ns.route("/login")
 class Login(Resource):
     def post(self):
-        "Login a user"
-        data=request.get_json()
+        """Login a user"""
+        data = request.get_json()
         username = data.get("username")
         password = data.get("password")
 
@@ -102,3 +110,88 @@ class Login(Resource):
         access_token, refresh_token = user_access_tokens(user)
         return jsonify(
             {"access_token": access_token, "refresh_token": refresh_token})
+
+
+@user_ns.route("/logout")
+class Logout(Resource):
+    def post(self):
+        """Logout a user"""
+        response = jsonify({"message": "Logout successful"})
+        unset_jwt_cookies(response)
+        return response
+    
+
+@user_ns.route("/refresh")
+class RefreshResource(Resource):
+    @jwt_required(refresh=True)
+    def post(self):
+        """Refresh access token"""
+        current_user = get_jwt_identity()
+        new_access_token = create_access_token(identity=current_user)
+
+        return make_response(jsonify({"access_token": new_access_token}), 200)
+    
+
+@user_ns.route("/current_user")
+class UserResource(Resource):
+    @user_ns.marshal_with(profile_model)
+    @jwt_required
+    def get(self, current_user):
+        """Get current user by username, need to test if this works"""
+        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
+        return current_user
+
+
+@user_ns.route("/users")
+class UsersResource(Resource):
+    @user_ns.marshal_list_with(profile_model)
+    def get(self):
+        """List all users"""
+        users=Profile.query.all()
+        return users
+
+
+@user_ns.route("/forum")
+class ForumResource(Resource):
+    @user_ns.marshal_list_with(message_model)
+    def get(self):
+        """Get all messages"""
+        messages = Message.query.all()
+        return messages
+    
+    # Post a message, returns a single message
+    @user_ns.marshal_with(message_model)
+    @user_ns.expect(message_model)
+    def post(self):
+        """Create a new message"""
+        data = request.get_json()
+        new_post = Message(
+            post_content = data.get("post_content"),
+            post_category = data.get("post_category"),
+            post_author = data.get("post_author"),
+            post_date = data.get("post_date")
+        )
+
+        new_post.create()
+
+        return new_post, 201
+    
+# Message board route for filtering by category
+@user_ns.route("/forum/<string:post_category>")
+class ForumCatResource(Resource):
+    # Get a post by category
+
+    # Doesn't work think doing it wrong
+    @user_ns.marshal_list_with(message_model)
+    def get(self, post_category):
+        result = Message.query.filter_by(post_category).all()
+
+        return result
+
+"""
+Need to test
+- If Bcrypt still working
+- Validation being triggered if make request from Postman
+- ???
+- Maybe move message board to a different ns
+"""
