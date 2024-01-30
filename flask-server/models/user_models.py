@@ -111,6 +111,8 @@ class Message(db.Model):
         Adds a new message to the database.
     delete
         Deletes a message from the database.
+    update
+        Updates a message in the database.
     """
 
     __tablename__ = "message_board"
@@ -132,4 +134,10 @@ class Message(db.Model):
     def delete(self):
         """Deletes a message from the database."""
         db.session.delete(self)
+        db.session.commit()
+
+    def update(self, post_content):
+        """Updates a message in the database."""
+        self.post_content = post_content
+
         db.session.commit()

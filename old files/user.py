@@ -25,6 +25,13 @@ user_model=user_ns.model("User", {
     "password": fields.String
 })
 
+message_model=user_ns.model("Message", {
+    "post_id": fields.Integer,
+    "post_content": fields.String,
+    "post_category": fields.String,
+    "post_author": fields.String,
+    "post_date": fields.DateTime(dt_format='rfc822')
+})
 
 def user_access_tokens(user):
     """Return an access and refresh token for the user"""
@@ -144,6 +151,42 @@ class UsersResource(Resource):
         return users
 
 
+@user_ns.route("/forum")
+class ForumResource(Resource):
+    @user_ns.marshal_list_with(message_model)
+    def get(self):
+        """Get all messages"""
+        messages = Message.query.all()
+        return messages
+    
+    # Post a message, returns a single message
+    @user_ns.marshal_with(message_model)
+    @user_ns.expect(message_model)
+    def post(self):
+        """Create a new message"""
+        data = request.get_json()
+        new_post = Message(
+            post_content = data.get("post_content"),
+            post_category = data.get("post_category"),
+            post_author = data.get("post_author"),
+            post_date = data.get("post_date")
+        )
+
+        new_post.create()
+
+        return new_post, 201
+    
+# Message board route for filtering by category
+@user_ns.route("/forum/<string:post_category>")
+class ForumCatResource(Resource):
+    # Get a post by category
+
+    # Doesn't work think doing it wrong
+    @user_ns.marshal_list_with(message_model)
+    def get(self, post_category):
+        result = Message.query.filter_by(post_category).all()
+
+        return result
 
 """
 Need to test
