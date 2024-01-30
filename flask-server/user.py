@@ -1,7 +1,7 @@
 from flask_restx import Resource, Namespace, fields
-from flask import Flask, request, jsonify, make_response
-from models.user_models import User, Profile, Message
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, unset_jwt_cookies, get_jwt_identity, jwt_required
+from flask import request, jsonify, make_response
+from models.user_models import User, Profile
+from flask_jwt_extended import create_access_token, create_refresh_token, unset_jwt_cookies, get_jwt_identity, jwt_required
 from email_validator import validate_email, EmailNotValidError
 from exts import db
 from flask_bcrypt import Bcrypt

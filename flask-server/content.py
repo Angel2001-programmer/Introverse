@@ -1,5 +1,4 @@
 from flask_restx import Resource, Namespace, fields
-from flask import Flask, request, jsonify, make_response
 from exts import db
 from models.content_models import Books, Anime, Games
 

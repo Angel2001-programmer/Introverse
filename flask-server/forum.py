@@ -1,5 +1,5 @@
 from flask_restx import Resource, Namespace, fields
-from flask import Flask, request, jsonify, make_response
+from flask import request
 from models.user_models import Message
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from exts import db
