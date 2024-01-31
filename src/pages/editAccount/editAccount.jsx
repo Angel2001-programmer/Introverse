@@ -6,9 +6,9 @@ import MobileNav from '../../components/MobileNav/MobileNav';
 import EditPosts from "../../components/EditPosts/EditPosts";
 import EditBanner from "../../components/EditBanner/EditBanner";
 import EditDetailsProfile from "../../components/EditProfileDetails/EditProfileDetails";
+import httpClient from "../../httpClient";
 import { UserNameContext } from "../../components/FinalProject/FinalProject";
 
-import axios from 'axios';
 const EditAccount = () => {
 	const [isPressed, setIsPressed] = useState(false);
 	const [posts, setPosts] = useState(null);
@@ -23,7 +23,7 @@ const EditAccount = () => {
 
 	useEffect(() => {
 		const getForms = async () => {
-			const res = await axios.get("http://localhost:5000/forum")
+			const res = await httpClient.get("http://localhost:5000/forum/all")
 			.then(res => { 
 			  setPosts(res.data)    
 			  filteredList = res.data.filter((list) => list.post_author === "User2")
