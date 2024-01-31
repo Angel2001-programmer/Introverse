@@ -34,6 +34,8 @@ export default function Forum() {
   let error = '';
   let APIres = [];
 
+  let timeStamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
   const list = [
     { icon: introduce, title: 'Introduce' },
     { icon: anime, title: 'Anime' },
@@ -53,13 +55,13 @@ export default function Forum() {
   const submitPost = async () => {
     httpClient({
       method: 'POST',
-      url: 'http://127.0.0.1:5000/forum',
+      url: 'http://127.0.0.1:5000/forum/all',
       data: {
         post_id: Number(postID + 1),
         post_content: postContent,
         post_category: title,
         post_author: 'User2',
-        // post_date: currDate,
+        post_date: timeStamp,
       },
     })
       .then((response) => {
@@ -98,8 +100,8 @@ export default function Forum() {
     // console.log(newPost);
     // console.log(posts);
     const getForms = async () => {
-      const res = await axios
-        .get('http://localhost:5000/forum')
+      const res = await httpClient
+        .get('http://localhost:5000/forum/all')
         .then((res) => {
           APIres = res.data;
           setPosts(res.data);

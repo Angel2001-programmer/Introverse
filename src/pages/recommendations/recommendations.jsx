@@ -2,7 +2,7 @@ import styles from './recommendations.module.css';
 import React, { Fragment, useEffect } from 'react';
 import Button from '../../UI/Button/button';
 import { useState } from 'react';
-import axios from 'axios';
+import httpClient from "../../httpClient";
 import NavBar from '../../components/NavBar/navbar';
 import MobileNav from '../../components/MobileNav/MobileNav';
 import DropDownMenu from '../../components/DropDownMenu/dropDownMenu';
@@ -33,7 +33,7 @@ const Recommendations = () => {
   try {
     switch (GenreTitle) {
       case 'Anime':
-        route = 'anime_suggestions';
+        route = 'anime';
         listComponent = (
           <Fragment>
             {List.map((item) => (
@@ -56,7 +56,7 @@ const Recommendations = () => {
         );
         break;
       case 'Books':
-        route = 'book_suggestions';
+        route = 'books';
         listComponent = (
           <Fragment>
             {List.map((item) => (
@@ -95,7 +95,7 @@ const Recommendations = () => {
         );
         break;
       case 'Games':
-        route = 'games_suggestions';
+        route = 'games';
 
         listComponent = (
           <Fragment>
@@ -138,7 +138,7 @@ const Recommendations = () => {
   useEffect(() => {
     const getAPI = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/' + route);
+        const response = await httpClient.get('http://localhost:5000/content/' + route);
         setList(response.data);
         console.log(List);
       } catch (error) {

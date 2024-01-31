@@ -13,7 +13,7 @@ const DropDownMenu = props => {
   function logMeOut() {
     httpClient({
       method: "POST",
-      url: "http://localhost:5000/logout"
+      url: "http://localhost:5000/user/logout"
     })
     .then((response) => {
       logout()

@@ -34,7 +34,7 @@ const SignUp = () => {
   const registerUser = async () => {
     httpClient({
       method: "POST",
-      url: "http://127.0.0.1:5000/register",
+      url: "http://127.0.0.1:5000/user/register",
       data: {
         username: newUserData.userName,
         first_name: newUserData.firstName,

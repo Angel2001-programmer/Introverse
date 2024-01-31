@@ -28,7 +28,7 @@ const Login = props => {
   const loginUser = async () => {
     httpClient({
       method: "POST",
-      url: "http://localhost:5000/login",
+      url: "http://localhost:5000/user/login",
       data: {
         username: userData.userName,
         password: userData.password
