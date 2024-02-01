@@ -118,6 +118,8 @@ const SignUp = () => {
   }
   console.log(newUserData.userName.length);
 
+  // Could put in a useEffect for clearing error messages when field is changed
+
   if (newUser === true){
     setTimeout(() => {
     if(count > 0){
