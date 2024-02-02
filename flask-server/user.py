@@ -102,7 +102,9 @@ class Login(Resource):
         
         access_token, refresh_token = user_access_tokens(user)
         return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token})
+            {"access_token": access_token, "refresh_token": refresh_token, "user": user.username})
+        # return jsonify(
+        #     {"access_token": access_token, "refresh_token": refresh_token})
 
 
 @user_ns.route("/logout")

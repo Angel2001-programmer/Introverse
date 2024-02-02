@@ -7,18 +7,27 @@ import { UserContext, SignUpContext, NewUserContext, UserNameContext } from "../
 import httpClient from "../../httpClient";
 import { login } from "../../auth";
 import { useDispatch } from "react-redux";
+import { setSignIn } from "../../redux/slices/userSlice"
 
-const initialValues = {
-  userName: "",
-  password: ""
-};
 
-const Login = props => {
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/slices/userSlice"
+
+
+
+
+function Login() {
   const [isOpened, setIsOpened]  = useContext(UserContext);
   const [isSignModal, setIsSignModal] = useContext(SignUpContext);
   const [newUser, setNewUser] = useContext(NewUserContext);
   const [userName, setUserName] = useContext(UserNameContext);
 
+  const user = useSelector(selectCurrentUser)
+
+  const initialValues = {
+    userName: "",
+    password: ""
+  };
   // This is just a test to see if login works with data.
   const [userData, setUserData] = useState(initialValues);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -26,6 +35,12 @@ const Login = props => {
 
   const dispatch = useDispatch()
   
+  // const signIn = (e) => {
+  //   e.preventDefault()
+  //   dispatch(setSignIn({ ...userData.userName }))
+  //   console.log(user)
+  //   // dispatch(setSignIn("test"))
+  // }
 
   // Function to fetch user data from database, log in user if successful
   const loginUser = async () => {
@@ -40,12 +55,14 @@ const Login = props => {
     .then((response) => {
       console.log(response)
       console.log(response.data.access_token)
+      console.log(response.data.user)
+      let name = response.data.user
       login(response.data.access_token)
       console.log(userData.userName, " has logged in")
       setIsOpened(false)
       setNewUser(true)
       setIsSignModal(false)
-      let userName = userData.userName
+      dispatch(setSignIn({name}))
       // dispatch(signIn({userName}))
       alert("Welcome you have successfully logged in.")
     }).catch((error) => {
@@ -77,9 +94,20 @@ const Login = props => {
           // setNewUser(true)
           // setIsSignModal(false)
           loginUser()
+          // signIn()
+          // dispatch(setSignIn("test"))
+          // dispatch(setSignIn(...userData.userName)) // Gives object array
+          // let greeting = setUserName(userData.userName)
+          // setUserName(userData.userName)
+          // dispatch(setSignIn({userName})) // Gives object array
+          // dispatch(setSignIn({userName})) // Gives object array
+          // dispatch(setSignIn({greeting})) // Gives object array
+          // dispatch(setSignIn({type: "auth/setSignIn", payload: userData.userName})) // Gives object array
+          // dispatch(setSignIn({userData.userName}))
+          console.log(user)
           console.log('Login successful');
           // useDispatch(signIn(userData.userName))
-          setUserName(userData.userName)
+          // setUserName(userData.userName)
 
       }
   }
@@ -88,6 +116,7 @@ const Login = props => {
   if(isOpened){
     createAccount = <div className={styles.login}>
         <form onSubmit={handleLogin}>
+        {/* <form onSubmit={handleLogin}> */}
         <UserInput 
         isCloseIcon="X"
         isClose={() => setIsOpened(false)}

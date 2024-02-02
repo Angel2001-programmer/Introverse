@@ -8,6 +8,8 @@ import EditBanner from "../../components/EditBanner/EditBanner";
 import EditDetailsProfile from "../../components/EditProfileDetails/EditProfileDetails";
 import httpClient from "../../httpClient";
 import { UserNameContext } from "../../components/FinalProject/FinalProject";
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/slices/userSlice"
 
 const EditAccount = () => {
 	const [isPressed, setIsPressed] = useState(false);
@@ -15,18 +17,43 @@ const EditAccount = () => {
 	const [filteredposts, setfilteredposts] = useState(null);
 	const [UserName, setUserName] = useContext(UserNameContext);
 
+	const user = useSelector(selectCurrentUser)
+
 	console.log(UserName)
 
 	let error = null;
-	let user = "BlaxeXD"
+	// let user = "BlaxeXD"
 	let filteredList = null;
 
-	useEffect(() => {
+	// useEffect(() => {
+	// 	const getForms = async () => {
+	// 		const res = await httpClient.get(`http://localhost:5000/forum/author/${user.userName}`)
+	// 		.then(res => { 
+	// 		  setPosts(res.data)    
+	// 		  filteredList = res.data.filter((list) => list.post_author === user.userName)
+    // 		  console.log(filteredList);
+	// 		  setfilteredposts(filteredList);
+	// 		  if(posts.length === 0){
+	// 			error = <h2>No Posts Yet.</h2>
+	// 			setPosts(null)
+	// 		  }
+	// 		})
+	// 		.catch(err => {
+	// 		  setPosts(null);
+	// 		  // APIres = null;
+	// 		  console.log(err);
+	// 		  error = <h2>No Posts Yet.</h2>});
+	// 	}
+	// 	getForms();
+	// 	// getAPI();
+	//   }, [])
+
+	  useEffect(() => {
 		const getForms = async () => {
 			const res = await httpClient.get("http://localhost:5000/forum/all")
 			.then(res => { 
 			  setPosts(res.data)    
-			  filteredList = res.data.filter((list) => list.post_author === "User2")
+			  filteredList = res.data.filter((list) => list.post_author === user.name)
     		  console.log(filteredList);
 			  setfilteredposts(filteredList);
 			  if(filteredList.length === 0){

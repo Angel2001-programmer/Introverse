@@ -7,21 +7,18 @@ import { UserContext, SignUpContext, NewUserContext, UserNameContext } from "../
 import httpClient from "../../httpClient";
 import { login } from "../../auth";
 import { useDispatch } from "react-redux";
-import { setSignIn } from "../../redux/slices/userSlice"
 
+const initialValues = {
+  userName: "",
+  password: ""
+};
 
-
-
-function Login() {
+const Login = props => {
   const [isOpened, setIsOpened]  = useContext(UserContext);
   const [isSignModal, setIsSignModal] = useContext(SignUpContext);
   const [newUser, setNewUser] = useContext(NewUserContext);
   const [userName, setUserName] = useContext(UserNameContext);
 
-  const initialValues = {
-    userName: "",
-    password: ""
-  };
   // This is just a test to see if login works with data.
   const [userData, setUserData] = useState(initialValues);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -29,10 +26,6 @@ function Login() {
 
   const dispatch = useDispatch()
   
-  const signIn = (e) => {
-    e.preventDefault()
-    dispatch(setSignIn({ ...userData.userName }))
-  }
 
   // Function to fetch user data from database, log in user if successful
   const loginUser = async () => {
@@ -52,7 +45,7 @@ function Login() {
       setIsOpened(false)
       setNewUser(true)
       setIsSignModal(false)
-      signIn()
+      let userName = userData.userName
       // dispatch(signIn({userName}))
       alert("Welcome you have successfully logged in.")
     }).catch((error) => {

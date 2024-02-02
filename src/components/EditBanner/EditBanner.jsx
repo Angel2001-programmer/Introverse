@@ -13,7 +13,7 @@ const EditBanner = () => {
 
     console.log(user)
 
-    const welcome = user ? `${user}` : "Guest"
+    const welcome = user ? `${user.name}` : "Guest"
 
     return (
         <Fragment>
