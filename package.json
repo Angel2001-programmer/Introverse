@@ -18,6 +18,8 @@
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "react-token-auth": "^2.3.8",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^3.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
