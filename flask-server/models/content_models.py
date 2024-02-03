@@ -7,8 +7,6 @@ class Books(db.Model):
     """
     Class model for the Books table.
 
-    ...
-
     Attributes
     ----------
     book_id : int
@@ -25,15 +23,6 @@ class Books(db.Model):
         description of the book
     book_image : str
         image url of the book
-
-    Methods
-    -------
-    __repr__
-        Returns a string representation of the constructed object.
-    create
-        Adds a new book object to the database.
-    delete
-        Deletes a book object from the database.
     """
 
     __tablename__ = "Books"
@@ -64,8 +53,6 @@ class Anime(db.Model):
     """
     Class model for the Anime table.
 
-    ...
-
     Attributes
     ----------
     anime_id : int
@@ -80,15 +67,6 @@ class Anime(db.Model):
         description of the anime
     anime_image : str
         image url of the anime
-
-    Methods
-    -------
-    __repr__
-        Returns a string representation of the constructed object.
-    create
-        Adds a new anime object to the database.
-    delete
-        Deletes a anime object from the database.
     """
 
     __tablename__ = "Anime"
@@ -118,8 +96,6 @@ class Games(db.Model):
     """
     Class model for the Games table.
 
-    ...
-
     Attributes
     ----------
     game_id : int
@@ -136,15 +112,6 @@ class Games(db.Model):
         description of the game
     game_image : str
         image url of the game
-
-    Methods
-    -------
-    __repr__
-        Returns a string representation of the constructed object.
-    create
-        Adds a new game object to the database.
-    delete
-        Deletes a game object from the database.
     """
 
     __tablename__ = "Games"
