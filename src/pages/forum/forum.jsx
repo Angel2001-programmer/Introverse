@@ -64,7 +64,7 @@ export default function Forum() {
         post_id: Number(postID + 1),
         post_content: postContent,
         post_category: title,
-        post_author: user.userName,
+        post_author: user.name,
         post_date: timeStamp,
       },
     })

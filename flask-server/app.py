@@ -7,9 +7,9 @@ from flask_migrate import Migrate
 from exts import db
 from models.user_models import User, Profile, Message
 from models.content_models import Books, Anime, Games
-from user import user_ns
-from content import content_ns
-from forum import forum_ns
+from routes.user import user_ns
+from routes.content import content_ns
+from routes.forum import forum_ns
 
 def create_app(config):
     """Application factory function"""

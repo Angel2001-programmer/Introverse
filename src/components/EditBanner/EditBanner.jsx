@@ -9,7 +9,6 @@ import { selectCurrentUser } from "../../redux/slices/userSlice"
 const EditBanner = () => {
     const [UserName, setUserName] = useContext(UserNameContext);
     const user = useSelector(selectCurrentUser)
-    // const greeting = useSelector(state => state.user)
 
     console.log(user)
 

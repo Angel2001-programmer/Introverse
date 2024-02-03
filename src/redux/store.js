@@ -3,7 +3,7 @@ import userReducer from "./slices/userSlice";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
-// import thunk from "redux-thunk";
+// import { thunk } from "redux-thunk";
 
 const reducers = combineReducers({
   auth: userReducer,
@@ -24,13 +24,4 @@ const store = configureStore({
 
 export default store;
 
-// Old ones, first one def works
-// export default configureStore({
-//   reducer: {
-//     auth: userReducer,
-//   }
-// })
-
-// export const store = configureStore({
-//     reducer: userReducer,
-// })
+// `middleware` field must be a callback error when trying to use thunk

@@ -7,6 +7,7 @@ import { SignUpContext, UserContext, NewUserContext } from "../../components/Fin
 import httpClient from "../../httpClient";
 import { login } from "../../auth";
 import { useDispatch } from "react-redux";
+import { setSignIn } from "../../redux/slices/userSlice"
 
 const SignUp = () => {
   const initialValues = {
@@ -18,12 +19,10 @@ const SignUp = () => {
     confirmPSW: ""
   };
 
-
+  // Are there any contexts or states that we don't need anymore?
   let SignedUp = null;
   const [isSignUp, setIsSignUp] = useContext(SignUpContext);
-
   const [isSignModal, setIsSignModal] = useContext(SignUpContext);
-
   const [isOpened, setIsOpened] = useContext(UserContext);
   const [newUser, setNewUser] = useContext(NewUserContext);
   const [count, setCount] = useState(5);
@@ -31,7 +30,6 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const dispatch = useDispatch()
-
 
   // Function to register a new user, post the data to backend if legit, and log user in afterwards
   const registerUser = async () => {
@@ -49,11 +47,12 @@ const SignUp = () => {
     .then((response) => {
       console.log(response)
       console.log(response.data.access_token)
+      console.log(response.data.user)
       login(response.data.access_token)
+      let name = response.data.user
+      dispatch(setSignIn({name}))
       console.log(newUserData.userName, " has signed up")
       setNewUser(true)
-      // dispatch(signIn({ ...newUserData.userName}))
-      // handleUser()
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -66,21 +65,11 @@ const SignUp = () => {
     })
   };
 
-
-
-
-
   const handleValues = (e) => {
       setNewUserData({ ...newUserData, [e.target.name]: e.target.value});
   };
 
-  // const handleUser = (e) => {
-  //   dispatch(signIn({newUserData.userName}))
-  // }
-
-  // Added in the error checks that were missing (VARCHAR 50 for each name, 30 for username, 254 for email, 8 for password if it isn't there?)
-  // Might want to convert it to a switch case or rewrite it in a nicer JS looking way
-  // Add check for number in password
+  // Need to refactor this! Make the error handling more efficient
   const handleForm = (e) => {
     e.preventDefault();
     
@@ -108,15 +97,16 @@ const SignUp = () => {
         setErrorMessage("Email address is too long.");
       setNewUser(false);
     } else if (newUserData.password.length >= 72 || newUserData.password.length < 8){
-      setErrorMessage("Password is too short or long.");  // Don't give details on max length
+      setErrorMessage("Password length is invalid.");
       setNewUser(false);
     } else {
       setErrorMessage("");
-      // setNewUser(true);
       registerUser();
     }
   }
-  console.log(newUserData.userName.length);
+
+  // We can delete this right? The constant counting
+  // console.log(newUserData.userName.length);
 
   if (newUser === true){
     setTimeout(() => {

@@ -20,14 +20,14 @@ To create from Python run the create_db.py file
 ```
 python create_db.py
 ```
-5. Create the message_board table directly from the SQL file. Then the other tables (if do not already exist) can be created either through the SQL script or with Python (create_tables.py)
+5. Create tables (if do not already exist) through the SQL script or through flask migrate, flask db upgrade to get latest migrations of the tables
 ```
-python create_tables.py
+flask db upgrade
 ```
 6. Insert the message_board, book, game, and anime data from the SQL file
-7. Run app.py to start the server
+7. Run run.py to start the server
 ```
-python app.py
+python run.py
 ```
 Enjoy!
 

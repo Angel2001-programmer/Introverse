@@ -10,19 +10,11 @@ import { useDispatch } from "react-redux";
 import { setSignIn } from "../../redux/slices/userSlice"
 
 
-import { useSelector } from "react-redux"
-import { selectCurrentUser } from "../../redux/slices/userSlice"
-
-
-
-
 function Login() {
   const [isOpened, setIsOpened]  = useContext(UserContext);
   const [isSignModal, setIsSignModal] = useContext(SignUpContext);
   const [newUser, setNewUser] = useContext(NewUserContext);
   const [userName, setUserName] = useContext(UserNameContext);
-
-  const user = useSelector(selectCurrentUser)
 
   const initialValues = {
     userName: "",
@@ -34,13 +26,6 @@ function Login() {
   let createAccount = null;
 
   const dispatch = useDispatch()
-  
-  // const signIn = (e) => {
-  //   e.preventDefault()
-  //   dispatch(setSignIn({ ...userData.userName }))
-  //   console.log(user)
-  //   // dispatch(setSignIn("test"))
-  // }
 
   // Function to fetch user data from database, log in user if successful
   const loginUser = async () => {
@@ -56,14 +41,13 @@ function Login() {
       console.log(response)
       console.log(response.data.access_token)
       console.log(response.data.user)
-      let name = response.data.user
       login(response.data.access_token)
+      let name = response.data.user
+      dispatch(setSignIn({name}))
       console.log(userData.userName, " has logged in")
       setIsOpened(false)
       setNewUser(true)
       setIsSignModal(false)
-      dispatch(setSignIn({name}))
-      // dispatch(signIn({userName}))
       alert("Welcome you have successfully logged in.")
     }).catch((error) => {
       if (error.response) {
@@ -77,46 +61,26 @@ function Login() {
     })
   };
 
-
   //Set new keystroke to UserData values.
   const handleValues = (e) => {
       setUserData({ ...userData, [e.target.name]: e.target.value});
   };
 
   const handleLogin = (e) => {
-      //Prevents form from refreshing when Sign button is clicked.
-      e.preventDefault();
-      if(userData.userName.trim().length === 0 || userData.password.trim().length === 0){
-          setErrorMessage(<p className={styles.errorMessage}>Inputs cannot be empty</p>)
-      } else {
-          setErrorMessage("")
-          // setIsOpened(false)
-          // setNewUser(true)
-          // setIsSignModal(false)
-          loginUser()
-          // signIn()
-          // dispatch(setSignIn("test"))
-          // dispatch(setSignIn(...userData.userName)) // Gives object array
-          // let greeting = setUserName(userData.userName)
-          // setUserName(userData.userName)
-          // dispatch(setSignIn({userName})) // Gives object array
-          // dispatch(setSignIn({userName})) // Gives object array
-          // dispatch(setSignIn({greeting})) // Gives object array
-          // dispatch(setSignIn({type: "auth/setSignIn", payload: userData.userName})) // Gives object array
-          // dispatch(setSignIn({userData.userName}))
-          console.log(user)
-          console.log('Login successful');
-          // useDispatch(signIn(userData.userName))
-          // setUserName(userData.userName)
-
-      }
+    //Prevents form from refreshing when Sign button is clicked.
+    e.preventDefault();
+    if(userData.userName.trim().length === 0 || userData.password.trim().length === 0){
+        setErrorMessage(<p className={styles.errorMessage}>Inputs cannot be empty</p>)
+    } else {
+        setErrorMessage("")
+        loginUser()
+    }
   }
 
   //Check if Modal is opened.
   if(isOpened){
     createAccount = <div className={styles.login}>
         <form onSubmit={handleLogin}>
-        {/* <form onSubmit={handleLogin}> */}
         <UserInput 
         isCloseIcon="X"
         isClose={() => setIsOpened(false)}
