@@ -1,7 +1,5 @@
-from dotenv import load_dotenv  # dotenv vs decouple
+from dotenv import load_dotenv
 import os
-import redis
-# from mysqlconfig import HOST, USER, PASSWORD
 
 load_dotenv()
 
@@ -18,25 +16,25 @@ mysql_uri = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
 sqlite_uri = r"sqlite:///./db.sqlite"
 
 
-# Base config class
 class Config:
+    """Base config class"""
     SECRET_KEY = os.environ["SECRET_KEY"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-# Development config
 class DevConfig(Config):
+    """Development config"""
     SQLALCHEMY_DATABASE_URI = mysql_uri
     SQLALCHEMY_ECHO = True
 
 
-# Production config
 class ProdConfig(Config):
+    """Production config"""
     pass
 
 
-# Testing config
 class TestConfig(Config):
+    """Testing config"""
     SQLALCHEMY_DATABASE_URI = mysql_uri
     SQLALCHEMY_ECHO = False
     Testing=True  # No data gets actually passed into the database

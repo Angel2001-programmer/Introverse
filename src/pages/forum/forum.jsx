@@ -14,8 +14,9 @@ import DropDownMenu from '../../components/DropDownMenu/dropDownMenu';
 import MobileNav from '../../components/MobileNav/MobileNav';
 import httpClient from '../../httpClient';
 // import api from "../../jsonAPI/posts.json";
-import API from '../../httpClient';
 import axios from 'axios';
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/slices/userSlice"
 
 export default function Forum() {
   const [isClicked, setIsClicked] = useState(false);
@@ -29,6 +30,9 @@ export default function Forum() {
   const [filteredposts, setfilteredposts] = useState([]);
   // const currDate = new Date().toLocaleString('en-UK', { hour12: true }); Date and Time.
   // const currDate = new Date().toLocaleDateString('en-GB');
+
+  const user = useSelector(selectCurrentUser)
+
   let postID = null;
 
   let error = '';
@@ -60,7 +64,7 @@ export default function Forum() {
         post_id: Number(postID + 1),
         post_content: postContent,
         post_category: title,
-        post_author: 'User2',
+        post_author: user.name,
         post_date: timeStamp,
       },
     })

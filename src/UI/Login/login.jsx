@@ -6,23 +6,26 @@ import { useContext, useState } from 'react'
 import { UserContext, SignUpContext, NewUserContext, UserNameContext } from "../../components/FinalProject/FinalProject";
 import httpClient from "../../httpClient";
 import { login } from "../../auth";
+import { useDispatch } from "react-redux";
+import { setSignIn } from "../../redux/slices/userSlice"
 
-const initialValues = {
-  userName: "",
-  password: ""
-};
 
-const Login = props => {
+function Login() {
   const [isOpened, setIsOpened]  = useContext(UserContext);
   const [isSignModal, setIsSignModal] = useContext(SignUpContext);
   const [newUser, setNewUser] = useContext(NewUserContext);
   const [userName, setUserName] = useContext(UserNameContext);
 
+  const initialValues = {
+    userName: "",
+    password: ""
+  };
   // This is just a test to see if login works with data.
   const [userData, setUserData] = useState(initialValues);
   const [errorMessage, setErrorMessage] = useState(null);
   let createAccount = null;
-  
+
+  const dispatch = useDispatch()
 
   // Function to fetch user data from database, log in user if successful
   const loginUser = async () => {
@@ -37,7 +40,10 @@ const Login = props => {
     .then((response) => {
       console.log(response)
       console.log(response.data.access_token)
+      console.log(response.data.user)
       login(response.data.access_token)
+      let name = response.data.user
+      dispatch(setSignIn({name}))
       console.log(userData.userName, " has logged in")
       setIsOpened(false)
       setNewUser(true)
@@ -55,27 +61,20 @@ const Login = props => {
     })
   };
 
-
   //Set new keystroke to UserData values.
   const handleValues = (e) => {
       setUserData({ ...userData, [e.target.name]: e.target.value});
   };
 
   const handleLogin = (e) => {
-      //Prevents form from refreshing when Sign button is clicked.
-      e.preventDefault();
-      if(userData.userName.trim().length === 0 || userData.password.trim().length === 0){
-          setErrorMessage(<p className={styles.errorMessage}>Inputs cannot be empty</p>)
-      } else {
-          setErrorMessage("")
-          // setIsOpened(false)
-          // setNewUser(true)
-          // setIsSignModal(false)
-          loginUser()
-          console.log('Login successful');
-          setUserName(userData.userName)
-
-      }
+    //Prevents form from refreshing when Sign button is clicked.
+    e.preventDefault();
+    if(userData.userName.trim().length === 0 || userData.password.trim().length === 0){
+        setErrorMessage(<p className={styles.errorMessage}>Inputs cannot be empty</p>)
+    } else {
+        setErrorMessage("")
+        loginUser()
+    }
   }
 
   //Check if Modal is opened.

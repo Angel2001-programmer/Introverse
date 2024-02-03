@@ -7,7 +7,6 @@ from exts import db
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt()
-# Might need diff way of bcrypting now not sure
 
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
 
@@ -81,7 +80,7 @@ class Register(Resource):
 
         access_token, refresh_token = user_access_tokens(new_user)
         return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token})   
+            {"access_token": access_token, "refresh_token": refresh_token, "user": new_user.username})   
 
 
 @user_ns.route("/login")
@@ -102,7 +101,7 @@ class Login(Resource):
         
         access_token, refresh_token = user_access_tokens(user)
         return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token})
+            {"access_token": access_token, "refresh_token": refresh_token, "user": user.username})
 
 
 @user_ns.route("/logout")
@@ -130,8 +129,9 @@ class CurrentUser(Resource):
     @user_ns.marshal_with(profile_model)
     @jwt_required
     def get(self, current_user):
-        """Get current user by username, need to test if this works"""
-        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
+        """Get current user by username, need to investigate issue with get identity, returns null"""
+        identity = get_jwt_identity()
+        current_user = Profile.query.filter(Profile.username == identity).first()
         return current_user
 
 
@@ -142,13 +142,13 @@ class UsersResource(Resource):
         """List all users"""
         users=Profile.query.all()
         return users
+    
 
+@user_ns.route("/members/<string:member>")
+class MemberResource(Resource):
+    @user_ns.marshal_with(profile_model)
+    def get(self, member):
+        """List a member"""
+        user = Profile.query.filter(Profile.username == member).first()
+        return user
 
-
-"""
-Need to test
-- If Bcrypt still working
-- Validation being triggered if make request from Postman
-- ???
-- Maybe move message board to a different ns
-"""

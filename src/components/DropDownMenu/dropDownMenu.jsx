@@ -3,11 +3,15 @@ import { NewUserContext } from "../../components/FinalProject/FinalProject"
 import { useContext } from 'react';
 import { useAuth, logout } from "../../auth";
 import httpClient from "../../httpClient";
+import { useDispatch } from "react-redux";
+import { setSignOut } from "../../redux/slices/userSlice"
 
 
 // set log out functionality here?
 const DropDownMenu = props => {
   const [newUser, setNewUser] = useContext(NewUserContext);
+
+  const dispatch = useDispatch()
 
   // Function to log out the user
   function logMeOut() {
@@ -17,6 +21,7 @@ const DropDownMenu = props => {
     })
     .then((response) => {
       logout()
+      dispatch(setSignOut())
       alert("You have successfully logged out")
     }).catch((error) => {
       if (error.response) {

@@ -4,7 +4,6 @@ from exts import db
 from uuid import uuid4
 from datetime import datetime as dt
 
-
 def get_uuid():
     """Returns a unique user ID"""
     return uuid4().hex
@@ -14,8 +13,6 @@ class User(db.Model):
     """
     Class model for the user accounts table.
 
-    ...
-
     Attributes
     ----------
     user_id : str
@@ -24,11 +21,6 @@ class User(db.Model):
         username of the user
     password : str
         password of the user, stored as a bcrypt hash
-
-    Methods
-    -------
-    __repr__
-        Returns a string representation of the constructed object.
     """
 
     __tablename__ = "user_accounts"
@@ -44,8 +36,6 @@ class User(db.Model):
 class Profile(db.Model):
     """
     Class model for the user profiles table.
-
-    ...
 
     Attributes
     ----------
@@ -63,11 +53,6 @@ class Profile(db.Model):
         interests of the user
     date_joined : datetime
         timestamp of sign up for the user
-
-    Methods
-    -------
-    __repr__
-        Returns a string representation of the constructed object.
     """
 
     __tablename__ = "user_profiles"
@@ -88,8 +73,6 @@ class Message(db.Model):
     """
     Class model for the message board table.
 
-    ...
-
     Attributes
     ----------
     post_id : int
@@ -102,17 +85,6 @@ class Message(db.Model):
         author of the message
     post_date : datetime
         time and date that the message was posted
-
-    Methods
-    -------
-    __repr__
-        Returns a string representation of the constructed object.
-    create
-        Adds a new message to the database.
-    delete
-        Deletes a message from the database.
-    update
-        Updates a message in the database.
     """
 
     __tablename__ = "message_board"

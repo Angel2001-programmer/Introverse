@@ -25,9 +25,9 @@ class ForumResource(Resource):
     
     @forum_ns.marshal_with(message_model)
     @forum_ns.expect(message_model)
-    # @jwt_required
+    # @jwt_required  # Not working at the moment, need to investigate
     def post(self):
-        """Create a new message"""  # Need to test if return type works
+        """Create a new message"""
         data = request.get_json()
         new_post = Message(
             post_content = data.get("post_content"),
@@ -77,7 +77,7 @@ class ForumIdResource(Resource):
         return edit_message
     
     @forum_ns.marshal_with(message_model)
-    @jwt_required()  # Need to test if it works on frontend
+    @jwt_required()  # This will not work currently, need to solve jwt required and identity issue
     def delete(self, id):
         """Delete a message by id"""
         username=get_jwt_identity()
