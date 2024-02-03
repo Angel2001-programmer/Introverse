@@ -1,7 +1,32 @@
 import styles from "./EditProfileDetails.module.css";
 import editProfile from '../../assets/images/editProfile.svg';
+import React, { useEffect, useState } from "react"
+import httpClient from "../../httpClient";
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/slices/userSlice"
+
+// Have added an API call ish but no idea how to get it into the profile box or how to convert the profile box to view rather than edit, tried to copy recommendations.js
+// Think would be cool to have the component as view only initially with an "edit" button, that then allows you to make a put or post request to edit certain fields
 
 const EditPosts = () => {
+
+  const user = useSelector(selectCurrentUser)
+  const [List, setList] = useState([]);
+
+	useEffect(() => {
+    const getAPI = async () => {
+      try {
+        const response = await httpClient.get("http://localhost:5000/user/members/" + user.name);
+        console.log(response.data)
+      } catch(error) {
+      console.log(error)
+    }
+    };
+    getAPI()
+  }, [user.name]);
+
+  console.log()
+
     return (
 		<form className={styles.EditAccountform}>
 			<div className={styles.row}>

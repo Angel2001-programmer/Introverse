@@ -1,32 +1,43 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-from config import ApplicationConfig, TestConfig
+from flask_restx import Api
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
+from exts import db
+from models.user_models import User, Profile, Message
+from models.content_models import Books, Anime, Games
+from routes.user import user_ns
+from routes.content import content_ns
+from routes.forum import forum_ns
 
-
-# Separated out routes so file doesn't get too big, this file just sets up the app
-
-db = SQLAlchemy()
-bcrypt = Bcrypt()
-cors = CORS()
-jwt = JWTManager()
-
-def create_app(test_config=None):  # Changed function to take in a config so can unit test with a test config
+def create_app(config):
+    """Application factory function"""
     app = Flask(__name__)
-    if test_config is None:
-        # Load the instance config when not testing
-        app.config.from_object(ApplicationConfig)
-    else:
-        # Load the test config if passwed in
-        app.config.from_object(TestConfig)
-    
+    app.config.from_object(config)
     db.init_app(app)
-    bcrypt.init_app(app)
-    cors.init_app(app, supports_credentials=True)
-    jwt.init_app(app)
-    
-    
+    migrate = Migrate(app, db)
+    bcrypt = Bcrypt(app)
+    cors = CORS(app, supports_credentials=True)
+    jwt = JWTManager(app)
+
+    api = Api(app)
+
+    api.add_namespace(user_ns)
+    api.add_namespace(content_ns)
+    api.add_namespace(forum_ns)
+
+    @app.shell_context_processor
+    def make_shell_context():
+        return {
+            "db": db,
+            "User": User,
+            "Profile": Profile,
+            "Message": Message,
+            "Books": Books,
+            "Anime": Anime,
+            "Games": Games
+        }
+
     return app
 
