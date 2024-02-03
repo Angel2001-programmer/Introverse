@@ -193,8 +193,3 @@ class GameNameResource(Resource):
         game = Games.query.filter(Games.Game_Name.ilike(f"%{title}%")).all()
 
         return game
-
-"""
-Need to test
-- If return type ok
-"""
