@@ -193,3 +193,11 @@ class GameNameResource(Resource):
         game = Games.query.filter(Games.Game_Name.ilike(f"%{title}%")).all()
 
         return game
+
+
+@content_ns.route("/hello")
+class Hello(Resource):
+
+    def get(self):
+        """Basic route to test"""
+        return {"message": "Hello world!"}

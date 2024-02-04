@@ -2,7 +2,6 @@
 from dotenv import load_dotenv
 import os
 import mysql.connector
-# from mysqlconfig import HOST, USER, PASSWORD
 
 load_dotenv()
 
