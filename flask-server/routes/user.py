@@ -79,8 +79,8 @@ class Register(Resource):
         db.session.commit()
 
         access_token, refresh_token = user_access_tokens(new_user)
-        return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token, "user": new_user.username})   
+        return make_response(jsonify(
+            {"access_token": access_token, "refresh_token": refresh_token, "user": new_user.username}), 201)   
 
 
 @user_ns.route("/login")
@@ -127,7 +127,7 @@ class RefreshToken(Resource):
 @user_ns.route("/current_user")
 class CurrentUser(Resource):
     @user_ns.marshal_with(profile_model)
-    @jwt_required
+    @jwt_required()
     def get(self, current_user):
         """Get current user by username, need to investigate issue with get identity, returns null"""
         identity = get_jwt_identity()

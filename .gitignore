@@ -26,3 +26,4 @@ flask-server/.env
 flask-server/venv/
 flask-server/__pycache__/
 **/__pycache__/
+*.pyc
