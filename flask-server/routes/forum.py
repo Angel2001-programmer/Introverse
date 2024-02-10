@@ -25,7 +25,7 @@ class ForumResource(Resource):
     
     @forum_ns.marshal_with(message_model)
     @forum_ns.expect(message_model)
-    # @jwt_required()  # Not working at the moment, need to investigate
+    @jwt_required()  # Needed authorisation header!
     def post(self):
         """Create a new message"""
         data = request.get_json()

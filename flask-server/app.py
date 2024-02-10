@@ -1,10 +1,9 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_restx import Api
-from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
-from exts import db
+from exts import db, jwt
 from config import DevConfig, TestConfig
 from models.user_models import User, Profile, Message
 from models.content_models import Books, Anime, Games
@@ -14,7 +13,6 @@ from routes.forum import forum_ns
 
 bcrypt = Bcrypt()
 cors = CORS()
-jwt = JWTManager()
 migrate = Migrate()
 
 def create_app(test_config=None):
@@ -24,6 +22,9 @@ def create_app(test_config=None):
         app.config.from_object(DevConfig)
     else:
         app.config.from_object(TestConfig)
+
+    # app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
+    # app.config["JWT_COOKIE_SECURE"] = False
     
     db.init_app(app)
     migrate.init_app(app,db)
@@ -36,6 +37,18 @@ def create_app(test_config=None):
     api.add_namespace(user_ns)
     api.add_namespace(content_ns)
     api.add_namespace(forum_ns)
+
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_data):
+        return jsonify({"message": "Token has expired", "error": "token_expired"}), 401
+    
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        return jsonify({"message": "Signature verification failed", "error": "invalid_token"}), 401
+    
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
+        return jsonify({"message": "Request does not contain a valid token", "error": "authorisation_token"}), 401
 
     @app.shell_context_processor
     def make_shell_context():

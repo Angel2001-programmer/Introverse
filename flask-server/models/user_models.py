@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from exts import db
 from uuid import uuid4
-from datetime import datetime as dt
+from datetime import datetime as dt, UTC
 
 def get_uuid():
     """Returns a unique user ID"""
@@ -62,7 +62,7 @@ class Profile(db.Model):
     email = db.Column(db.String(254), unique=True, nullable=False)
     date_of_birth = db.Column(db.Date)  # This option for future functionality of calculating age and age restricting recommendations -> change this to not null when get working
     interests = db.Column(db.Text)
-    date_joined = db.Column(db.DateTime(), default=dt.utcnow)
+    date_joined = db.Column(db.DateTime(), default=dt.now(UTC))
 
     def __repr__(self):
         """Returns a string representation of constructed object."""
@@ -92,7 +92,7 @@ class Message(db.Model):
     post_content = db.Column(db.Text, nullable=False)
     post_category = db.Column(db.String(50), nullable=False)
     post_author = db.Column(db.String(30), nullable=False)  # Change back to being a FK at some point
-    post_date = db.Column(db.DateTime(), default=dt.utcnow, nullable=False)
+    post_date = db.Column(db.DateTime(), default=dt.now(UTC), nullable=False)
 
     def __repr__(self):
         """Returns a string representation of constructed object."""

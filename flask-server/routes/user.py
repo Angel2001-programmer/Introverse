@@ -100,8 +100,8 @@ class Login(Resource):
             return make_response(jsonify({"error": "Invalid credentials"}), 401)
         
         access_token, refresh_token = user_access_tokens(user)
-        return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token, "user": user.username})
+        return make_response(jsonify(
+            {"access_token": access_token, "refresh_token": refresh_token, "user": user.username}), 200)
 
 
 @user_ns.route("/logout")
@@ -130,8 +130,7 @@ class CurrentUser(Resource):
     @jwt_required()
     def get(self, current_user):
         """Get current user by username, need to investigate issue with get identity, returns null"""
-        identity = get_jwt_identity()
-        current_user = Profile.query.filter(Profile.username == identity).first()
+        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()  # Filter by username (from the JWT token)
         return current_user
 
 

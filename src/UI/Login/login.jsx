@@ -38,10 +38,10 @@ function Login() {
       }
     })
     .then((response) => {
+      login(response.data.access_token)
       console.log(response)
       console.log(response.data.access_token)
       console.log(response.data.user)
-      login(response.data.access_token)
       let name = response.data.user
       dispatch(setSignIn({name}))
       console.log(userData.userName, " has logged in")
