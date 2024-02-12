@@ -22,9 +22,6 @@ def create_app(test_config=None):
         app.config.from_object(DevConfig)
     else:
         app.config.from_object(TestConfig)
-
-    # app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]
-    # app.config["JWT_COOKIE_SECURE"] = False
     
     db.init_app(app)
     migrate.init_app(app,db)
@@ -63,3 +60,7 @@ def create_app(test_config=None):
         }
 
     return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)

@@ -2,8 +2,9 @@ import unittest
 from unittest import TestCase
 import sys
 sys.path.append("..")
-from app import create_app, db
+from main import create_app, db
 from config import TestConfig
+
 
 class TestAPI(TestCase):
     """Base test class for setting up test database and tables"""

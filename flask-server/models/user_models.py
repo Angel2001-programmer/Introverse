@@ -4,6 +4,7 @@ from exts import db
 from uuid import uuid4
 from datetime import datetime as dt, UTC
 
+
 def get_uuid():
     """Returns a unique user ID"""
     return uuid4().hex

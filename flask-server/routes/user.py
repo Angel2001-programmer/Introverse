@@ -10,7 +10,7 @@ bcrypt = Bcrypt()
 
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
 
-profile_model=user_ns.model("Profile", {
+profile_model = user_ns.model("Profile", {
     "first_name": fields.String,
     "last_name": fields.String,
     "email": fields.String,
@@ -18,7 +18,7 @@ profile_model=user_ns.model("Profile", {
     "interests": fields.String
 })
 
-user_model=user_ns.model("User", {
+user_model = user_ns.model("User", {
     "user_id": fields.String,
     "username": fields.String,
     "password": fields.String
@@ -31,11 +31,12 @@ def user_access_tokens(user):
     refresh_token = create_refresh_token(identity=user.username)
     return access_token, refresh_token
 
+
 def check_email(email):
     """Validate email function, return True if valid format"""
     try:
-        v = validate_email(email)
-        email = v["email"]
+        validate = validate_email(email)
+        email = validate["email"]
         return True
     except EmailNotValidError as e:
         print(str(e))
@@ -62,19 +63,19 @@ class Register(Resource):
             return make_response(jsonify({"error": "Email is already registered"}), 409)
         
         # Make validation neater later
-        if len(username) < 1 or len(username) > 30:
+        if len(username.strip()) < 1 or len(username) > 30:
             return make_response(jsonify({"error": "Username must be between 1 and 30 characters"}), 400)
-        if len(first_name) < 1 or len(first_name) > 50:
+        if len(first_name.strip()) < 1 or len(first_name) > 50:
             return make_response(jsonify({"error": "First name must be between 1 and 50 characters"}), 400)
-        if len(last_name) < 1 or len(last_name) > 50:
+        if len(last_name.strip()) < 1 or len(last_name) > 50:
             return make_response(jsonify({"error": "Last name must be between 1 and 50 characters"}), 400)
-        if check_email(email) == False:
+        if not check_email(email):
             return make_response(jsonify({"error": "Email address is invalid"}), 400)
 
         hashed_password = bcrypt.generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
-        new_profile=Profile(username=username, first_name=first_name, last_name=last_name, email=email)
+        new_profile = Profile(username=username, first_name=first_name, last_name=last_name, email=email)
         db.session.add(new_profile)
         db.session.commit()
 

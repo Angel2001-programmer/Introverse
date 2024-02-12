@@ -1,22 +1,9 @@
 import unittest
-from unittest import TestCase
-import sys
-sys.path.append("..")
-from app import create_app, db
-from config import TestConfig
+from test_api import TestAPI
 
-class TestForumAPI(TestCase):
+
+class TestForumAPI(TestAPI):
     """Tests for forum namespace routes"""
-
-    def setUp(self):
-        """Set up our test database and work within the context of our application"""
-        self.app=create_app(TestConfig)
-
-        self.client=self.app.test_client(self)
-
-        with self.app.app_context():
-
-            db.create_all()
 
     def test_get_all_posts(self):
         """Test getting all forum posts"""
@@ -64,7 +51,7 @@ class TestForumAPI(TestCase):
         self.assertEqual(status_code, 201)
 
     
-    def test_create_post_unsuccessful(self):
+    def test_create_post_fail_no_access_token(self):
         """Test creating a post without access token"""
         create_post_response = self.client.post("forum/all",
             json = {
@@ -75,22 +62,66 @@ class TestForumAPI(TestCase):
         )
 
         status_code = create_post_response.status_code
+        expected = {'error': 'authorisation_token', 'message': 'Request does not contain a valid token'}
+        result = create_post_response.json
 
         self.assertEqual(status_code, 401)
+        self.assertEqual(expected, result)
+
+    def test_create_post_fail_invalid_token(self):
+        """Test creating a post, invalid access token"""
+        invalid_token = "invalidtoken"
+
+        create_post_response = self.client.post("forum/all",
+            json = {
+                "post_content": "Test content",
+                "post_category": "Test",
+                "post_author": "testuser"
+            },
+            headers = {
+                "Authorization": f"Bearer {invalid_token}"
+            }
+        )
+
+        status_code = create_post_response.status_code
+        expected = {'error': 'invalid_token', 'message': 'Signature verification failed'}
+        result = create_post_response.json
+
+        self.assertEqual(status_code, 401)
+        self.assertEqual(expected, result)
 
 
     def test_edit_post(self):
-        pass
+        """Test editing a post, login required for @jwt_required route"""
+        register_response = self.client.post("/user/register",
+            json = {
+                "username": "testuser",
+                "first_name": "test",
+                "last_name": "user",
+                "email": "testuser@test.com",
+                "password": "mytestpassword"
+            }
+        )
+
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("forum/all",
+            json = {
+                "post_content": "Test content",
+                "post_category": "Test",
+                "post_author": "testuser"
+            },
+            headers = {
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = create_post_response.status_code
+
+        self.assertEqual(status_code, 201)
 
     def test_delete_post(self):
         pass
-    
-
-    def tearDown(self):
-        """Destroy all the instances created for testing, remove sessions and drop tables"""
-        with self.app.app_context():
-            db.session.remove()
-            db.drop_all()
 
 
 if __name__ == "__main__":
