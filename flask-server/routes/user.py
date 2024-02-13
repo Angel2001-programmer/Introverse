@@ -64,9 +64,9 @@ class Register(Resource):
         # Make validation neater later
         if len(username.strip()) < 1 or len(username) > 30:
             return make_response(jsonify({"error": "Username must be between 1 and 30 characters"}), 400)
-        if len(first_name) < 1 or len(first_name) > 50:
+        if len(first_name.strip()) < 1 or len(first_name) > 50:
             return make_response(jsonify({"error": "First name must be between 1 and 50 characters"}), 400)
-        if len(last_name) < 1 or len(last_name) > 50:
+        if len(last_name.strip()) < 1 or len(last_name) > 50:
             return make_response(jsonify({"error": "Last name must be between 1 and 50 characters"}), 400)
         if check_email(email) == False:
             return make_response(jsonify({"error": "Email address is invalid"}), 400)

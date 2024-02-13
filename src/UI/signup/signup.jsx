@@ -69,7 +69,7 @@ const SignUp = () => {
       setNewUserData({ ...newUserData, [e.target.name]: e.target.value});
   };
 
-  // TODO Need to refactor this! Make the error handling more efficient
+  // @TODO Need to refactor this! Make the error handling more efficient
   const handleForm = (e) => {
     e.preventDefault();
     
