@@ -69,7 +69,7 @@ const SignUp = () => {
       setNewUserData({ ...newUserData, [e.target.name]: e.target.value});
   };
 
-  // Need to refactor this! Make the error handling more efficient
+  // TODO Need to refactor this! Make the error handling more efficient
   const handleForm = (e) => {
     e.preventDefault();
     
@@ -84,19 +84,19 @@ const SignUp = () => {
     } else if (newUserData.password !== newUserData.confirmPSW){
       setErrorMessage("Password does not match.");
       setNewUser(false);
-    } else if (newUserData.userName.length >= 30){
+    } else if (newUserData.userName.length > 30){
       setErrorMessage("Username must not be more than 30 characters.");
       setNewUser(false);
-    } else if (newUserData.firstName.length >= 50){
+    } else if (newUserData.firstName.length > 50){
       setErrorMessage("First name must be no more than 50 characters.");
       setNewUser(false);
-    } else if (newUserData.lastName.length >= 50){
+    } else if (newUserData.lastName.length > 50){
       setErrorMessage("Last name must be no more than 50 characters.");
       setNewUser(false);
-    } else if (newUserData.email.length >= 254){
+    } else if (newUserData.email.length > 254){
         setErrorMessage("Email address is too long.");
       setNewUser(false);
-    } else if (newUserData.password.length >= 72 || newUserData.password.length < 8){
+    } else if (newUserData.password.length > 72 || newUserData.password.length < 8){
       setErrorMessage("Password length is invalid.");
       setNewUser(false);
     } else {
