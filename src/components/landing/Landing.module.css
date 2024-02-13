@@ -1,184 +1,184 @@
-.main{
-    display: flex;
-    min-height: 50.9vw;
-    background-image: url("../../assets/images/backgrounds/background.svg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.main {
+  display: flex;
+  min-height: 50.9vw;
+  background-image: url('../../assets/images/backgrounds/background.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.rowHome{
-    display: flex;
-    position: relative;
-    bottom: 30px;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 30vh;
+.rowHome {
+  display: flex;
+  position: relative;
+  bottom: 30px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 50%;
 }
 
-.containerHeading{
-    display: flex;
-    flex-direction: column;
-    color: white;
+.containerHeading {
+  display: flex;
+  flex-direction: column;
+  color: white;
 }
 
-.textHeading{
-    position: relative;
-    margin-left: 30px;
-    width: 10px;
-    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.572);
-    z-index: 1;
+.textHeading {
+  position: relative;
+  margin-left: 30px;
+  width: 10px;
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.572);
+  z-index: 1;
 }
 
-.dropArrow{
-    height: 40px;
-    margin-left: 60vh;
-    margin-bottom: 0;
-    animation-name: drop-Arrow;
-    animation-duration: 1.3s;
-    animation-iteration-count: infinite;
+.dropArrow {
+  display: flex;
+  height: 40px;
+  animation-name: drop-Arrow;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
 }
 
 @keyframes drop-Arrow {
-    from {margin-bottom: 15px;}
-    to {margin-bottom: 0;}
+  from {
+    margin-bottom: 15px;
+  }
+  to {
+    margin-bottom: 0;
+  }
 }
 
 @media all and (min-width: 1000px) {
-    .main{
-        height: 100vh;
+  .main {
+    height: 100vh;
+  }
 
-    }
-
-    .rowHome{
-        gap: 20vh;
-    }
+  .rowHome {
+    gap: 20vh;
+  }
 }
 
 @media all and (min-width: 900px) {
-    .main{
-        height: 100vh;
+  .main {
+    height: 100vh;
+  }
 
-    }
+  .textHeading {
+    font-size: 7vh;
+  }
 
-    .textHeading{
-        font-size: 7vh;
-    }
+  .rowHome {
+    gap: 40vh;
+  }
+  /* 
+  .dropArrow {
+    margin-left: 0;
+  } */
 
-    .rowHome{
-        gap: 40vh;
-    }
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .dropArrow{
-        margin-left: 0;
-    }
-
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-    }
-
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 }
 
-
 @media all and (min-width: 800px) {
-    .main{
-        height: 100vh;
+  .main {
+    height: 100vh;
+  }
 
-    }
+  .textHeading {
+    font-size: 7vh;
+  }
 
-    .textHeading{
-        font-size: 7vh;
-    }
+  .rowHome {
+    gap: 40vh;
+  }
 
-    .rowHome{
-        gap: 40vh;
-    }
+  .dropArrow {
+    margin-left: 0;
+  }
 
-    .dropArrow{
-        margin-left: 0;
-    }
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+    padding-bottom: 15px;
+  }
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-        padding-bottom: 15px;
-    }
-
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-        padding-bottom: 15px;
-    }
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+    padding-bottom: 15px;
+  }
 }
 
 @media all and (max-width: 500px) {
-    .main{
-        height: 100vh;
-    }
+  .main {
+    height: 100vh;
+  }
 
-    .textHeading{
-        font-size: 6vh;
-        margin-left: 10px;
-    }
+  .textHeading {
+    font-size: 6vh;
+    margin-left: 10px;
+  }
 
-    .rowHome{
-        gap: 35vh;
-    }
+  .rowHome {
+    gap: 35vh;
+  }
 
-    .dropArrow{
-        margin-left: 0;
-    }
+  /* .dropArrow {
+    margin-left: 0;
+  } */
 
-    .container0{
-        flex-direction: row;
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container0 {
+    flex-direction: row;
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .container1{
-        flex-direction: column;
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container1 {
+    flex-direction: column;
+    min-height: 30vh;
+    gap: 1vh;
+  }
 }
 
 @media all and (min-width: 400px) {
-    .main{
-        height: 100vh;
-    }
+  .main {
+    height: 100vh;
+  }
 
-    .textHeading{
-        font-size: 6vh;
-    }
+  .textHeading {
+    font-size: 6vh;
+  }
 
-    .rowHome{
-        gap: 31vh;
-    }
+  .rowHome {
+    gap: 31vh;
+  }
 
-    .dropArrow{
-        margin-left: 0;
-    }
+  /* .dropArrow {
+    margin-left: 0;
+  } */
 
-    .container0{
-        flex-direction: column;
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container0 {
+    flex-direction: column;
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .container1{
-        flex-direction: column;
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container1 {
+    flex-direction: column;
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .MobileNav{
-        display: none;
-    }
+  .MobileNav {
+    display: none;
+  }
 }
 
 /* @media all and (max-width: 800px) {
@@ -217,29 +217,29 @@
 } */
 
 @media all and (max-width: 360px) {
-    .main{
-        height: 100vh;
-    }
+  .main {
+    height: 100vh;
+  }
 
-    .textHeading{
-        font-size: 5vh;
-    }
+  .textHeading {
+    font-size: 5vh;
+  }
 
-    .rowHome{
-        gap: 28vh;
-    }
+  .rowHome {
+    gap: 28vh;
+  }
+  /* 
+  .dropArrow {
+    margin-left: 0;
+  } */
 
-    .dropArrow{
-        margin-left: 0;
-    }
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-    }
-
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 }

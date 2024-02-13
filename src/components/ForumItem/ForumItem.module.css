@@ -7,6 +7,7 @@
     border-radius: 10px;
     align-items: center;
     flex-direction: row;
+    cursor: pointer;
 }
 
 .Textcolumn{
@@ -53,14 +54,25 @@
     width: 60px;
     background-color: grey;
     border-radius: 10px;
-    /* margin-right: 25px; */
     border: 4px #4C4B4B solid;
 }
 
 .profilePicture{
     display: flex;
-    /* width: 50px; */
     height: 50px;
+}
+
+.commentContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.comment{
+    width: 35px;
+    height: 35px;
+    margin: 0;
 }
 
 @media all and (min-width: 360px) {
