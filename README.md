@@ -13,7 +13,7 @@ Follow the following steps to get frontend of application running in your termin
 3. npm start
 ```
 ```
-5. Enjoy exploring our website.
+4. Enjoy exploring our website.
 ```
 
 # Backend
