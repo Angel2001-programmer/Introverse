@@ -25,25 +25,25 @@ class Books(db.Model):
         image url of the book
     """
 
-    __tablename__ = "Books"
-    Book_ID = db.Column(db.Integer, primary_key=True, unique=True)
-    Book_Name = db.Column(db.String(100), unique=True, nullable=False)
-    Book_Author = db.Column(db.String(30), nullable=False)
-    Book_Genre = db.Column(db.String(25), nullable=False)
-    Price = db.Column(db.Float, nullable=False)
-    Book_Script = db.Column(db.String(1000))
-    Book_Image = db.Column(db.String(100), unique=True)
+    __tablename__ = "books"
+    book_id = db.Column(db.Integer, primary_key=True, unique=True)
+    book_name = db.Column(db.String(100), unique=True, nullable=False)
+    book_author = db.Column(db.String(30), nullable=False)
+    book_genre = db.Column(db.String(25), nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    book_script = db.Column(db.String(1000))
+    book_image = db.Column(db.String(100), unique=True)
 
     def __repr__(self):
         """Returns a string representation of constructed object."""
-        return f"<Book title {self.Book_Name}, by author {self.Book_Author}.>"
+        return f"<Book title {self.book_name}, by author {self.book_author}.>"
     
-    def create(self):
+    def _create(self):
         """Adds a new book object to the database."""
         db.session.add(self)
         db.session.commit()
     
-    def delete(self):
+    def _delete(self):
         """Deletes a book object from the database."""
         db.session.delete(self)
         db.session.commit()
@@ -69,24 +69,24 @@ class Anime(db.Model):
         image url of the anime
     """
 
-    __tablename__ = "Anime"
-    Anime_ID = db.Column(db.Integer, primary_key=True, unique=True)
-    Anime_Name = db.Column(db.String(50), unique=True, nullable=False)
-    Anime_Genre = db.Column(db.String(25), nullable=False)
-    Where_TW = db.Column(db.String(25))
-    Anime_Script = db.Column(db.String(1000))
-    Anime_Image = db.Column(db.String(100), unique=True)
+    __tablename__ = "anime"
+    anime_id = db.Column(db.Integer, primary_key=True, unique=True)
+    anime_name = db.Column(db.String(50), unique=True, nullable=False)
+    anime_genre = db.Column(db.String(25), nullable=False)
+    where_tw = db.Column(db.String(25))
+    anime_script = db.Column(db.String(1000))
+    anime_image = db.Column(db.String(100), unique=True)
 
     def __repr__(self):
         """Returns a string representation of constructed object."""
-        return f"<Anime {self.Anime_Name}>"
+        return f"<Anime {self.anime_name}>"
     
-    def create(self):
+    def _create(self):
         """Adds a new anime object to the database."""
         db.session.add(self)
         db.session.commit()
     
-    def delete(self):
+    def _delete(self):
         """Deletes an anime object from the database."""
         db.session.delete(self)
         db.session.commit()
@@ -114,25 +114,25 @@ class Games(db.Model):
         image url of the game
     """
 
-    __tablename__ = "Games"
-    Game_ID = db.Column(db.Integer, primary_key=True, unique=True)
-    Game_Name = db.Column(db.String(50), unique=True, nullable=False)
-    Game_Genre = db.Column(db.String(30), nullable=False)
-    W_Console = db.Column(db.String(100))
-    Price = db.Column(db.Float, nullable=False)
-    Game_Script = db.Column(db.String(1000))
-    Game_Image = db.Column(db.String(100), unique=True)
+    __tablename__ = "games"
+    game_id = db.Column(db.Integer, primary_key=True, unique=True)
+    game_name = db.Column(db.String(50), unique=True, nullable=False)
+    game_genre = db.Column(db.String(30), nullable=False)
+    w_console = db.Column(db.String(100))
+    price = db.Column(db.Float, nullable=False)
+    game_script = db.Column(db.String(1000))
+    game_image = db.Column(db.String(100), unique=True)
 
     def __repr__(self):
         """Returns a string representation of constructed object."""
-        return f"<Game {self.Game_Name}>"
+        return f"<Game {self.game_name}>"
     
-    def create(self):
+    def _create(self):
         """Adds a new game object to the database."""
         db.session.add(self)
         db.session.commit()
     
-    def delete(self):
+    def _delete(self):
         """Deletes a game object from the database."""
         db.session.delete(self)
         db.session.commit()

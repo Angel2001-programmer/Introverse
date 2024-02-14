@@ -1,37 +1,40 @@
 from flask_restx import fields
 import sys
 sys.path.append("..")
-from ..routes.content import content_ns
-from ..routes.user import user_ns
-from ..routes.forum import forum_ns
+from routes.content import content_ns
+from routes.user import user_ns
+from routes.forum import forum_ns
+# from ..routes.content import content_ns
+# from ..routes.user import user_ns
+# from ..routes.forum import forum_ns
 
-books_model=content_ns.model("Books", {
-    "Book_ID": fields.Integer,
-    "Book_Name": fields.String,
-    "Book_Author": fields.String,
-    "Book_Genre": fields.String,
-    "Price": fields.Float,
-    "Book_Script": fields.String,
-    "Book_Image": fields.String
+books_model = content_ns.model("Books", {
+    "book_id": fields.Integer,
+    "book_name": fields.String,
+    "book_author": fields.String,
+    "book_genre": fields.String,
+    "price": fields.Float,
+    "book_script": fields.String,
+    "book_image": fields.String
 })
 
-anime_model=content_ns.model("Anime", {
-    "Anime_ID": fields.Integer,
-    "Anime_Name": fields.String,
-    "Anime_Genre": fields.String,
-    "Where_TW": fields.String,
-    "Anime_Script": fields.String,
-    "Anime_Image": fields.String
+anime_model = content_ns.model("Anime", {
+    "anime_id": fields.Integer,
+    "anime_name": fields.String,
+    "anime_genre": fields.String,
+    "where_tw": fields.String,
+    "anime_script": fields.String,
+    "anime_image": fields.String
 })
 
-games_model=content_ns.model("Games", {
-    "Game_ID": fields.Integer,
-    "Game_Name": fields.String,
-    "Game_Genre": fields.String,
-    "W_Console": fields.String,
-    "Price": fields.Float,
-    "Game_Script": fields.String,
-    "Game_Image": fields.String
+games_model = content_ns.model("Games", {
+    "game_id": fields.Integer,
+    "game_name": fields.String,
+    "game_genre": fields.String,
+    "w_console": fields.String,
+    "price": fields.Float,
+    "game_script": fields.String,
+    "game_image": fields.String
 })
 
 profile_model = user_ns.model("Profile", {
@@ -48,7 +51,7 @@ user_model = user_ns.model("User", {
     "password": fields.String
 })
 
-message_model=forum_ns.model("Message", {
+message_model = forum_ns.model("Message", {
     "post_id": fields.Integer,
     "post_content": fields.String,
     "post_category": fields.String,

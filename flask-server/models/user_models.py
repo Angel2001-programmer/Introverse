@@ -12,7 +12,7 @@ def get_uuid():
 
 class User(db.Model):
     """
-    Class model for the user accounts table.
+    Class model for the User Accounts table.
 
     Attributes
     ----------
@@ -36,7 +36,7 @@ class User(db.Model):
 
 class Profile(db.Model):
     """
-    Class model for the user profiles table.
+    Class model for the User Profiles table.
 
     Attributes
     ----------

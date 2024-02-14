@@ -61,39 +61,39 @@ VALUES
 ("Just here for cool community!", "Introduce", "DogWar");
 
 -- Content tables for recommendations
-CREATE TABLE Books ( 
-	Book_ID INTEGER PRIMARY KEY NOT NULL,
-	Book_Name VARCHAR(100) UNIQUE NOT NULL,
-    Book_Author VARCHAR(30),
-    Book_Genre VARCHAR(25),
-	Price FLOAT NOT NULL, 
-    Book_Script VARCHAR(1000),
-    Book_Image VARCHAR(100) UNIQUE
+CREATE TABLE books ( 
+	book_id INTEGER PRIMARY KEY NOT NULL,
+	book_name VARCHAR(100) UNIQUE NOT NULL,
+    book_author VARCHAR(30),
+    book_genre VARCHAR(25),
+	price FLOAT NOT NULL, 
+    book_script VARCHAR(1000),
+    book_image VARCHAR(100) UNIQUE
     );
 
-CREATE TABLE Anime ( 
-	Anime_ID INTEGER PRIMARY KEY NOT NULL,
-	Anime_Name VARCHAR(50) UNIQUE NOT NULL,
-    Anime_Genre VARCHAR(25),
-	Where_TW VARCHAR(25), 
-    Anime_Script VARCHAR(1000),
-    Anime_Image VARCHAR(100) UNIQUE
+CREATE TABLE anime ( 
+	anime_id INTEGER PRIMARY KEY NOT NULL,
+	anime_name VARCHAR(50) UNIQUE NOT NULL,
+    anime_genre VARCHAR(25),
+	where_tw VARCHAR(25), 
+    anime_script VARCHAR(1000),
+    anime_image VARCHAR(100) UNIQUE
     );
 
-CREATE TABLE Games ( 
-	Game_ID INTEGER PRIMARY KEY NOT NULL,
-	Game_Name VARCHAR(50) UNIQUE NOT NULL,
-    Game_Genre VARCHAR(30),
-	W_Console VARCHAR(100), 
-    Price FLOAT NOT NULL,
-    Game_Script VARCHAR(1000),
-    Game_Image VARCHAR(100) UNIQUE
+CREATE TABLE games ( 
+	game_id INTEGER PRIMARY KEY NOT NULL,
+	game_name VARCHAR(50) UNIQUE NOT NULL,
+    game_genre VARCHAR(30),
+	w_console VARCHAR(100), 
+    price FLOAT NOT NULL,
+    game_script VARCHAR(1000),
+    game_image VARCHAR(100) UNIQUE
     );
 
 
 -- Values for recommendation tables    
-INSERT INTO Books
-(Book_ID, Book_Name, Book_Author, Book_Genre, Price, Book_Script, Book_Image)
+INSERT INTO books
+(book_id, book_name, book_author, book_genre, price, book_script, book_image)
 VALUES
 (1, 'Fourth Wing', 'Rebecca Yarros', 'Fantasy', 9.19, 'Twenty-year-old Violet Sorrengail was supposed to enter the Scribe Quadrant, living a quiet life among books and history. Now, the commanding general-also known as her tough-as-talons mother-has ordered Violet to join the hundreds of candidates striving to become the elite of Navarre: dragon riders.', 'https://rb.gy/a7n2nv'),
 (2, 'The Harry Potter Series', 'J.K. Rowling', 'Fantasy', 51.65, 'The Harry Potter books follow a young wizard named Harry as he attends Hogwarts School of Witchcraft and Wizardry. Alongside his friends Ron and Hermione, Harry faces challenges, discovers his past, and confronts the dark wizard Voldemort across seven books, filled with magic, friendship, and the battle between good and evil.', 'https://rb.gy/mioh6n'),
@@ -108,8 +108,8 @@ VALUES
 (11, 'The Shining', 'Stephen King', 'Horror', 10.11, 'Danny is only five years old, but in the words of old Mr Hallorann he is a shiner, aglow with psychic voltage. When his father becomes caretaker of the Overlook Hotel, Dannys visions grow out of control. As winter closes in and blizzards cut them off, the hotel seems to develop a life of its own. It is meant to be empty. So who is the lady in Room 217 and who are the masked guests going up and down in the elevator? And why do the hedges shaped like animals seem so alive? Somewhere, somehow, there is an evil force in the hotel - and that, too, is beginning to shine.', 'tiny.cc/kkitvz'),
 (12, 'The Exorcist', 'William Peter Blatty', 'Horror', 9.19, 'The terror begins unobtrusively. Noises in the attic. In the childs room, an odd smell, the displacement of furniture, an icy chill. At first, easy explanations are offered. Then frightening changes begin to appear in eleven-year-old Regan. Medical tests fail to shed any light on her symptoms, but it is as if a different personality has invaded her body.', 'tiny.cc/9litvz');
 
-INSERT INTO Anime
-(Anime_ID, Anime_Name, Anime_Genre, Where_TW, Anime_Script)
+INSERT INTO anime
+(anime_id, anime_name, anime_genre, where_tw, anime_script)
 VALUES
 (1, 'Bleach', 'Shonen', 'Disney+', 'Ichigo Kurosaki is a teenager from Karakura Town who can see ghosts, a talent allowing him to meet a supernatural human Rukia Kuchiki, who enters the town in search of a Hollow, a kind of monstrous lost soul who can harm both ghosts and humans.'),
 (2, 'Naruto', 'Shonen', 'Crunchyroll', 'The Village Hidden in the Leaves is home to the stealthiest ninja. But twelve years earlier, a fearsome Nine-tailed Fox terrorized the village before it was subdued and its spirit sealed within the body of a baby boy.'),
@@ -124,8 +124,8 @@ VALUES
 (11, 'Black Clover', 'Fantasy', 'Crunchyroll', 'In a world where magic is everything, Asta and Yuno are both found abandoned at a church on the same day. While Yuno is gifted with exceptional magical powers, Asta is the only one in this world without any. At the age of fifteen, both receive grimoires, magic books that amplify their holder’s magic. Asta’s is a rare Grimoire of Anti-Magic that negates and repels his opponent’s spells. Being opposite but good rivals, Yuno and Asta are ready for the hardest of challenges to achieve their common dream: to be the Wizard King. Giving up is never an option!'),
 (12, 'Link Click', 'Fantasy', 'Crunchyroll', 'Using superpowers to enter their clientele’s photos one by one, Cheng Xiaoshi and Lu Guang take their work seriously at Time Photo Studio, a small photography shop set in the backdrop of a modern metropolis. Each job can be full of danger, but nothing is more important than fulfilling every order, no matter the scale…or peril involved!');
 
-INSERT INTO Games
-(Game_ID, Game_Name, Game_Genre, W_Console, Price, Game_Script)
+INSERT INTO games
+(game_id, game_name, game_genre, w_console, price, game_script)
 VALUES
 (1, 'Fae Farm', 'Cozy Games', 'PC, NINTENDO SWITCH', 29.99, 'Escape to the magical life of your dreams in Fae Farm, a farm sim RPG for 1-4 players. Craft, cultivate, and decorate to grow your homestead, and use spells to explore the enchanted island of Azoria!'),
 (2, 'Spellcaster University', 'Cozy Games', 'PC', 19.49, 'Develop a prestigious university of mages. Build rooms, train your students, fight orcs, slay the bureaucrats, manage your budget... a directors life is not a quiet one.'),

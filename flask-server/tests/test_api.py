@@ -2,7 +2,7 @@ import unittest
 from unittest import TestCase
 import sys
 sys.path.append("..")
-from main import create_app, db
+from app import create_app, db
 from config import TestConfig
 
 

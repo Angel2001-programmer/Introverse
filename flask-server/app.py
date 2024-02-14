@@ -5,7 +5,8 @@ from flask_restx import Api
 from flask_migrate import Migrate
 from exts import db, jwt
 from config import DevConfig, TestConfig
-from models.user_models import User, Profile, Message
+from models.user_models import User, Profile
+from models.forum_models import Message
 from models.content_models import Books, Anime, Games
 from routes.user import user_ns
 from routes.content import content_ns
@@ -28,6 +29,9 @@ def create_app(test_config=None):
     bcrypt.init_app(app)
     cors.init_app(app, supports_credentials=True)
     jwt.init_app(app)
+
+    with app.app_context():
+        db.create_all()
 
     api = Api(app)
 

@@ -6,7 +6,7 @@ from datetime import datetime as dt, UTC
 
 class Message(db.Model):
     """
-    Class model for the message board table.
+    Class model for the Message Board table.
 
     Attributes
     ----------

@@ -9,6 +9,7 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
+# from models.serializers import profile_model, user_model
 
 profile_model = user_ns.model("Profile", {
     "first_name": fields.String,
