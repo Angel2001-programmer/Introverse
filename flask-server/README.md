@@ -25,9 +25,9 @@ python create_db.py
 flask db upgrade
 ```
 6. Insert the message_board, book, game, and anime data from the SQL file
-7. Run run.py to start the server
+7. Run main.py to start the server
 ```
-python run.py
+python main.py
 ```
 Enjoy!
 

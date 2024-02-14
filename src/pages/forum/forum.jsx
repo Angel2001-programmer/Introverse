@@ -56,9 +56,17 @@ export default function Forum() {
     // filterArray(category.title);
   };
 
+  const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY')
+  console.log(token)
+
   const submitPost = async () => {
+
     httpClient({
       method: 'POST',
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${JSON.parse(token)}`
+      },
       url: 'http://127.0.0.1:5000/forum/all',
       data: {
         post_id: Number(postID + 1),

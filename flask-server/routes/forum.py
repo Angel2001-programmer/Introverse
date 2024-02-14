@@ -1,12 +1,12 @@
 from flask_restx import Resource, Namespace, fields
 from flask import request
-from models.user_models import Message
+from models.forum_models import Message
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from exts import db
 
 forum_ns = Namespace("forum", description="A namespace for the message board.")
+# from models.serializers import message_model
 
-message_model=forum_ns.model("Message", {
+message_model = forum_ns.model("Message", {
     "post_id": fields.Integer,
     "post_content": fields.String,
     "post_category": fields.String,
@@ -25,7 +25,7 @@ class ForumResource(Resource):
     
     @forum_ns.marshal_with(message_model)
     @forum_ns.expect(message_model)
-    # @jwt_required  # Not working at the moment, need to investigate
+    @jwt_required()  # Needed authorisation header!
     def post(self):
         """Create a new message"""
         data = request.get_json()

@@ -9,8 +9,9 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt()
 
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
+# from models.serializers import profile_model, user_model
 
-profile_model=user_ns.model("Profile", {
+profile_model = user_ns.model("Profile", {
     "first_name": fields.String,
     "last_name": fields.String,
     "email": fields.String,
@@ -18,7 +19,7 @@ profile_model=user_ns.model("Profile", {
     "interests": fields.String
 })
 
-user_model=user_ns.model("User", {
+user_model = user_ns.model("User", {
     "user_id": fields.String,
     "username": fields.String,
     "password": fields.String
@@ -31,11 +32,12 @@ def user_access_tokens(user):
     refresh_token = create_refresh_token(identity=user.username)
     return access_token, refresh_token
 
+
 def check_email(email):
     """Validate email function, return True if valid format"""
     try:
-        v = validate_email(email)
-        email = v["email"]
+        validate = validate_email(email)
+        email = validate["email"]
         return True
     except EmailNotValidError as e:
         print(str(e))
@@ -68,19 +70,19 @@ class Register(Resource):
             return make_response(jsonify({"error": "First name must be between 1 and 50 characters"}), 400)
         if len(last_name.strip()) < 1 or len(last_name) > 50:
             return make_response(jsonify({"error": "Last name must be between 1 and 50 characters"}), 400)
-        if check_email(email) == False:
+        if not check_email(email):
             return make_response(jsonify({"error": "Email address is invalid"}), 400)
 
         hashed_password = bcrypt.generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)
         db.session.add(new_user)
-        new_profile=Profile(username=username, first_name=first_name, last_name=last_name, email=email)
+        new_profile = Profile(username=username, first_name=first_name, last_name=last_name, email=email)
         db.session.add(new_profile)
         db.session.commit()
 
         access_token, refresh_token = user_access_tokens(new_user)
-        return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token, "user": new_user.username})   
+        return make_response(jsonify(
+            {"access_token": access_token, "refresh_token": refresh_token, "user": new_user.username}), 201)   
 
 
 @user_ns.route("/login")
@@ -100,8 +102,8 @@ class Login(Resource):
             return make_response(jsonify({"error": "Invalid credentials"}), 401)
         
         access_token, refresh_token = user_access_tokens(user)
-        return jsonify(
-            {"access_token": access_token, "refresh_token": refresh_token, "user": user.username})
+        return make_response(jsonify(
+            {"access_token": access_token, "refresh_token": refresh_token, "user": user.username}), 200)
 
 
 @user_ns.route("/logout")
@@ -127,11 +129,10 @@ class RefreshToken(Resource):
 @user_ns.route("/current_user")
 class CurrentUser(Resource):
     @user_ns.marshal_with(profile_model)
-    @jwt_required
+    @jwt_required()
     def get(self, current_user):
         """Get current user by username, need to investigate issue with get identity, returns null"""
-        identity = get_jwt_identity()
-        current_user = Profile.query.filter(Profile.username == identity).first()
+        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()  # Filter by username (from the JWT token)
         return current_user
 
 
