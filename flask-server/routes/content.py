@@ -9,8 +9,8 @@ books_model = content_ns.model("Books", {
     "book_name": fields.String,
     "book_author": fields.String,
     "book_genre": fields.String,
-    "price": fields.Float,
-    "book_script": fields.String,
+    "price": fields.Float(description="RRP"),
+    "book_script": fields.String(description="Description of the book"),
     "book_image": fields.String
 })
 
@@ -18,8 +18,8 @@ anime_model = content_ns.model("Anime", {
     "anime_id": fields.Integer,
     "anime_name": fields.String,
     "anime_genre": fields.String,
-    "where_tw": fields.String,
-    "anime_script": fields.String,
+    "where_tw": fields.String(description="Where to watch the anime"),
+    "anime_script": fields.String(description="Description of the anime"),
     "anime_image": fields.String
 })
 
@@ -27,9 +27,9 @@ games_model = content_ns.model("Games", {
     "game_id": fields.Integer,
     "game_name": fields.String,
     "game_genre": fields.String,
-    "w_console": fields.String,
-    "price": fields.Float,
-    "game_script": fields.String,
+    "w_console": fields.String(description="Which consoles the game is available on"),
+    "price": fields.Float(description="RRP"),
+    "game_script": fields.String(description="Description of the game"),
     "game_image": fields.String
 })
 

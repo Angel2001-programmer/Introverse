@@ -6,11 +6,11 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 forum_ns = Namespace("forum", description="A namespace for the message board.")
 
 message_model = forum_ns.model("Message", {
-    "post_id": fields.Integer,
-    "post_content": fields.String,
-    "post_category": fields.String,
-    "post_author": fields.String,
-    "post_date": fields.DateTime(dt_format='rfc822')
+    "post_id": fields.Integer(description="ID"),
+    "post_content": fields.String(description="Text content of the message"),
+    "post_category": fields.String(description="Category of the message"),
+    "post_author": fields.String(description="Author of the message"),
+    "post_date": fields.DateTime(description="Time and date message was posted", dt_format='rfc822')
 })
 
 
@@ -24,7 +24,7 @@ class ForumResource(Resource):
     
     @forum_ns.marshal_with(message_model)
     @forum_ns.expect(message_model)
-    @jwt_required()  # Needed authorisation header!
+    @jwt_required()
     def post(self):
         """Create a new message"""
         data = request.get_json()

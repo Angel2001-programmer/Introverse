@@ -26,7 +26,7 @@ class Message(db.Model):
     post_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     post_content = db.Column(db.Text, nullable=False)
     post_category = db.Column(db.String(50), nullable=False)
-    post_author = db.Column(db.String(30), nullable=False)  # Change back to being a FK at some point
+    post_author = db.Column(db.String(30), nullable=False)
     post_date = db.Column(db.DateTime(), default=dt.now(UTC), nullable=False)
 
     def __repr__(self):
