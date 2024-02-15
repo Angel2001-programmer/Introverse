@@ -63,7 +63,7 @@
 .sendMessageContainer {
   display: flex;
   gap: 15px;
-  max-width: 100%;
+  min-width: 100%;
   justify-content: flex-start;
 }
 
