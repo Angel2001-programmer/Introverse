@@ -11,7 +11,6 @@ import manga from '../../assets/images/logos/manga.png';
 import Button from '../../UI/Button/button';
 import { Link } from 'react-router-dom';
 import DropDownMenu from '../../components/DropDownMenu/dropDownMenu';
-import MobileNav from '../../components/MobileNav/MobileNav';
 import httpClient from '../../httpClient';
 // import api from "../../jsonAPI/posts.json";
 import axios from 'axios';
@@ -192,7 +191,6 @@ export default function Forum() {
         isPressed={isPressed}
         onChangePressed={setIsPressed}
       />
-      <MobileNav />
       <Link
         className='link'
         to='/finalProject'
