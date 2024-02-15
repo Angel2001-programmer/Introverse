@@ -3,7 +3,6 @@ from exts import db
 from models.content_models import Books, Anime, Games
 
 content_ns = Namespace("content", description="A namespace for content recommendations.")
-# from models.serializers import books_model, anime_model, games_model
 
 books_model = content_ns.model("Books", {
     "book_id": fields.Integer,

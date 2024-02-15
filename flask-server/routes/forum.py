@@ -4,7 +4,6 @@ from models.forum_models import Message
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 forum_ns = Namespace("forum", description="A namespace for the message board.")
-# from models.serializers import message_model
 
 message_model = forum_ns.model("Message", {
     "post_id": fields.Integer,
