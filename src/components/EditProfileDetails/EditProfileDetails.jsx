@@ -48,17 +48,17 @@ const EditPosts = () => {
 //   }, [user.name, token]);
 
 
-// 	useEffect(() => {
-//     const getAPI = async () => {
-//       try {
-//         const response = await httpClient.get("http://localhost:5000/user/members/" + user.name);
-//         console.log(response.data)
-//       } catch(error) {
-//       console.log(error)
-//     }
-//     };
-//     getAPI()
-//   }, [user.name]);
+	useEffect(() => {
+    const getAPI = async () => {
+      try {
+        const response = await httpClient.get("http://localhost:5000/user/members/" + user.name);
+        console.log(response.data)
+      } catch(error) {
+      console.log(error)
+    }
+    };
+    getAPI()
+  }, [user.name]);
 
   console.log()
 

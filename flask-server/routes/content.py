@@ -62,7 +62,7 @@ class BookGenreResource(Resource):
     @content_ns.marshal_list_with(books_model)
     def get(self, genre):
         """Get a book by genre"""
-        book = Books.query.filter(Books.Book_Genre == genre).all()
+        book = Books.query.filter(Books.book_genre == genre).all()
 
         return book
     
@@ -73,7 +73,7 @@ class BookAuthorResource(Resource):
     @content_ns.marshal_list_with(books_model)
     def get(self, author):
         """Get a book by author"""
-        book = Books.query.filter(Books.Book_Author.ilike(f"%{author}%")).all()
+        book = Books.query.filter(Books.book_author.ilike(f"%{author}%")).all()
 
         return book
     
@@ -84,7 +84,7 @@ class BookNameResource(Resource):
     @content_ns.marshal_list_with(books_model)
     def get(self, title):
         """Get a book by title"""
-        book = Books.query.filter(Books.Book_Name.ilike(f"%{title}%")).all()
+        book = Books.query.filter(Books.book_name.ilike(f"%{title}%")).all()
 
         return book
     
@@ -115,7 +115,7 @@ class AnimeGenreResource(Resource):
     @content_ns.marshal_list_with(anime_model)
     def get(self, genre):
         """Get an anime by genre"""
-        anime = Anime.query.filter(Anime.Anime_Genre == genre).all()
+        anime = Anime.query.filter(Anime.anime_genre == genre).all()
 
         return anime
     
@@ -126,7 +126,7 @@ class AnimeStreamResource(Resource):
     @content_ns.marshal_list_with(anime_model)
     def get(self, stream):
         """Get an anime by where to watch"""
-        anime = Anime.query.filter(Anime.Where_TW.ilike(f"%{stream}%")).all()
+        anime = Anime.query.filter(Anime.where_tw.ilike(f"%{stream}%")).all()
 
         return anime
     
@@ -137,7 +137,7 @@ class AnimeNameResource(Resource):
     @content_ns.marshal_list_with(anime_model)
     def get(self, title):
         """Get an anime by title"""
-        anime = Anime.query.filter(Anime.Anime_Name.ilike(f"%{title}%")).all()
+        anime = Anime.query.filter(Anime.anime_name.ilike(f"%{title}%")).all()
 
         return anime
     
@@ -169,7 +169,7 @@ class GameGenreResource(Resource):
     @content_ns.marshal_list_with(games_model)
     def get(self, genre):
         """Get a game by genre"""
-        game = Games.query.filter(Games.Game_Genre == genre).all()
+        game = Games.query.filter(Games.game_genre == genre).all()
 
         return game
 
@@ -179,7 +179,7 @@ class GameConsoleResource(Resource):
     @content_ns.marshal_list_with(games_model)
     def get(self, console):
         """Get a game by console"""
-        game = Games.query.filter(Games.W_Console.ilike(f"%{console}%")).all()
+        game = Games.query.filter(Games.w_console.ilike(f"%{console}%")).all()
 
         return game
     
@@ -190,7 +190,7 @@ class GameNameResource(Resource):
     @content_ns.marshal_list_with(games_model)
     def get(self, title):
         """Get a game by title"""
-        game = Games.query.filter(Games.Game_Name.ilike(f"%{title}%")).all()
+        game = Games.query.filter(Games.game_name.ilike(f"%{title}%")).all()
 
         return game
 
