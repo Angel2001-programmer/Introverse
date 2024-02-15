@@ -1,0 +1,85 @@
+.chatBubble {
+  display: flex;
+  position: fixed;
+  height: 60px;
+  width: 60px;
+  background-color: rgb(135, 225, 0);
+  border-radius: 130px;
+  bottom: 30px;
+  right: 30px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 5px 10px 5px rgba(0, 0, 0, 0.413);
+  border-color: rgb(0, 201, 0);
+  border-width: 3px;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.chatBubble:active {
+  background-color: rgb(0, 201, 0);
+}
+
+.messageContainer {
+  position: fixed;
+  display: flex;
+  bottom: 30px;
+  right: 120px;
+  z-index: 1;
+}
+
+.profileName {
+  margin: 0;
+  font-weight: 600;
+  font-size: 25px;
+}
+
+.user1 {
+  color: #ffffff;
+  font-weight: 500;
+  margin-right: 50%;
+}
+
+.user2 {
+  display: flex;
+  color: #ffffff;
+  font-weight: 500;
+  margin-left: 50%;
+}
+
+.messageText {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  max-width: fit-content;
+}
+
+.inputField {
+  padding: 10px;
+  border-radius: 7px;
+  width: 90%;
+}
+
+.sendMessageContainer {
+  display: flex;
+  gap: 15px;
+  max-width: 100%;
+  justify-content: flex-start;
+}
+
+.listUser {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.userItem {
+  margin: 0;
+  padding: 10px;
+}
+
+.userItem:hover {
+  background-color: rgba(0, 0, 0, 0.178);
+  cursor: pointer;
+}
