@@ -11,12 +11,11 @@ import manga from '../../assets/images/logos/manga.png';
 import Button from '../../UI/Button/button';
 import { Link } from 'react-router-dom';
 import DropDownMenu from '../../components/DropDownMenu/dropDownMenu';
-import MobileNav from '../../components/MobileNav/MobileNav';
 import httpClient from '../../httpClient';
 // import api from "../../jsonAPI/posts.json";
 import axios from 'axios';
-import { useSelector } from "react-redux"
-import { selectCurrentUser } from "../../redux/slices/userSlice"
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../redux/slices/userSlice';
 
 export default function Forum() {
   const [isClicked, setIsClicked] = useState(false);
@@ -31,7 +30,7 @@ export default function Forum() {
   // const currDate = new Date().toLocaleString('en-UK', { hour12: true }); Date and Time.
   // const currDate = new Date().toLocaleDateString('en-GB');
 
-  const user = useSelector(selectCurrentUser)
+  const user = useSelector(selectCurrentUser);
 
   let postID = null;
 
@@ -56,16 +55,15 @@ export default function Forum() {
     // filterArray(category.title);
   };
 
-  const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY')
-  console.log(token)
+  const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+  console.log(token);
 
   const submitPost = async () => {
-
     httpClient({
       method: 'POST',
       headers: {
-        "content-type": "application/json",
-        "Authorization": `Bearer ${JSON.parse(token)}`
+        'content-type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)}`,
       },
       url: 'http://127.0.0.1:5000/forum/all',
       data: {
@@ -96,6 +94,8 @@ export default function Forum() {
         }
       });
   };
+
+  console.log('date: ' + timeStamp);
 
   // console.log(posts)
 
@@ -191,7 +191,6 @@ export default function Forum() {
         isPressed={isPressed}
         onChangePressed={setIsPressed}
       />
-      <MobileNav />
       <Link
         className='link'
         to='/finalProject'

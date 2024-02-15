@@ -2,9 +2,8 @@ import styles from './recommendations.module.css';
 import React, { Fragment, useEffect } from 'react';
 import Button from '../../UI/Button/button';
 import { useState } from 'react';
-import httpClient from "../../httpClient";
+import httpClient from '../../httpClient';
 import NavBar from '../../components/NavBar/navbar';
-import MobileNav from '../../components/MobileNav/MobileNav';
 import DropDownMenu from '../../components/DropDownMenu/dropDownMenu';
 
 const Recommendations = () => {
@@ -138,7 +137,9 @@ const Recommendations = () => {
   useEffect(() => {
     const getAPI = async () => {
       try {
-        const response = await httpClient.get('http://localhost:5000/content/' + route);
+        const response = await httpClient.get(
+          'http://localhost:5000/content/' + route
+        );
         setList(response.data);
         console.log(List);
       } catch (error) {
@@ -164,7 +165,6 @@ const Recommendations = () => {
         isPressed={isPressed}
         setIsPressed={setIsPressed}
       />
-      <MobileNav />
       <div className={styles.Page}>
         {!isClicked ? (
           <div className={styles.Container}>
