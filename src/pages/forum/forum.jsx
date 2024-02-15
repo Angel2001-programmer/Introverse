@@ -14,8 +14,9 @@ import DropDownMenu from '../../components/DropDownMenu/dropDownMenu';
 import MobileNav from '../../components/MobileNav/MobileNav';
 import httpClient from '../../httpClient';
 // import api from "../../jsonAPI/posts.json";
-import API from '../../httpClient';
 import axios from 'axios';
+import { useSelector } from "react-redux"
+import { selectCurrentUser } from "../../redux/slices/userSlice"
 
 export default function Forum() {
   const [isClicked, setIsClicked] = useState(false);
@@ -29,10 +30,15 @@ export default function Forum() {
   const [filteredposts, setfilteredposts] = useState([]);
   // const currDate = new Date().toLocaleString('en-UK', { hour12: true }); Date and Time.
   // const currDate = new Date().toLocaleDateString('en-GB');
+
+  const user = useSelector(selectCurrentUser)
+
   let postID = null;
 
   let error = '';
   let APIres = [];
+
+  let timeStamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
   const list = [
     { icon: introduce, title: 'Introduce' },
@@ -50,16 +56,24 @@ export default function Forum() {
     // filterArray(category.title);
   };
 
+  const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY')
+  console.log(token)
+
   const submitPost = async () => {
+
     httpClient({
       method: 'POST',
-      url: 'http://127.0.0.1:5000/forum',
+      headers: {
+        "content-type": "application/json",
+        "Authorization": `Bearer ${JSON.parse(token)}`
+      },
+      url: 'http://127.0.0.1:5000/forum/all',
       data: {
         post_id: Number(postID + 1),
         post_content: postContent,
         post_category: title,
-        post_author: 'User2',
-        // post_date: currDate,
+        post_author: user.name,
+        post_date: timeStamp,
       },
     })
       .then((response) => {
@@ -98,8 +112,8 @@ export default function Forum() {
     // console.log(newPost);
     // console.log(posts);
     const getForms = async () => {
-      const res = await axios
-        .get('http://localhost:5000/forum')
+      const res = await httpClient
+        .get('http://localhost:5000/forum/all')
         .then((res) => {
           APIres = res.data;
           setPosts(res.data);
