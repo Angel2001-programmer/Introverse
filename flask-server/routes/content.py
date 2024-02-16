@@ -35,7 +35,7 @@ games_model = content_ns.model("Games", {
 
 
 @content_ns.route("/books")
-class BooksResource(Resource):
+class BooksAll(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self):
@@ -45,7 +45,7 @@ class BooksResource(Resource):
 
 
 @content_ns.route("/books/id/<int:id>")
-class BookIdResource(Resource):
+class BookById(Resource):
 
     @content_ns.marshal_with(books_model)
     def get(self, id):
@@ -56,7 +56,7 @@ class BookIdResource(Resource):
     
 
 @content_ns.route("/books/genre/<string:genre>")
-class BookGenreResource(Resource):
+class BooksByGenre(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, genre):
@@ -67,7 +67,7 @@ class BookGenreResource(Resource):
     
 
 @content_ns.route("/books/author/<string:author>")
-class BookAuthorResource(Resource):
+class BooksByAuthor(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, author):
@@ -78,7 +78,7 @@ class BookAuthorResource(Resource):
     
 
 @content_ns.route("/books/title/<string:title>")
-class BookNameResource(Resource):
+class BooksByName(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, title):
@@ -89,7 +89,7 @@ class BookNameResource(Resource):
     
 
 @content_ns.route("/anime")
-class AnimeResource(Resource):
+class AnimeAll(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self):
@@ -99,7 +99,7 @@ class AnimeResource(Resource):
     
 
 @content_ns.route("/anime/id/<int:id>")
-class AnimeIdResource(Resource):
+class AnimeById(Resource):
 
     @content_ns.marshal_with(anime_model)
     def get(self, id):
@@ -109,7 +109,7 @@ class AnimeIdResource(Resource):
         return anime
     
 @content_ns.route("/anime/genre/<string:genre>")
-class AnimeGenreResource(Resource):
+class AnimeByGenre(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, genre):
@@ -120,7 +120,7 @@ class AnimeGenreResource(Resource):
     
 
 @content_ns.route("/anime/stream/<string:stream>")
-class AnimeStreamResource(Resource):
+class AnimeByStream(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, stream):
@@ -131,7 +131,7 @@ class AnimeStreamResource(Resource):
     
     
 @content_ns.route("/anime/title/<string:title>")
-class AnimeNameResource(Resource):
+class AnimeByName(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, title):
@@ -142,7 +142,7 @@ class AnimeNameResource(Resource):
     
 
 @content_ns.route("/games")
-class GamesResource(Resource):
+class GamesAll(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self):
@@ -152,7 +152,7 @@ class GamesResource(Resource):
 
 
 @content_ns.route("/games/id/<int:id>")
-class GameIdResource(Resource):
+class GameById(Resource):
 
     @content_ns.marshal_with(games_model)
     def get(self, id):
@@ -163,7 +163,7 @@ class GameIdResource(Resource):
     
 
 @content_ns.route("/games/genre/<string:genre>")
-class GameGenreResource(Resource):
+class GamesByGenre(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, genre):
@@ -173,7 +173,7 @@ class GameGenreResource(Resource):
         return game
 
 @content_ns.route("/games/console/<string:console>")
-class GameConsoleResource(Resource):
+class GamesByConsole(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, console):
@@ -184,7 +184,7 @@ class GameConsoleResource(Resource):
     
 
 @content_ns.route("/games/title/<string:title>")
-class GameNameResource(Resource):
+class GamesByName(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, title):

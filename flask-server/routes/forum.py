@@ -15,7 +15,7 @@ message_model = forum_ns.model("Message", {
 
 
 @forum_ns.route("/all")
-class ForumResource(Resource):
+class ForumAll(Resource):
     @forum_ns.marshal_list_with(message_model)
     def get(self):
         """Get all messages"""
@@ -41,7 +41,7 @@ class ForumResource(Resource):
 
 
 @forum_ns.route("/id/<int:id>")
-class ForumIdResource(Resource):
+class ForumById(Resource):
 
     @forum_ns.marshal_with(message_model)
     def get(self, id):
@@ -88,7 +88,7 @@ class ForumIdResource(Resource):
 
 
 @forum_ns.route("/category/<string:category>")
-class ForumCatResource(Resource):
+class ForumByCategory(Resource):
 
     @forum_ns.marshal_list_with(message_model)
     def get(self, category):
@@ -99,7 +99,7 @@ class ForumCatResource(Resource):
     
 
 @forum_ns.route("/author/<string:author>")
-class ForumAuthorResource(Resource):
+class ForumByAuthor(Resource):
 
     @forum_ns.marshal_list_with(message_model)
     def get(self, author):

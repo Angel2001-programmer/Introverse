@@ -136,7 +136,7 @@ class CurrentUser(Resource):
 
 
 @user_ns.route("/members")
-class UsersResource(Resource):
+class MembersAll(Resource):
     @user_ns.marshal_list_with(profile_model)
     def get(self):
         """List all users"""
@@ -145,7 +145,7 @@ class UsersResource(Resource):
     
 
 @user_ns.route("/members/<string:member>")
-class MemberResource(Resource):
+class MemberByUsername(Resource):
     @user_ns.marshal_with(profile_model)
     def get(self, member):
         """List a member"""
