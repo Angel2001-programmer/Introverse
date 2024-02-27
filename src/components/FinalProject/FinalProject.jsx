@@ -1,9 +1,12 @@
-import { Fragment, createContext, useState } from 'react';
+import { Fragment, createContext, useEffect, useState } from 'react';
 import NavGraph from '../../navigation/NavGraph';
 import AccountCreation from '../../components/accountCreation/accountCreation';
 import styles from './FinalProject.module.css';
 import Card from '../../UI/Card/card';
 import Button from '../../UI/Button/button';
+// import { response } from 'express';
+import httpClient from '../../httpClient';
+
 // export const UserContext = createContext();
 export const SignUpContext = createContext();
 export const NewUserContext = createContext();
@@ -19,24 +22,45 @@ const FinalProject = () => {
   const [otherUser, setOtherUser] = useState('UserName');
   const [userInput, setUserInput] = useState();
   const [messageInput, setMessageInput] = useState();
-  const usersList = ['User1', 'User2', 'User3'];
+  const [usersList, setUserList] = useState([]);
   let [userName, setUserName] = useState('User');
   let style2 = null;
   const onChatRoom = () => {
     setIsChatRoom(!isChatRoom);
   };
 
+  useEffect(() => {
+    const getMembers = async () => {
+      try {
+        httpClient({
+          method: 'GET',
+          url: 'http://localhost:5000/user/members',
+        }).then((response) => {
+          console.log(response);
+          setUserList(response);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getMembers();
+  });
+
   const handleSearchUser = (e) => {
     console.log(e.target.value);
     setUserInput(e.target.value);
 
+    console.log(usersList);
+
+    // Filter method not working will return to this later.
     if (e.target.value.trim().length > 0) {
-      const filtered = usersList.filter((user) =>
-        user.includes(e.target.value)
-      );
-      setIsUsers(filtered);
+      // const filtered = usersList.filter((user) =>
+      //   user.includes(e.target.value)
+      // );
+      // setUserList(filtered);
     } else {
-      setIsUsers([]);
+      setUserList([]);
     }
   };
 
