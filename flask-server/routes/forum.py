@@ -100,18 +100,50 @@ class ForumById(Resource):
     #     edit_message.update(data.get("post_content"))
 
     #     return edit_message
+
+        # if edit_message:
+        #     edit_message.update(data.get("post_content"))
+        #     return edit_message
+        # else:
+        #     return jsonify({"error": "Post with that ID and author not found"})
+    # @forum_ns.marshal_with(message_model)
+    # @jwt_required()  # Currently works with test for positive cases but not invalid cases, will rewrite
+    # def put(self, id):
+    #     """Update a message by id"""
+    #     username=get_jwt_identity()
+    #     check_username = Message.query.get_or_404(id)
+    #     print(check_username.post_author)
+    #     print(username)
+    #     print(check_username.post_author != username)
+    #     if check_username.post_author != username:
+    #         print("Work!")
+    #         return jsonify({"error": "Post with that ID and author not found"})
+    #     edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+
+    #     data = request.get_json()
+
+    #     edit_message.update(data.get("post_content"))
+    #     return edit_message
     
     @forum_ns.marshal_with(message_model)
     @jwt_required()  # Currently works with test for positive cases but not invalid cases, will rewrite
     def put(self, id):
         """Update a message by id"""
-        edit_message = Message.query.filter(Message.post_id == id).first()
+        username=get_jwt_identity()
+        check_username = Message.query.get_or_404(id)
+        print(check_username.post_author)
+        print(username)
+        print(check_username.post_author != username)
+        if check_username.post_author == username:
+            edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+            data = request.get_json()
+            edit_message.update(data.get("post_content"))
+            return edit_message
+        else:
+            print("Work!")
+            return make_response(jsonify({"error": "Post with that ID and author not found"}), 409)
 
-        data = request.get_json()
-
-        edit_message.update(data.get("post_content"))
-
-        return edit_message
+        
     
     @forum_ns.marshal_with(message_model)
     @jwt_required()  # This will not work currently, need to solve jwt required and identity issue

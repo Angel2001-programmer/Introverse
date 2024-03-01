@@ -139,61 +139,63 @@ class TestForumAPI(TestAPI):
 
         self.assertEqual(status_code, 201)
 
-    # def test_edit_post_wrong_user(self):
-    #     """Test editing a post, login required for @jwt_required route"""
-    #     first_register = self.client.post("/user/register",
-    #         json = {
-    #             "username": "testuser",
-    #             "first_name": "test",
-    #             "last_name": "user",
-    #             "email": "testuser@test.com",
-    #             "password": "mytestpassword"
-    #         }
-    #     )
+    def test_edit_post_wrong_user(self):
+        """Test editing a post, login required for @jwt_required route"""
+        first_register = self.client.post("/user/register",
+            json = {
+                "username": "testuser",
+                "first_name": "test",
+                "last_name": "user",
+                "email": "testuser@test.com",
+                "password": "mytestpassword"
+            }
+        )
 
-    #     first_access_token = first_register.json["access_token"]
+        first_access_token = first_register.json["access_token"]
 
-    #     create_post_response = self.client.post("/forum/all",
-    #         json = {
-    #             "post_content": "Test content",
-    #             "post_category": "Test",
-    #             "post_author": "testuser"
-    #         },
-    #         headers = {
-    #             "Authorization": f"Bearer {first_access_token}"
-    #         }
-    #     )
+        create_post_response = self.client.post("/forum/all",
+            json = {
+                "post_content": "Test content",
+                "post_category": "Test",
+                "post_author": "testuser"
+            },
+            headers = {
+                "Authorization": f"Bearer {first_access_token}"
+            }
+        )
 
-    #     second_register = self.client.post("/user/register",
-    #         json = {
-    #             "username": "differentuser",
-    #             "first_name": "test",
-    #             "last_name": "user",
-    #             "email": "differentuser@test.com",
-    #             "password": "mytestpassword"
-    #         }
-    #     )
+        second_register = self.client.post("/user/register",
+            json = {
+                "username": "differentuser",
+                "first_name": "test",
+                "last_name": "user",
+                "email": "differentuser@test.com",
+                "password": "mytestpassword"
+            }
+        )
 
-    #     second_access_token = second_register.json["access_token"]
-    #     status_code = create_post_response.status_code
+        second_access_token = second_register.json["access_token"]
+        
 
-    #     id = 1
-    #     get_by_id = self.client.get(f"/forum/id/{id}")
+        id = 1
+        get_by_id = self.client.get(f"/forum/id/{id}")
 
-    #     update_response = self.client.put(f"/forum/id/{id}",
-    #         json = {
-    #             "post_content": "Changing the content",
-    #             "post_category": "Test",
-    #             "post_author": "differentuser"
-    #         },
-    #         headers = {
-    #             "Authorization": f"Bearer {second_access_token}"
-    #         }
-    #     )
+        update_response = self.client.put(f"/forum/id/{id}",
+            json = {
+                "post_content": "Changing the content",
+                "post_category": "Test",
+                "post_author": "differentuser"
+            },
+            headers = {
+                "Authorization": f"Bearer {second_access_token}"
+            }
+        )
 
+        status_code = update_response.status_code
 
-        # print(get_by_id.json)
-        # print(update_response.json)
+        print(get_by_id.json)
+        print(update_response.json)
+        print(status_code)
 
         # self.assertEqual(status_code, 201)
 
