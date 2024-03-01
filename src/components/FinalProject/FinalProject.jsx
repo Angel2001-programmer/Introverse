@@ -36,31 +36,29 @@ const FinalProject = () => {
           method: 'GET',
           url: 'http://localhost:5000/user/members',
         }).then((response) => {
-          console.log(response);
-          setUserList(response);
+          setUserList(response.data);
         });
       } catch (error) {
         console.log(error);
       }
     };
-
     getMembers();
-  });
+  }, []);
 
   const handleSearchUser = (e) => {
     console.log(e.target.value);
     setUserInput(e.target.value);
 
-    console.log(usersList);
-
     // Filter method not working will return to this later.
     if (e.target.value.trim().length > 0) {
-      // const filtered = usersList.filter((user) =>
-      //   user.includes(e.target.value)
-      // );
-      // setUserList(filtered);
+      setIsUsers(usersList);
+
+      const filtered = usersList.filter(
+        (user) => user.first_name.toLowerCase() === e.target.value.toLowerCase()
+      );
+      setIsUsers(filtered);
     } else {
-      setUserList([]);
+      setIsUsers(usersList);
     }
   };
 
@@ -90,14 +88,14 @@ const FinalProject = () => {
                 <li
                   className={styles.userItem}
                   onClick={() => {
-                    setOtherUser(name);
+                    setOtherUser(name.first_name);
                     setIsUsers([]);
                     setUserName('');
                     setUserInput('');
                     setMessageInput('');
                   }}
                 >
-                  {name}
+                  {name.first_name}
                 </li>
               ))}
             </ul>
