@@ -1,5 +1,5 @@
 import unittest
-from test_api import TestAPI
+from test_api import TestAPI, create_user_json, default_user
 
 
 class TestContentAPI(TestAPI):

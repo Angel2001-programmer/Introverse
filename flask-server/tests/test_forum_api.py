@@ -1,5 +1,5 @@
 import unittest
-from test_api import TestAPI
+from test_api import TestAPI, create_user_json, default_user
 
 
 class TestForumAPI(TestAPI):
@@ -23,15 +23,7 @@ class TestForumAPI(TestAPI):
 
     def test_create_post_successful(self):
         """Test creating a post, login required for @jwt_required route"""
-        register_response = self.client.post("/user/register",
-            json = {
-                "username": "testuser",
-                "first_name": "test",
-                "last_name": "user",
-                "email": "testuser@test.com",
-                "password": "mytestpassword"
-            }
-        )
+        register_response = self.client.post("/user/register", json = default_user)
 
         access_token = register_response.json["access_token"]
 
@@ -72,7 +64,7 @@ class TestForumAPI(TestAPI):
         """Test creating a post, invalid access token"""
         invalid_token = "invalidtoken"
 
-        create_post_response = self.client.post("/forum/all",
+        create_post_response = self.client.post("/forum/all", 
             json = {
                 "post_content": "Test content",
                 "post_category": "Test",
@@ -93,15 +85,7 @@ class TestForumAPI(TestAPI):
 
     def test_edit_post_successful(self):
         """Test editing a post, login required for @jwt_required route"""
-        register_response = self.client.post("/user/register",
-            json = {
-                "username": "testuser",
-                "first_name": "test",
-                "last_name": "user",
-                "email": "testuser@test.com",
-                "password": "mytestpassword"
-            }
-        )
+        register_response = self.client.post("/user/register", json = default_user)
 
         access_token = register_response.json["access_token"]
 
@@ -141,15 +125,7 @@ class TestForumAPI(TestAPI):
 
     def test_edit_post_wrong_user(self):
         """Test editing a post, login required for @jwt_required route"""
-        first_register = self.client.post("/user/register",
-            json = {
-                "username": "testuser",
-                "first_name": "test",
-                "last_name": "user",
-                "email": "testuser@test.com",
-                "password": "mytestpassword"
-            }
-        )
+        first_register = self.client.post("/user/register", json = default_user)
 
         first_access_token = first_register.json["access_token"]
 
@@ -165,18 +141,11 @@ class TestForumAPI(TestAPI):
         )
 
         second_register = self.client.post("/user/register",
-            json = {
-                "username": "differentuser",
-                "first_name": "test",
-                "last_name": "user",
-                "email": "differentuser@test.com",
-                "password": "mytestpassword"
-            }
+            json = create_user_json(username="differentuser", email="differentuser@test.com")
         )
 
         second_access_token = second_register.json["access_token"]
         
-
         id = 1
         get_by_id = self.client.get(f"/forum/id/{id}")
 

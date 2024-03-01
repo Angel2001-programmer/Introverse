@@ -6,6 +6,20 @@ from app import create_app, db
 from config import TestConfig
 
 
+def create_user_json(username="testuser", first_name="test", last_name="user", email="testuser@test.com", password="mytestpassword"):
+    """Function to create user registration json"""
+    json = {
+                "username": username,
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": email,
+                "password": password
+            }
+    return json
+
+default_user = create_user_json()
+
+
 class TestAPI(TestCase):
     """Base test class for setting up test database and tables"""
 
