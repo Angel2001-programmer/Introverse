@@ -1,13 +1,13 @@
 .main {
-	background-color: #f0f0f0;
-	position: relative;
-	height: 100%;
+  background-color: #f0f0f0;
+  position: relative;
+  min-height: 100vh;
 }
 
-.NoPosts{
-	display: flex;
-	margin-top: 70px;
-	/* height: 200px; */
-	justify-content: center;
-	align-items: center;
+.NoPosts {
+  display: flex;
+  margin-top: 70px;
+  /* height: 200px; */
+  justify-content: center;
+  align-items: center;
 }
