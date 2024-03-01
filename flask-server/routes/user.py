@@ -11,17 +11,17 @@ bcrypt = Bcrypt()
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
 
 profile_model = user_ns.model("Profile", {
-    "first_name": fields.String,
-    "last_name": fields.String,
-    "email": fields.String,
-    "date_of_birth": fields.DateTime(dt_format='rfc822'),
-    "interests": fields.String
+    "first_name": fields.String(description="First name"),
+    "last_name": fields.String(description="First name"),
+    "email": fields.String(description="Email, unique"),
+    "date_of_birth": fields.DateTime(description="Date of birth", dt_format='rfc822'),
+    "interests": fields.String(description="Text field for interests")
 })
 
 user_model = user_ns.model("User", {
-    "user_id": fields.String,
-    "username": fields.String,
-    "password": fields.String
+    "user_id": fields.String(description="ID - primary key, generated UUID"),
+    "username": fields.String(description="Username, unique"),
+    "password": fields.String(description="Password, bcrypt hash")
 })
 
 

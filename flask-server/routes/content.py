@@ -5,32 +5,32 @@ from models.content_models import Books, Anime, Games
 content_ns = Namespace("content", description="A namespace for content recommendations.")
 
 books_model = content_ns.model("Books", {
-    "book_id": fields.Integer,
-    "book_name": fields.String,
-    "book_author": fields.String,
-    "book_genre": fields.String,
-    "price": fields.Float(description="RRP"),
+    "book_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "book_name": fields.String(description="Book title, unique"),
+    "book_author": fields.String(description="Author of the book"),
+    "book_genre": fields.String(description="Genre of the book"),
+    "price": fields.Float(description="Recommended retail price"),
     "book_script": fields.String(description="Description of the book"),
-    "book_image": fields.String
+    "book_image": fields.String(description="URL of image, unique")
 })
 
 anime_model = content_ns.model("Anime", {
-    "anime_id": fields.Integer,
-    "anime_name": fields.String,
-    "anime_genre": fields.String,
+    "anime_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "anime_name": fields.String(description="Anime title, unique"),
+    "anime_genre": fields.String(description="Genre of the anime"),
     "where_tw": fields.String(description="Where to watch the anime"),
     "anime_script": fields.String(description="Description of the anime"),
-    "anime_image": fields.String
+    "anime_image": fields.String(description="URL of image, unique")
 })
 
 games_model = content_ns.model("Games", {
-    "game_id": fields.Integer,
-    "game_name": fields.String,
-    "game_genre": fields.String,
+    "game_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "game_name": fields.String(description="Game title, unique"),
+    "game_genre": fields.String(description="Genre of the game"),
     "w_console": fields.String(description="Which consoles the game is available on"),
-    "price": fields.Float(description="RRP"),
+    "price": fields.Float(description="Recommended retail price"),
     "game_script": fields.String(description="Description of the game"),
-    "game_image": fields.String
+    "game_image": fields.String(description="URL of image, unique")
 })
 
 
