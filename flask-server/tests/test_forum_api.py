@@ -35,7 +35,7 @@ class TestForumAPI(TestAPI):
 
         access_token = register_response.json["access_token"]
 
-        create_post_response = self.client.post("forum/all",
+        create_post_response = self.client.post("/forum/all",
             json = {
                 "post_content": "Test content",
                 "post_category": "Test",
@@ -53,7 +53,7 @@ class TestForumAPI(TestAPI):
     
     def test_create_post_fail_no_access_token(self):
         """Test creating a post without access token"""
-        create_post_response = self.client.post("forum/all",
+        create_post_response = self.client.post("/forum/all",
             json = {
                 "post_content": "Test content",
                 "post_category": "Test",
@@ -72,7 +72,7 @@ class TestForumAPI(TestAPI):
         """Test creating a post, invalid access token"""
         invalid_token = "invalidtoken"
 
-        create_post_response = self.client.post("forum/all",
+        create_post_response = self.client.post("/forum/all",
             json = {
                 "post_content": "Test content",
                 "post_category": "Test",
@@ -91,7 +91,7 @@ class TestForumAPI(TestAPI):
         self.assertEqual(expected, result)
 
 
-    def test_edit_post(self):
+    def test_edit_post_successful(self):
         """Test editing a post, login required for @jwt_required route"""
         register_response = self.client.post("/user/register",
             json = {
@@ -105,7 +105,7 @@ class TestForumAPI(TestAPI):
 
         access_token = register_response.json["access_token"]
 
-        create_post_response = self.client.post("forum/all",
+        create_post_response = self.client.post("/forum/all",
             json = {
                 "post_content": "Test content",
                 "post_category": "Test",
@@ -118,7 +118,84 @@ class TestForumAPI(TestAPI):
 
         status_code = create_post_response.status_code
 
+        id = 1
+
+        get_by_id = self.client.get(f"/forum/id/{id}")
+
+        update_response = self.client.put(f"/forum/id/{id}",
+            json = {
+                "post_content": "Changing the content",
+                "post_category": "Test",
+                "post_author": "testuser"
+            },
+            headers = {
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+
+        print(get_by_id.json)
+        print(update_response.json)
+
         self.assertEqual(status_code, 201)
+
+    # def test_edit_post_wrong_user(self):
+    #     """Test editing a post, login required for @jwt_required route"""
+    #     first_register = self.client.post("/user/register",
+    #         json = {
+    #             "username": "testuser",
+    #             "first_name": "test",
+    #             "last_name": "user",
+    #             "email": "testuser@test.com",
+    #             "password": "mytestpassword"
+    #         }
+    #     )
+
+    #     first_access_token = first_register.json["access_token"]
+
+    #     create_post_response = self.client.post("/forum/all",
+    #         json = {
+    #             "post_content": "Test content",
+    #             "post_category": "Test",
+    #             "post_author": "testuser"
+    #         },
+    #         headers = {
+    #             "Authorization": f"Bearer {first_access_token}"
+    #         }
+    #     )
+
+    #     second_register = self.client.post("/user/register",
+    #         json = {
+    #             "username": "differentuser",
+    #             "first_name": "test",
+    #             "last_name": "user",
+    #             "email": "differentuser@test.com",
+    #             "password": "mytestpassword"
+    #         }
+    #     )
+
+    #     second_access_token = second_register.json["access_token"]
+    #     status_code = create_post_response.status_code
+
+    #     id = 1
+    #     get_by_id = self.client.get(f"/forum/id/{id}")
+
+    #     update_response = self.client.put(f"/forum/id/{id}",
+    #         json = {
+    #             "post_content": "Changing the content",
+    #             "post_category": "Test",
+    #             "post_author": "differentuser"
+    #         },
+    #         headers = {
+    #             "Authorization": f"Bearer {second_access_token}"
+    #         }
+    #     )
+
+
+        # print(get_by_id.json)
+        # print(update_response.json)
+
+        # self.assertEqual(status_code, 201)
 
     def test_delete_post(self):
         pass
