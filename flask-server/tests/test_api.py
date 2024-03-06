@@ -6,7 +6,8 @@ from app import create_app, db
 from config import TestConfig
 
 
-def create_user_json(username="testuser", first_name="test", last_name="user", email="testuser@test.com", password="mytestpassword"):
+def create_user_json(username="testuser", first_name="test", last_name="user", email="testuser@test.com",
+                     password="mytestpassword"):
     """Function to create user registration json"""
     json = {
                 "username": username,
@@ -17,6 +18,7 @@ def create_user_json(username="testuser", first_name="test", last_name="user", e
             }
     return json
 
+
 default_user = create_user_json()
 
 
@@ -25,9 +27,9 @@ class TestAPI(TestCase):
 
     def setUp(self):
         """Set up our test database and work within the context of our application"""
-        self.app=create_app(TestConfig)
+        self.app = create_app(TestConfig)
 
-        self.client=self.app.test_client(self)
+        self.client = self.app.test_client(self)
 
         with self.app.app_context():
 

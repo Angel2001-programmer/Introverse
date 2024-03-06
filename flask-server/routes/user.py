@@ -131,7 +131,7 @@ class CurrentUser(Resource):
     @jwt_required()
     def get(self, current_user):
         """Get current user by username, need to investigate issue with get identity, returns null"""
-        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()  # Filter by username (from the JWT token)
+        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
         return current_user
 
 
@@ -140,7 +140,7 @@ class MembersAll(Resource):
     @user_ns.marshal_list_with(profile_model)
     def get(self):
         """List all users"""
-        users=Profile.query.all()
+        users = Profile.query.all()
         return users
     
 

@@ -19,7 +19,7 @@ class TestUserAPI(TestAPI):
 
     def test_register_successful(self):
         """Test successful registration of user"""
-        register_response = self.client.post("/user/register", json = default_user)
+        register_response = self.client.post("/user/register", json=default_user)
 
         status_code = register_response.status_code
 
@@ -28,8 +28,10 @@ class TestUserAPI(TestAPI):
     def test_register_successful_max_length(self):
         """Test successful registration of user, username, first name and last name max characters"""
         register_response = self.client.post("/user/register",
-            json = create_user_json("thisusernameisthirtycharacters", "Iamexactlyfiftycharacterslongexactlyexactlyexactly",
-                                    "Iamexactlyfiftycharacterslongexactlyexactlyexactly", "testuser@test.com", "mytestpassword")
+            json=create_user_json("thisusernameisthirtycharacters",
+                                  "Iamexactlyfiftycharacterslongexactlyexactlyexactly",
+                                    "Iamexactlyfiftycharacterslongexactlyexactlyexactly",
+                                  "testuser@test.com", "mytestpassword")
         )
 
         status_code = register_response.status_code
@@ -39,7 +41,7 @@ class TestUserAPI(TestAPI):
     def test_register_fail_invalid_email(self):
         """Test signing up with an invalid email address, unsuccessful registration"""
         register_response = self.client.post("/user/register",
-            json = create_user_json(email="testuser@test")
+            json=create_user_json(email="testuser@test")
         )
 
         status_code = register_response.status_code
@@ -52,7 +54,7 @@ class TestUserAPI(TestAPI):
     def test_register_fail_username_empty(self):
         """Test unsuccessful registration of user due to empty username"""
         register_response = self.client.post("/user/register",
-            json = create_user_json(username="")
+            json=create_user_json(username="")
         )
 
         status_code = register_response.status_code
@@ -65,7 +67,7 @@ class TestUserAPI(TestAPI):
     def test_register_fail_first_name_long(self):
         """Test unsuccessful registration of user due to too long first name"""
         register_response = self.client.post("/user/register",
-            json = create_user_json(first_name="testtesttesttesttesttesttesttesttesttesttesttesttest")
+            json=create_user_json(first_name="testtesttesttesttesttesttesttesttesttesttesttesttest")
         )
 
         status_code = register_response.status_code
@@ -78,7 +80,7 @@ class TestUserAPI(TestAPI):
     def test_register_fail_last_name_space(self):
         """Test unsuccessful registration of user due to empty last name, whitespace only"""
         register_response = self.client.post("/user/register",
-            json = create_user_json(last_name="    ")
+            json=create_user_json(last_name="    ")
         )
 
         status_code = register_response.status_code
@@ -90,10 +92,10 @@ class TestUserAPI(TestAPI):
 
     def test_register_fail_username_conflict(self):
         """Test unsuccessful registration of user due to username already taken"""
-        first_register = self.client.post("/user/register", json = default_user)
+        first_register = self.client.post("/user/register", json=default_user)
 
         second_register = self.client.post("/user/register",
-            json = create_user_json(email="differentuser@test.com")
+            json=create_user_json(email="differentuser@test.com")
         )
 
         second_status_code = second_register.status_code
@@ -105,10 +107,10 @@ class TestUserAPI(TestAPI):
 
     def test_register_fail_email_conflict(self):
         """Test unsuccessful registration of user due to email already taken"""
-        first_register = self.client.post("/user/register", json = default_user)
+        first_register = self.client.post("/user/register", json=default_user)
 
         second_register = self.client.post("/user/register",
-            json = create_user_json(username="differentuser")
+            json=create_user_json(username="differentuser")
         )
 
         second_status_code = second_register.status_code
@@ -120,10 +122,10 @@ class TestUserAPI(TestAPI):
 
     def test_login_successful(self):
         """Test creation of user and logging in successfully"""
-        register_response = self.client.post("/user/register", json = default_user)
+        register_response = self.client.post("/user/register", json=default_user)
 
         login_response = self.client.post("/user/login",
-            json = {
+            json={
                 "username": "testuser",
                 "password": "mytestpassword"
             }
@@ -139,10 +141,10 @@ class TestUserAPI(TestAPI):
 
     def test_login_fail_incorrect_password(self):
         """Test creation of user and attempt of logging in with incorrect password"""
-        register_response = self.client.post("/user/register", json = default_user)
+        register_response = self.client.post("/user/register", json=default_user)
 
         login_response = self.client.post("/user/login",
-            json = {
+            json={
                 "username": "testuser",
                 "password": "mywrongpassword"
             }
@@ -157,10 +159,10 @@ class TestUserAPI(TestAPI):
 
     def test_login_fail_no_username_exists(self):
         """Test creation of user and attempt of logging in with unregistered username"""
-        register_response = self.client.post("/user/register", json = default_user)
+        register_response = self.client.post("/user/register", json=default_user)
 
         login_response = self.client.post("/user/login",
-            json = {
+            json={
                 "username": "differentuser",
                 "password": "mytestpassword"
             }
@@ -173,6 +175,8 @@ class TestUserAPI(TestAPI):
         self.assertEqual(status_code, 401)
         self.assertEqual(expected, result)
 
+
+# TODO: Test other routes - logout, members etc
 
 if __name__ == "__main__":
     unittest.main()

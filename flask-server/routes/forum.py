@@ -1,7 +1,8 @@
 from flask_restx import Resource, Namespace, fields
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, abort
 from models.forum_models import Message
 from flask_jwt_extended import get_jwt_identity, jwt_required
+from sqlalchemy import and_
 
 forum_ns = Namespace("forum", description="A namespace for the message board.")
 
@@ -29,10 +30,10 @@ class ForumAll(Resource):
         """Create a new message"""
         data = request.get_json()
         new_post = Message(
-            post_content = data.get("post_content"),
-            post_category = data.get("post_category"),
-            post_author = data.get("post_author"),
-            post_date = data.get("post_date")
+            post_content=data.get("post_content"),
+            post_category=data.get("post_category"),
+            post_author=data.get("post_author"),
+            post_date=data.get("post_date")
         )
 
         new_post.create()
@@ -49,112 +50,48 @@ class ForumById(Resource):
         result = Message.query.get_or_404(id)
 
         return result
-    
-    # @forum_ns.marshal_with(message_model)
-    # @jwt_required()  # Need to test if it works on frontend
-    # def put(self, id):
-    #     """Update a message by id"""
-    #     username = get_jwt_identity()
-    #     check_username = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
-    #     print(check_username)
-    #     if check_username is None:
-    #         return make_response(jsonify({"error": "Post with that ID and author not found"}), 409)
-    #     # print(check_username)
-    #     # print(username)
-    #     # print(check_username.post_author)
-    #     # if check_username.post_author is not username:
-    #     #     return jsonify({"error": "Post with that ID and author not found"})
-        
-    #     message_to_edit = Message.query.filter(Message.post_id == id, Message.post_author == username)
-    #     # if not message_to_edit:
-    #     #     return jsonify({"error": "Post with that ID and author not found"})
-        
-    #     # print(message_to_edit)
-    #     # # print(message_to_edit.post_id)
 
-    #     # # if message_to_edit.post_id is None:
-    #     # #     return jsonify({"error": "Post with that ID and author not found"})
-
-    #     data = request.get_json()
-
-    #     message_to_edit.update(data.get("post_content"))
-
-    #     return message_to_edit
-    
-    # @forum_ns.marshal_with(message_model)
-    # @jwt_required()  # Need to test if it works on frontend
-    # def put(self, id):
-    #     """Update a message by id"""
-    #     username=get_jwt_identity()
-    #     check_username = Message.query.get_or_404(id)
-    #     if check_username.post_author is not username:
-    #         return jsonify({"error": "Post with that ID and author not found"})
-        
-    #     edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
-
-    #     if edit_message is None:
-    #         return jsonify({"error": "Post with that ID and author not found"})
-
-    #     data = request.get_json()
-
-    #     edit_message.update(data.get("post_content"))
-
-    #     return edit_message
-
-        # if edit_message:
-        #     edit_message.update(data.get("post_content"))
-        #     return edit_message
-        # else:
-        #     return jsonify({"error": "Post with that ID and author not found"})
-    # @forum_ns.marshal_with(message_model)
-    # @jwt_required()  # Currently works with test for positive cases but not invalid cases, will rewrite
-    # def put(self, id):
-    #     """Update a message by id"""
-    #     username=get_jwt_identity()
-    #     check_username = Message.query.get_or_404(id)
-    #     print(check_username.post_author)
-    #     print(username)
-    #     print(check_username.post_author != username)
-    #     if check_username.post_author != username:
-    #         print("Work!")
-    #         return jsonify({"error": "Post with that ID and author not found"})
-    #     edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
-
-    #     data = request.get_json()
-
-    #     edit_message.update(data.get("post_content"))
-    #     return edit_message
-    
     @forum_ns.marshal_with(message_model)
     @jwt_required()  # Currently works with test for positive cases but not invalid cases, will rewrite
     def put(self, id):
         """Update a message by id"""
-        username=get_jwt_identity()
-        check_username = Message.query.get_or_404(id)
-        print(check_username.post_author)
-        print(username)
-        print(check_username.post_author != username)
-        if check_username.post_author == username:
-            edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
-            data = request.get_json()
-            edit_message.update(data.get("post_content"))
-            return edit_message
-        else:
-            print("Work!")
-            return make_response(jsonify({"error": "Post with that ID and author not found"}), 409)
+        username = get_jwt_identity()
+        check_post = Message.query.filter(and_(Message.post_id == id, Message.post_author == username)).with_entities(
+            Message.post_id).scalar()
+        print(check_post)
 
-        
+        original_message = Message.query.get(id)
+        if original_message is None:
+            return {"error": "Message not found"}, 404
+
+        if check_post is None:
+            message = {"error": "Unauthorised: You are not the author of this message"}
+            return abort(403, "Unauthorised: You are not the author of this message")
+
+        edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        print(edit_message)
+        data = request.get_json()
+        print("Before update:", edit_message.post_content)
+        edit_message.update(data.get("post_content"))
+        print("After update:", edit_message.post_content)
+        return edit_message
     
     @forum_ns.marshal_with(message_model)
-    @jwt_required()  # This will not work currently, need to solve jwt required and identity issue
+    @jwt_required()
     def delete(self, id):
         """Delete a message by id"""
-        username=get_jwt_identity()
-        delete_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        username = get_jwt_identity()
+        original_message = Message.query.get(id)
+        if original_message is None:
+            return {"error": "Message not found"}, 404
+        
+        message_to_delete = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        if message_to_delete is None:
+            return abort(403, "Unauthorised: You are not the author of this message")
 
-        delete_message.delete()
+        message_to_delete.delete()
 
-        return delete_message
+        return message_to_delete
 
 
 @forum_ns.route("/category/<string:category>")

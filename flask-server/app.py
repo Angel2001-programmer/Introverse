@@ -30,8 +30,8 @@ def create_app(test_config=None):
     cors.init_app(app, supports_credentials=True)
     jwt.init_app(app)
 
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.create_all()
 
     api = Api(app)
 

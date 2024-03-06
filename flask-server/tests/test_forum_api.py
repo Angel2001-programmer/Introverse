@@ -2,6 +2,19 @@ import unittest
 from test_api import TestAPI, create_user_json, default_user
 
 
+def create_post_json(post_content="Test content", post_category="Test", post_author="testuser"):
+    """Function to create post json"""
+    json = {
+                "post_content": post_content,
+                "post_category": post_category,
+                "post_author": post_author
+            }
+    return json
+
+
+example_post = create_post_json()
+
+
 class TestForumAPI(TestAPI):
     """Tests for forum namespace routes"""
 
@@ -14,26 +27,22 @@ class TestForumAPI(TestAPI):
         self.assertEqual(status_code, 200)
 
     def test_get_post_id_not_found(self):
-        """Test get post by id route, with no data"""
-        id=1
-        response = self.client.get(f"/forum/id/{id}")
+        """Test get forum post by id route, with no data"""
+        post_id = 1
+        response = self.client.get(f"/forum/id/{post_id}")
         status_code = response.status_code
 
         self.assertEqual(status_code, 404)
 
     def test_create_post_successful(self):
         """Test creating a post, login required for @jwt_required route"""
-        register_response = self.client.post("/user/register", json = default_user)
+        register_response = self.client.post("/user/register", json=default_user)
 
         access_token = register_response.json["access_token"]
 
         create_post_response = self.client.post("/forum/all",
-            json = {
-                "post_content": "Test content",
-                "post_category": "Test",
-                "post_author": "testuser"
-            },
-            headers = {
+            json=example_post,
+            headers={
                 "Authorization": f"Bearer {access_token}"
             }
         )
@@ -42,16 +51,28 @@ class TestForumAPI(TestAPI):
 
         self.assertEqual(status_code, 201)
 
-    
-    def test_create_post_fail_no_access_token(self):
-        """Test creating a post without access token"""
+    def test_get_post_id_successful(self):
+        """Test retrieving a forum post by id after creation"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        access_token = register_response.json["access_token"]
+
         create_post_response = self.client.post("/forum/all",
-            json = {
-                "post_content": "Test content",
-                "post_category": "Test",
-                "post_author": "testuser"
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
             }
         )
+
+        post_id = 1
+        response = self.client.get(f"/forum/id/{post_id}")
+        status_code = response.status_code
+
+        self.assertEqual(status_code, 200)
+
+    def test_create_post_fail_no_access_token(self):
+        """Test creating a forum post without access token"""
+        create_post_response = self.client.post("/forum/all", json=example_post)
 
         status_code = create_post_response.status_code
         expected = {'error': 'authorisation_token', 'message': 'Request does not contain a valid token'}
@@ -61,16 +82,12 @@ class TestForumAPI(TestAPI):
         self.assertEqual(expected, result)
 
     def test_create_post_fail_invalid_token(self):
-        """Test creating a post, invalid access token"""
+        """Test creating a forum post, invalid access token"""
         invalid_token = "invalidtoken"
 
-        create_post_response = self.client.post("/forum/all", 
-            json = {
-                "post_content": "Test content",
-                "post_category": "Test",
-                "post_author": "testuser"
-            },
-            headers = {
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
                 "Authorization": f"Bearer {invalid_token}"
             }
         )
@@ -82,94 +99,183 @@ class TestForumAPI(TestAPI):
         self.assertEqual(status_code, 401)
         self.assertEqual(expected, result)
 
-
     def test_edit_post_successful(self):
-        """Test editing a post, login required for @jwt_required route"""
-        register_response = self.client.post("/user/register", json = default_user)
+        """Test editing a forum post, login and verified same user required"""
+        register_response = self.client.post("/user/register", json=default_user)
 
         access_token = register_response.json["access_token"]
 
         create_post_response = self.client.post("/forum/all",
-            json = {
-                "post_content": "Test content",
-                "post_category": "Test",
-                "post_author": "testuser"
-            },
-            headers = {
+            json=example_post,
+            headers={
                 "Authorization": f"Bearer {access_token}"
             }
         )
 
-        status_code = create_post_response.status_code
+        post_id = 1
+        original_get_by_id = self.client.get(f"/forum/id/{post_id}")
 
-        id = 1
-
-        get_by_id = self.client.get(f"/forum/id/{id}")
-
-        update_response = self.client.put(f"/forum/id/{id}",
-            json = {
-                "post_content": "Changing the content",
-                "post_category": "Test",
-                "post_author": "testuser"
-            },
-            headers = {
+        update_response = self.client.put(f"/forum/id/{post_id}",
+            json=create_post_json(post_content="Changing the content"),
+            headers={
                 "Authorization": f"Bearer {access_token}"
             }
         )
 
+        status_code = update_response.status_code
+        after_get_by_id = self.client.get(f"/forum/id/{post_id}")
+        original_post = original_get_by_id.json
+        changed_post = after_get_by_id.json
 
-        print(get_by_id.json)
-        print(update_response.json)
+        self.assertEqual(status_code, 200)
+        self.assertNotEqual(original_post, changed_post)
 
-        self.assertEqual(status_code, 201)
-
-    def test_edit_post_wrong_user(self):
-        """Test editing a post, login required for @jwt_required route"""
-        first_register = self.client.post("/user/register", json = default_user)
+    def test_edit_post_fail_wrong_user(self):
+        """Test editing a post by a different user, unsuccessful"""
+        first_register = self.client.post("/user/register", json=default_user)
 
         first_access_token = first_register.json["access_token"]
 
         create_post_response = self.client.post("/forum/all",
-            json = {
-                "post_content": "Test content",
-                "post_category": "Test",
-                "post_author": "testuser"
-            },
-            headers = {
+            json=example_post,
+            headers={
                 "Authorization": f"Bearer {first_access_token}"
             }
         )
 
+        post_id = 1
+        original_get_by_id = self.client.get(f"/forum/id/{post_id}")
+
         second_register = self.client.post("/user/register",
-            json = create_user_json(username="differentuser", email="differentuser@test.com")
+            json=create_user_json(username="differentuser", email="differentuser@test.com")
         )
 
         second_access_token = second_register.json["access_token"]
-        
-        id = 1
-        get_by_id = self.client.get(f"/forum/id/{id}")
 
-        update_response = self.client.put(f"/forum/id/{id}",
-            json = {
-                "post_content": "Changing the content",
-                "post_category": "Test",
-                "post_author": "differentuser"
-            },
-            headers = {
+        update_response = self.client.put(f"/forum/id/{post_id}",
+            json=create_post_json(post_content="Changing the content", post_author="differentuser"),
+            headers={
                 "Authorization": f"Bearer {second_access_token}"
             }
         )
 
         status_code = update_response.status_code
+        after_get_by_id = self.client.get(f"/forum/id/{post_id}")
 
-        print(get_by_id.json)
-        print(update_response.json)
-        print(status_code)
+        # Check message is unchanged
+        expected = create_post_response.json
+        result = after_get_by_id.json
 
-        # self.assertEqual(status_code, 201)
+        self.assertEqual(status_code, 403)
+        self.assertEqual(expected, result)
 
-    def test_delete_post(self):
-        pass
+    def test_delete_post_successful(self):
+        """Test deleting a post, login and verified same user required"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        post_id = 1
+        original_get_by_id = self.client.get(f"/forum/id/{post_id}")
+
+        delete_response = self.client.delete(f"/forum/id/{post_id}", headers={
+                "Authorization": f"Bearer {access_token}"
+            })
+
+        status_code = delete_response.status_code
+        before_delete_status_code = original_get_by_id.status_code
+        after_get_by_id = self.client.get(f"/forum/id/{post_id}")
+        after_delete_status_code = after_get_by_id.status_code
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(after_delete_status_code, 404)
+        self.assertNotEqual(before_delete_status_code, after_delete_status_code)
+
+    def test_delete_post_fail_wrong_user(self):
+        """Test deleting a post by a different user, unsuccessful"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        post_id = 1
+        original_get_by_id = self.client.get(f"/forum/id/{post_id}")
+
+        second_register = self.client.post("/user/register",
+            json=create_user_json(username="differentuser", email="differentuser@test.com")
+        )
+
+        second_access_token = second_register.json["access_token"]
+
+        delete_response = self.client.delete(f"/forum/id/{post_id}", headers={
+                "Authorization": f"Bearer {second_access_token}"
+            })
+
+        status_code = delete_response.status_code
+        result = delete_response.json
+        expected = {'message': 'Unauthorised: You are not the author of this message'}
+        before_delete_status_code = original_get_by_id.status_code
+        after_get_by_id = self.client.get(f"/forum/id/{post_id}")
+        after_delete_status_code = after_get_by_id.status_code
+
+        self.assertEqual(status_code, 403)
+        self.assertEqual(expected, result)
+        self.assertEqual(before_delete_status_code, after_delete_status_code)
+
+    def test_delete_no_post(self):
+        """Test deleting a post that does not exist"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        access_token = register_response.json["access_token"]
+
+        post_id = 1
+
+        delete_response = self.client.delete(f"/forum/id/{post_id}", headers={
+                "Authorization": f"Bearer {access_token}"
+            })
+
+        status_code = delete_response.status_code
+
+        self.assertEqual(status_code, 404)
+
+    def test_delete_fail_no_token(self):
+        """Test deleting a post without an access token"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        post_id = 1
+
+        delete_response = self.client.delete(f"/forum/id/{post_id}")
+
+        status_code = delete_response.status_code
+        expected = {'error': 'authorisation_token', 'message': 'Request does not contain a valid token'}
+        result = delete_response.json
+
+        self.assertEqual(expected, result)
+        self.assertEqual(status_code, 401)
+
+# TODO: Test other routes - filtering etc
 
 
 if __name__ == "__main__":
