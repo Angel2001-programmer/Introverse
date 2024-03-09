@@ -176,6 +176,19 @@ class TestUserAPI(TestAPI):
         self.assertEqual(expected, result)
 
 
+    def test_get_profile_successful(self):
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        get_response = self.client.get(f"/user/current_user",
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        result = get_response.json
+        print(result)
+
 # TODO: Test other routes - logout, members etc
 
 if __name__ == "__main__":

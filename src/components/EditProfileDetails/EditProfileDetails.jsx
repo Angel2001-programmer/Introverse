@@ -14,6 +14,7 @@ const EditPosts = () => {
   const [List, setList] = useState([]);
   const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY')
   console.log(token)
+  const [profile, setProfile] = useState(null);
 
 // 	useEffect(() => {
 //     fetch("http://localhost:5000/user/current_user/", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}})
@@ -35,32 +36,41 @@ const EditPosts = () => {
 // }
 // fetchSecretData()
 
-//   useEffect(() => {
-//     const getAPI = async () => {
-//       try {
-//         const response = await httpClient.get("http://localhost:5000/user/current_user/", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}});
-//         console.log(response.data)
-//       } catch(error) {
-//       console.log(error)
-//     }
-//     };
-//     getAPI()
-//   }, [user.name, token]);
-
-
-	useEffect(() => {
+  useEffect(() => {
     const getAPI = async () => {
       try {
-        const response = await httpClient.get("http://localhost:5000/user/members/" + user.name);
+        const response = await httpClient.get("http://localhost:5000/user/current_user", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}});
         console.log(response.data)
       } catch(error) {
       console.log(error)
     }
     };
     getAPI()
-  }, [user.name]);
+  }, [user.name, token]);
 
   console.log()
+
+  // This works too...
+	// useEffect(() => {
+	// 	const headers = {"Authorization": `Bearer ${JSON.parse(token)}`};
+  //   httpClient.get("http://localhost:5000/user/current_user", { headers }).then(response => setProfile(response.data));
+	// }, [token]);
+  // console.log(profile)
+
+	// useEffect(() => {
+  //   const getAPI = async () => {
+  //     try {
+  //       const response = await httpClient.get("http://localhost:5000/user/members/" + user.name);
+  //       console.log(response.data)
+  //     } catch(error) {
+  //     console.log(error)
+  //   }
+  //   };
+  //   getAPI()
+  // }, [user.name]);
+
+  // console.log()
+
 
     return (
 		<form className={styles.EditAccountform}>

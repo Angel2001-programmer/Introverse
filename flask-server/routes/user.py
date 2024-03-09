@@ -129,10 +129,19 @@ class RefreshToken(Resource):
 class CurrentUser(Resource):
     @user_ns.marshal_with(profile_model)
     @jwt_required()
-    def get(self, current_user):
+    def get(self):
         """Get current user by username, need to investigate issue with get identity, returns null"""
         current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
         return current_user
+
+# @user_ns.route("/current_user")
+# class CurrentUser(Resource):
+#     @user_ns.marshal_with(profile_model)
+#     @jwt_required()
+#     def get(self, current_user):
+#         """Get current user by username, need to investigate issue with get identity, returns null"""
+#         current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
+#         return current_user
 
 
 @user_ns.route("/members")
