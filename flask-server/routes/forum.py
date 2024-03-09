@@ -2,7 +2,6 @@ from flask_restx import Resource, Namespace, fields
 from flask import request, jsonify, make_response, abort
 from models.forum_models import Message
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from sqlalchemy import and_
 
 forum_ns = Namespace("forum", description="A namespace for the message board.")
 
@@ -52,38 +51,30 @@ class ForumById(Resource):
         return result
 
     @forum_ns.marshal_with(message_model)
-    @jwt_required()  # Currently works with test for positive cases but not invalid cases, will rewrite
+    @jwt_required()
     def put(self, id):
         """Update a message by id"""
-        username = get_jwt_identity()
-        check_post = Message.query.filter(and_(Message.post_id == id, Message.post_author == username)).with_entities(
-            Message.post_id).scalar()
-        print(check_post)
-
         original_message = Message.query.get(id)
         if original_message is None:
-            return {"error": "Message not found"}, 404
-
-        if check_post is None:
-            message = {"error": "Unauthorised: You are not the author of this message"}
+            return abort(404, "Message not found")
+        
+        username = get_jwt_identity()
+        message_to_edit = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        if message_to_edit is None:
             return abort(403, "Unauthorised: You are not the author of this message")
-
-        edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
-        print(edit_message)
-        data = request.get_json()
-        print("Before update:", edit_message.post_content)
-        edit_message.update(data.get("post_content"))
-        print("After update:", edit_message.post_content)
-        return edit_message
+        else:
+            data = request.get_json()
+            message_to_edit.update(data.get("post_content"))
+            return message_to_edit
     
-    @forum_ns.marshal_with(message_model)
+    @forum_ns.marshal_with(message_model, skip_none=True)
     @jwt_required()
     def delete(self, id):
         """Delete a message by id"""
         username = get_jwt_identity()
         original_message = Message.query.get(id)
         if original_message is None:
-            return {"error": "Message not found"}, 404
+            return abort(404, "Message not found")
         
         message_to_delete = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
         if message_to_delete is None:

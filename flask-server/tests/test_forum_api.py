@@ -130,6 +130,28 @@ class TestForumAPI(TestAPI):
         self.assertEqual(status_code, 200)
         self.assertNotEqual(original_post, changed_post)
 
+    def test_edit_post_no_post(self):
+        """Test editing a post that does not exist"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        access_token = register_response.json["access_token"]
+
+        post_id = 1
+
+        update_response = self.client.put(f"/forum/id/{post_id}",
+            json=create_post_json(post_content="Changing the content"),
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        result = update_response.json
+        expected = {'message': f'Message not found. You have requested this URI [/forum/id/{post_id}] but did you mean /forum/id/<int:id> or /forum/all or /forum/author/<string:author> ?'}
+
+        self.assertEqual(status_code, 404)
+        self.assertEqual(expected, result)
+
     def test_edit_post_fail_wrong_user(self):
         """Test editing a post by a different user, unsuccessful"""
         first_register = self.client.post("/user/register", json=default_user)
@@ -162,11 +184,13 @@ class TestForumAPI(TestAPI):
         status_code = update_response.status_code
         after_get_by_id = self.client.get(f"/forum/id/{post_id}")
 
-        # Check message is unchanged
-        expected = create_post_response.json
-        result = after_get_by_id.json
+        original_post = create_post_response.json
+        changed_post = after_get_by_id.json
+        result = update_response.json
+        expected = {'message': 'Unauthorised: You are not the author of this message'}
 
         self.assertEqual(status_code, 403)
+        self.assertEqual(original_post, changed_post)
         self.assertEqual(expected, result)
 
     def test_delete_post_successful(self):
@@ -235,7 +259,7 @@ class TestForumAPI(TestAPI):
         self.assertEqual(expected, result)
         self.assertEqual(before_delete_status_code, after_delete_status_code)
 
-    def test_delete_no_post(self):
+    def test_delete_post_no_post(self):
         """Test deleting a post that does not exist"""
         register_response = self.client.post("/user/register", json=default_user)
 
@@ -246,12 +270,15 @@ class TestForumAPI(TestAPI):
         delete_response = self.client.delete(f"/forum/id/{post_id}", headers={
                 "Authorization": f"Bearer {access_token}"
             })
-
+        
         status_code = delete_response.status_code
+        result = delete_response.json
+        expected = {'message': f'Message not found. You have requested this URI [/forum/id/{post_id}] but did you mean /forum/id/<int:id> or /forum/all or /forum/author/<string:author> ?'}
 
         self.assertEqual(status_code, 404)
+        self.assertEqual(expected, result)
 
-    def test_delete_fail_no_token(self):
+    def test_delete_post_fail_no_token(self):
         """Test deleting a post without an access token"""
         register_response = self.client.post("/user/register", json=default_user)
 

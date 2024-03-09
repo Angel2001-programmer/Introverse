@@ -57,20 +57,20 @@ class Register(Resource):
         email_exists = Profile.query.filter_by(email=email).first() is not None
 
         if username_exists:
-            return make_response(jsonify({"error": "Username is already taken"}), 409)
+            return make_response(jsonify({"message": "Username is already taken"}), 409)
         
         if email_exists:
-            return make_response(jsonify({"error": "Email is already registered"}), 409)
+            return make_response(jsonify({"message": "Email is already registered"}), 409)
         
         # Make validation neater later
         if len(username.strip()) < 1 or len(username) > 30:
-            return make_response(jsonify({"error": "Username must be between 1 and 30 characters"}), 400)
+            return make_response(jsonify({"message": "Username must be between 1 and 30 characters"}), 400)
         if len(first_name.strip()) < 1 or len(first_name) > 50:
-            return make_response(jsonify({"error": "First name must be between 1 and 50 characters"}), 400)
+            return make_response(jsonify({"message": "First name must be between 1 and 50 characters"}), 400)
         if len(last_name.strip()) < 1 or len(last_name) > 50:
-            return make_response(jsonify({"error": "Last name must be between 1 and 50 characters"}), 400)
+            return make_response(jsonify({"message": "Last name must be between 1 and 50 characters"}), 400)
         if not check_email(email):
-            return make_response(jsonify({"error": "Email address is invalid"}), 400)
+            return make_response(jsonify({"message": "Email address is invalid"}), 400)
 
         hashed_password = bcrypt.generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)
@@ -95,10 +95,10 @@ class Login(Resource):
         user = User.query.filter_by(username=username).first()
 
         if user is None:
-            return make_response(jsonify({"error": "Invalid credentials"}), 401)
+            return make_response(jsonify({"message": "Invalid credentials"}), 401)
         
         if not bcrypt.check_password_hash(user.password, password):
-            return make_response(jsonify({"error": "Invalid credentials"}), 401)
+            return make_response(jsonify({"message": "Invalid credentials"}), 401)
         
         access_token, refresh_token = user_access_tokens(user)
         return make_response(jsonify(

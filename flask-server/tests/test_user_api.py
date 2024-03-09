@@ -45,7 +45,7 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = register_response.status_code
-        expected = {"error": "Email address is invalid"}
+        expected = {"message": "Email address is invalid"}
         result = register_response.json
 
         self.assertEqual(status_code, 400)
@@ -58,7 +58,7 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = register_response.status_code
-        expected = {"error": "Username must be between 1 and 30 characters"}
+        expected = {"message": "Username must be between 1 and 30 characters"}
         result = register_response.json
 
         self.assertEqual(status_code, 400)
@@ -71,7 +71,7 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = register_response.status_code
-        expected = {"error": "First name must be between 1 and 50 characters"}
+        expected = {"message": "First name must be between 1 and 50 characters"}
         result = register_response.json
 
         self.assertEqual(status_code, 400)
@@ -84,7 +84,7 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = register_response.status_code
-        expected = {"error": "Last name must be between 1 and 50 characters"}
+        expected = {"message": "Last name must be between 1 and 50 characters"}
         result = register_response.json
 
         self.assertEqual(status_code, 400)
@@ -99,7 +99,7 @@ class TestUserAPI(TestAPI):
         )
 
         second_status_code = second_register.status_code
-        expected = {"error": "Username is already taken"}
+        expected = {"message": "Username is already taken"}
         result = second_register.json
         
         self.assertEqual(second_status_code, 409)
@@ -114,7 +114,7 @@ class TestUserAPI(TestAPI):
         )
 
         second_status_code = second_register.status_code
-        expected = {"error": "Email is already registered"}
+        expected = {"message": "Email is already registered"}
         result = second_register.json
         
         self.assertEqual(second_status_code, 409)
@@ -151,7 +151,7 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = login_response.status_code
-        expected = {"error": "Invalid credentials"}
+        expected = {"message": "Invalid credentials"}
         result = login_response.json
 
         self.assertEqual(status_code, 401)
@@ -169,7 +169,7 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = login_response.status_code
-        expected = {"error": "Invalid credentials"}
+        expected = {"message": "Invalid credentials"}
         result = login_response.json
 
         self.assertEqual(status_code, 401)
