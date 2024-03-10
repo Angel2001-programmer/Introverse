@@ -1,5 +1,5 @@
 import unittest
-from test_api import TestAPI, create_user_json, default_user, expired_token
+from test_auth_api import TestAPI, create_user_json, default_user, expired_token
 from routes.user import check_email
 from models.user_models import User
 from flask_jwt_extended import create_access_token

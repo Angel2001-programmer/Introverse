@@ -4,8 +4,8 @@ import sys
 sys.path.append("..")
 from app import create_app, db
 from config import TestConfig
-from models.content_models import Books, Anime, Games
-from mock_data import books_list, anime_list, games_list
+from models.content_models import Books
+from mock_data import books_list
 
 
 def insert_books():
@@ -19,30 +19,9 @@ def insert_books():
         db.session.commit()
 
 
-def insert_anime():
-    """Insert mock anime data into the database"""
-    for i in range(len(anime_list)):
-        new_anime = Anime(anime_id=anime_list[i]["anime_id"], anime_name=anime_list[i]["anime_name"],
-                          anime_genre=anime_list[i]["anime_genre"], where_tw=anime_list[i]["where_tw"],
-                          anime_script=anime_list[i]["anime_script"], anime_image=anime_list[i]["anime_image"])
-        db.session.add(new_anime)
-        db.session.commit()
-
-
-def insert_games():
-    """Insert mock game data into the database"""
-    for i in range(len(games_list)):
-        new_game = Games(game_id=games_list[i]["game_id"], game_name=games_list[i]["game_name"],
-                         game_genre=games_list[i]["game_genre"], w_console=games_list[i]["w_console"],
-                         price=games_list[i]["price"], game_script=games_list[i]["game_script"],
-                         game_image=games_list[i]["game_image"])
-        db.session.add(new_game)
-        db.session.commit()
-
-
-class TestContentAPI(TestCase):
-    """Test for content namespace routes, inheriting directly from TestCase (rather than TestAPI class)
-    so can insert all mock data into tables within setUp function"""
+class TestBooksAPI(TestCase):
+    """Test for book related suggestions within the content namespace, inheriting directly from
+    TestCase (rather than TestAPI class) so can insert all mock data into tables within setUp function"""
 
     def setUp(self):
         """Set up our test database and work within the context of our application"""
@@ -53,10 +32,7 @@ class TestContentAPI(TestCase):
         with self.app.app_context():
 
             db.create_all()
-
             insert_books()
-            insert_anime()
-            insert_games()
 
     def test_hello_world(self):
         """Test the hello world route"""
@@ -100,64 +76,6 @@ class TestContentAPI(TestCase):
                                f'check your spelling and try again. You have requested this URI '
                                f'[/content/books/id/{book_id}] but did you mean /content/books/id/<int:id> or '
                                f'/content/books/title/<string:title> or /content/books ?'}
-        result = get_response.json
-
-        self.assertEqual(status_code, 404)
-        self.assertEqual(expected, result)
-         
-    def test_get_all_anime(self):
-        """Test get all anime"""
-        get_response = self.client.get("/content/anime")
-        status_code = get_response.status_code
-
-        self.assertEqual(status_code, 200)
-    
-    def test_get_anime_by_id(self):
-        """Test get anime by id"""
-        anime_id = 1
-        get_response = self.client.get(f"/content/anime/id/{anime_id}")
-        status_code = get_response.status_code
-
-        self.assertEqual(status_code, 200)
-
-    def test_get_anime_by_id_doesnt_exist(self):
-        """Test get anime by id that doesn't exist"""
-        anime_id = 42
-        get_response = self.client.get(f"/content/anime/id/{anime_id}")
-        status_code = get_response.status_code
-        expected = {'message': f'The requested URL was not found on the server. If you entered the URL manually please '
-                               f'check your spelling and try again. You have requested this URI '
-                               f'[/content/anime/id/{anime_id}] but did you mean /content/anime/id/<int:id> or '
-                               f'/content/games/id/<int:id> or /content/anime/title/<string:title> ?'}
-        result = get_response.json
-
-        self.assertEqual(status_code, 404)
-        self.assertEqual(expected, result)
-
-    def test_get_all_games(self):
-        """Test get all games"""
-        get_response = self.client.get("/content/games")
-        status_code = get_response.status_code
-
-        self.assertEqual(status_code, 200)
-    
-    def test_get_game_by_id(self):
-        """Test get game by id"""
-        game_id = 1
-        get_response = self.client.get(f"/content/games/id/{game_id}")
-        status_code = get_response.status_code
-
-        self.assertEqual(status_code, 200)
-
-    def test_get_game_by_id_doesnt_exist(self):
-        """Test get game by id that doesn't exist"""
-        game_id = 42
-        get_response = self.client.get(f"/content/games/id/{game_id}")
-        status_code = get_response.status_code
-        expected = {'message': f'The requested URL was not found on the server. If you entered the URL manually please '
-                               f'check your spelling and try again. You have requested this URI '
-                               f'[/content/games/id/{game_id}] but did you mean /content/games/id/<int:id> or '
-                               f'/content/anime/id/<int:id> or /content/games/title/<string:title> ?'}
         result = get_response.json
 
         self.assertEqual(status_code, 404)
@@ -260,7 +178,6 @@ class TestContentAPI(TestCase):
         status_code = get_response.status_code
         result = get_response.json
         list_length = len(result)
-        print(list_length)
 
         self.assertEqual(status_code, 200)
         self.assertEqual(list_length, 5)

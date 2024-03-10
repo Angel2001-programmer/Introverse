@@ -1,5 +1,5 @@
 import unittest
-from test_api import TestAPI, create_user_json, default_user
+from test_auth_api import TestAPI, create_user_json, default_user
 
 
 def create_post_json(post_content="Test content", post_category="Test", post_author="testuser"):
