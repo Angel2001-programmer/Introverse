@@ -21,6 +21,11 @@ def create_user_json(username="testuser", first_name="test", last_name="user", e
 
 default_user = create_user_json()
 
+expired_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcxMDAxNzcwMiwianRpI" \
+                "joiMWQ0NTRmNTEtNTU5MS00Y2MzLWJkODMtMmM5M2U1MDlkMTc1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InRl" \
+                "c3R1c2VyIiwibmJmIjoxNzEwMDE3NzAyLCJjc3JmIjoiODk5NzAzM2MtZTQwNi00OWNiLTlkMmMtYzVlYTM5NmQw" \
+                "ZTczIiwiZXhwIjoxNzEwMDE4NjAyfQ.oYms99qrpe01vZRD9bZu8ChuE2HR-7eN9w99hlKvCqc"
+
 
 class TestAPI(TestCase):
     """Base test class for setting up test database and tables"""

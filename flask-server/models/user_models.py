@@ -31,8 +31,8 @@ class User(db.Model):
 
     def __repr__(self):
         """Returns a string representation of constructed object."""
-        return f"<User {self.username}>"
-
+        return f"<User {self.username}:ID {self.user_id}>"
+    
 
 class Profile(db.Model):
     """
@@ -67,4 +67,15 @@ class Profile(db.Model):
 
     def __repr__(self):
         """Returns a string representation of constructed object."""
-        return f"<User {self.username}>"
+        return f"<User {self.username}: {self.first_name} {self.last_name}: {self.email} >"
+
+    def update_interests(self, interests):
+        """Updates profile in the database."""
+        self.interests = interests
+        db.session.commit()
+
+    def update_dob(self, dob):
+        """Updates profile in the database."""
+        self.date_of_birth = dob
+        db.session.commit()
+

@@ -1,10 +1,11 @@
 from flask_restx import Resource, Namespace, fields
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, abort
 from models.user_models import User, Profile
 from flask_jwt_extended import create_access_token, create_refresh_token, unset_jwt_cookies, get_jwt_identity, jwt_required
 from email_validator import validate_email, EmailNotValidError
 from exts import db
 from flask_bcrypt import Bcrypt
+from datetime import datetime as dt
 
 bcrypt = Bcrypt()
 
@@ -120,7 +121,9 @@ class RefreshToken(Resource):
     def post(self):
         """Refresh access token"""
         current_user = get_jwt_identity()
+        print(current_user)
         new_access_token = create_access_token(identity=current_user)
+        print(new_access_token)
 
         return make_response(jsonify({"access_token": new_access_token}), 200)
     
@@ -130,25 +133,49 @@ class CurrentUser(Resource):
     @user_ns.marshal_with(profile_model)
     @jwt_required()
     def get(self):
-        """Get current user by username, need to investigate issue with get identity, returns null"""
-        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
-        return current_user
+        """Get current user profile by username"""
+        username = get_jwt_identity()
+        current_user = Profile.query.filter_by(username=username).first()
+        if current_user is None:
+            return abort(401, "Unauthorised")
+        else:
+            return current_user
+    
+    @user_ns.marshal_with(profile_model)
+    @jwt_required()
+    def put(self):
+        """Update profile of current user, one field per request"""
+        username = get_jwt_identity()
+        current_user = Profile.query.filter_by(username=username).first()
+        if current_user is None:
+            return abort(401, "Unauthorised")
+        
+        data = request.get_json()
+        interests = data.get("interests")
+        date_of_birth = data.get("date_of_birth")
 
-# @user_ns.route("/current_user")
-# class CurrentUser(Resource):
-#     @user_ns.marshal_with(profile_model)
-#     @jwt_required()
-#     def get(self, current_user):
-#         """Get current user by username, need to investigate issue with get identity, returns null"""
-#         current_user = Profile.query.filter_by(username=get_jwt_identity()).first()
-#         return current_user
+        # Will need to learn more scalable ways 
+        if interests is not None:
+            current_user.update_interests(interests)
+            return current_user
+        
+        if date_of_birth is not None:
+            try:
+                date = dt.strptime(date_of_birth, "%Y-%m-%d").date()
+                current_user.update_dob(date)
+                return current_user
+            except ValueError:
+                return abort(400, "Invalid date format")
 
+        return abort(400, "Nothing to update")
+    
 
 @user_ns.route("/members")
 class MembersAll(Resource):
     @user_ns.marshal_list_with(profile_model)
     def get(self):
         """List all users"""
+        # Might need to move these methods elsewhere, more for admins
         users = Profile.query.all()
         return users
     
@@ -158,6 +185,7 @@ class MemberByUsername(Resource):
     @user_ns.marshal_with(profile_model)
     def get(self, member):
         """List a member"""
+        # Turn into a search of member, also not sure something we want normal users to access
         user = Profile.query.filter(Profile.username == member).first()
         return user
 

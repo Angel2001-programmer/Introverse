@@ -1,5 +1,5 @@
 import unittest
-from test_api import TestAPI, create_user_json, default_user
+from test_api import TestAPI, create_user_json, default_user, expired_token
 from routes.user import check_email
 from models.user_models import User
 
@@ -186,8 +186,238 @@ class TestUserAPI(TestAPI):
             }
         )
 
+        status_code = get_response.status_code
+        self.assertEqual(status_code, 200)
+
+    def test_get_profile_fail_no_user(self):
+        """Test get profile if user does not exist, using a token"""
+        # Note: Ideally would like to create a fresh token to mock with or skip verification so can expose the other error messages rather than token related errors, but could not get this to work
+        get_response = self.client.get(f"/user/current_user",
+            headers={
+                "Authorization": f"Bearer {expired_token}"
+            }
+        )
+
+        status_code = get_response.status_code
+
+        self.assertEqual(status_code, 401)
+    
+    def test_get_profile_fail_no_token(self):
+        """Test get profile without a token"""
+        register_response = self.client.post("/user/register", json=default_user)
+
+        get_response = self.client.get(f"/user/current_user")
+
+        status_code = get_response.status_code
+        expected = {'error': 'authorisation_token', 'message': 'Request does not contain a valid token'}
         result = get_response.json
-        print(result)
+
+        self.assertEqual(status_code, 401)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_interests_successful(self):
+        """Test edit interests in profile successfully"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "interests": "I like testing"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': None, 'interests': 'I like testing'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_date_of_birth_successful(self):
+        """Test edit date of birth in profile successfully"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "date_of_birth": "1999-12-01"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': 'Wed, 01 Dec 1999 00:00:00 -0000', 'interests': None}
+        result = update_response.json
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_date_of_birth_fail_format(self):
+        """Test edit date of birth in profile, wrong date format"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "date_of_birth": "1999.12.01"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'message': 'Invalid date format'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_date_of_birth_invalid_date_month(self):
+        """Test edit date of birth in profile, invalid month"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "date_of_birth": "1999-20-01"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'message': 'Invalid date format'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_date_of_birth_invalid_date_day(self):
+        """Test edit date of birth in profile, invalid day"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "date_of_birth": "1999-04-31"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'message': 'Invalid date format'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_interests_fail_no_user(self):
+        """Test edit interests in profile if user does not exist, using a token"""
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "interests": "I like testing"
+            },
+            headers={
+                "Authorization": f"Bearer {expired_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+
+        self.assertEqual(status_code, 401)
+
+    def test_edit_profile_fail_different_field(self):
+        """Test trying to edit something else in profile"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "username": "newusername"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'message': 'Nothing to update'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 400)
+        self.assertEqual(expected, result)
+
+    def test_edit_profile_partial_fail_two_things_same_time(self):
+        """Test trying to edit both valid fields in same payload, only first executed (will be restricted to one on frontend)"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        update_response = self.client.put(f"/user/current_user",
+            json={
+                "interests": "I like testing",
+                "date_of_birth": "1999-12-01"
+            },
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        status_code = update_response.status_code
+        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': None, 'interests': 'I like testing'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected, result)
+
+    def test_refresh_token_successful(self):
+        """Come back to these later"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        refresh_response = self.client.post(f"/user/refresh",
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        result = refresh_response.json
+        # print(result)
+
+    def test_refresh_token_fail_expired_token(self):
+        """Come back to these later"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        refresh_response = self.client.post(f"/user/refresh",
+            headers={
+                "Authorization": f"Bearer {expired_token}"
+            }
+        )
+
+        result = refresh_response.json
+        # print(result)
+
+    def test_logout_successful(self):
+        """Test logging out successfully"""
+        register_response = self.client.post("/user/register", json=default_user)
+        logout_response = self.client.post(f"/user/logout")
+
+        status_code = logout_response.status_code
+        expected = {'message': 'Logout successful'}
+        result = logout_response.json
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected, result)
+
 
 # TODO: Test other routes - logout, members etc
 

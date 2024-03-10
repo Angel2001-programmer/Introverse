@@ -147,7 +147,8 @@ class TestForumAPI(TestAPI):
 
         status_code = update_response.status_code
         result = update_response.json
-        expected = {'message': f'Message not found. You have requested this URI [/forum/id/{post_id}] but did you mean /forum/id/<int:id> or /forum/all or /forum/author/<string:author> ?'}
+        expected = {'message': f'Message not found. You have requested this URI [/forum/id/{post_id}] but did you mean'
+                               f' /forum/id/<int:id> or /forum/all or /forum/author/<string:author> ?'}
 
         self.assertEqual(status_code, 404)
         self.assertEqual(expected, result)
@@ -273,7 +274,8 @@ class TestForumAPI(TestAPI):
         
         status_code = delete_response.status_code
         result = delete_response.json
-        expected = {'message': f'Message not found. You have requested this URI [/forum/id/{post_id}] but did you mean /forum/id/<int:id> or /forum/all or /forum/author/<string:author> ?'}
+        expected = {'message': f'Message not found. You have requested this URI [/forum/id/{post_id}] but did you mean'
+                               f' /forum/id/<int:id> or /forum/all or /forum/author/<string:author> ?'}
 
         self.assertEqual(status_code, 404)
         self.assertEqual(expected, result)

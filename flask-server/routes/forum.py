@@ -67,7 +67,7 @@ class ForumById(Resource):
             message_to_edit.update(data.get("post_content"))
             return message_to_edit
     
-    @forum_ns.marshal_with(message_model, skip_none=True)
+    @forum_ns.marshal_with(message_model)
     @jwt_required()
     def delete(self, id):
         """Delete a message by id"""

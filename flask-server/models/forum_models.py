@@ -46,5 +46,4 @@ class Message(db.Model):
     def update(self, post_content):
         """Updates a message in the database."""
         self.post_content = post_content
-
         db.session.commit()
