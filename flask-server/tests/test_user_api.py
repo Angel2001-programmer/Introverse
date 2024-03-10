@@ -2,6 +2,7 @@ import unittest
 from test_api import TestAPI, create_user_json, default_user, expired_token
 from routes.user import check_email
 from models.user_models import User
+from flask_jwt_extended import create_access_token
 
 
 class TestUserAPI(TestAPI):
@@ -191,16 +192,21 @@ class TestUserAPI(TestAPI):
 
     def test_get_profile_fail_no_user(self):
         """Test get profile if user does not exist, using a token"""
-        # Note: Ideally would like to create a fresh token to mock with or skip verification so can expose the other error messages rather than token related errors, but could not get this to work
+        with self.app.app_context():
+            access_token = create_access_token(identity="Tester")
+
         get_response = self.client.get(f"/user/current_user",
             headers={
-                "Authorization": f"Bearer {expired_token}"
+                "Authorization": f"Bearer {access_token}"
             }
         )
 
         status_code = get_response.status_code
+        expected = {'message': 'Unauthorised'}
+        result = get_response.json
 
         self.assertEqual(status_code, 401)
+        self.assertEqual(expected, result)
     
     def test_get_profile_fail_no_token(self):
         """Test get profile without a token"""
@@ -322,18 +328,26 @@ class TestUserAPI(TestAPI):
 
     def test_edit_profile_interests_fail_no_user(self):
         """Test edit interests in profile if user does not exist, using a token"""
+        with self.app.app_context():
+            access_token = create_access_token(identity="Tester")
+
         update_response = self.client.put(f"/user/current_user",
             json={
                 "interests": "I like testing"
             },
             headers={
-                "Authorization": f"Bearer {expired_token}"
+                "Authorization": f"Bearer {access_token}"
             }
         )
 
         status_code = update_response.status_code
 
         self.assertEqual(status_code, 401)
+        expected = {'message': 'Unauthorised'}
+        result = update_response.json
+
+        self.assertEqual(status_code, 401)
+        self.assertEqual(expected, result)
 
     def test_edit_profile_fail_different_field(self):
         """Test trying to edit something else in profile"""

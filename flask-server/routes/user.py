@@ -63,7 +63,6 @@ class Register(Resource):
         if email_exists:
             return make_response(jsonify({"message": "Email is already registered"}), 409)
         
-        # Make validation neater later
         if len(username.strip()) < 1 or len(username) > 30:
             return make_response(jsonify({"message": "Username must be between 1 and 30 characters"}), 400)
         if len(first_name.strip()) < 1 or len(first_name) > 50:
