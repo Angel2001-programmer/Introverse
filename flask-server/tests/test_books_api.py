@@ -116,7 +116,7 @@ class TestBooksAPI(TestCase):
         self.assertEqual(list_length, 0)
         self.assertEqual(expected, result)
 
-    def test_get_book_by_author_exact_name(self):
+    def test_get_book_by_author_full_name(self):
         """Test get list of books by an author, exact name search"""
         author = "J.K. Rowling"
         get_response = self.client.get(f"/content/books/author/{author}")
@@ -127,8 +127,8 @@ class TestBooksAPI(TestCase):
         self.assertEqual(status_code, 200)
         self.assertEqual(list_length, 1)
 
-    def test_get_book_by_author_full_surname(self):
-        """Test get list of books by an author, partial search full surname"""
+    def test_get_book_by_author_surname_only(self):
+        """Test get list of books by an author, partial search exact surname"""
         author = "Rowling"
         get_response = self.client.get(f"/content/books/author/{author}")
         status_code = get_response.status_code

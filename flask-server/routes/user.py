@@ -116,13 +116,11 @@ class Logout(Resource):
 
 @user_ns.route("/refresh")
 class RefreshToken(Resource):
-    @jwt_required(refresh=True)
+    @jwt_required()
     def post(self):
         """Refresh access token"""
         current_user = get_jwt_identity()
-        print(current_user)
         new_access_token = create_access_token(identity=current_user)
-        print(new_access_token)
 
         return make_response(jsonify({"access_token": new_access_token}), 200)
     
@@ -186,5 +184,7 @@ class MemberByUsername(Resource):
         """List a member"""
         # Turn into a search of member, also not sure something we want normal users to access
         user = Profile.query.filter(Profile.username == member).first()
-        return user
-
+        if user is not None:
+            return user
+        else:
+            return abort(404, "User not found")

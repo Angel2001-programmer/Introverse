@@ -304,7 +304,78 @@ class TestForumAPI(TestAPI):
         self.assertEqual(expected, result)
         self.assertEqual(status_code, 401)
 
-# TODO: Test other routes - filtering etc
+    def test_get_post_by_category_results(self):
+        """Test get a list of forum posts by category with results"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        category = "Test"
+        get_response = self.client.get(f"/forum/category/{category}")
+        status_code = get_response.status_code
+        result = get_response.json
+        list_length = len(result)
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(list_length, 1)
+
+    def test_get_post_by_category_no_results(self):
+        """Test get list of forum posts in a category, no matches"""
+        category = "Test"
+        get_response = self.client.get(f"/forum/category/{category}")
+        status_code = get_response.status_code
+        result = get_response.json
+        list_length = len(result)
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(list_length, 0)
+    
+    def test_get_post_by_author_results(self):
+        """Test get a list of forum posts by a specific username with results"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+
+        author = "testuser"
+        get_response = self.client.get(f"/forum/author/{author}")
+        status_code = get_response.status_code
+        result = get_response.json
+        list_length = len(result)
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(list_length, 1)
+
+    def test_get_post_by_author_no_results(self):
+        """Test get list of forum posts by a specific username, no matches"""
+        register_response = self.client.post("/user/register", json=default_user)
+        access_token = register_response.json["access_token"]
+
+        create_post_response = self.client.post("/forum/all",
+            json=example_post,
+            headers={
+                "Authorization": f"Bearer {access_token}"
+            }
+        )
+        author = "differentuser"
+        get_response = self.client.get(f"/forum/author/{author}")
+        status_code = get_response.status_code
+        result = get_response.json
+        list_length = len(result)
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(list_length, 0)
 
 
 if __name__ == "__main__":

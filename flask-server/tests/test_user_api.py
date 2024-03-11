@@ -236,7 +236,8 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = update_response.status_code
-        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': None, 'interests': 'I like testing'}
+        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': None,
+                    'interests': 'I like testing'}
         result = update_response.json
 
         self.assertEqual(status_code, 200)
@@ -257,7 +258,8 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = update_response.status_code
-        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': 'Wed, 01 Dec 1999 00:00:00 -0000', 'interests': None}
+        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com',
+                    'date_of_birth': 'Wed, 01 Dec 1999 00:00:00 -0000', 'interests': None}
         result = update_response.json
 
         self.assertEqual(status_code, 200)
@@ -284,7 +286,7 @@ class TestUserAPI(TestAPI):
         self.assertEqual(status_code, 400)
         self.assertEqual(expected, result)
 
-    def test_edit_profile_date_of_birth_invalid_date_month(self):
+    def test_edit_profile_date_of_birth_invalid_month(self):
         """Test edit date of birth in profile, invalid month"""
         register_response = self.client.post("/user/register", json=default_user)
         access_token = register_response.json["access_token"]
@@ -305,8 +307,8 @@ class TestUserAPI(TestAPI):
         self.assertEqual(status_code, 400)
         self.assertEqual(expected, result)
 
-    def test_edit_profile_date_of_birth_invalid_date_day(self):
-        """Test edit date of birth in profile, invalid day"""
+    def test_edit_profile_date_of_birth_invalid_date(self):
+        """Test edit date of birth in profile, invalid date"""
         register_response = self.client.post("/user/register", json=default_user)
         access_token = register_response.json["access_token"]
 
@@ -349,7 +351,7 @@ class TestUserAPI(TestAPI):
         self.assertEqual(status_code, 401)
         self.assertEqual(expected, result)
 
-    def test_edit_profile_fail_different_field(self):
+    def test_edit_profile_fail_unsupported_field(self):
         """Test trying to edit something else in profile"""
         register_response = self.client.post("/user/register", json=default_user)
         access_token = register_response.json["access_token"]
@@ -371,7 +373,7 @@ class TestUserAPI(TestAPI):
         self.assertEqual(expected, result)
 
     def test_edit_profile_partial_fail_two_things_same_time(self):
-        """Test trying to edit both valid fields in same payload, only first executed (will be restricted to one on frontend)"""
+        """Test trying to edit both valid fields in same payload, only first executed (restrict to one in frontend)"""
         register_response = self.client.post("/user/register", json=default_user)
         access_token = register_response.json["access_token"]
 
@@ -386,7 +388,8 @@ class TestUserAPI(TestAPI):
         )
 
         status_code = update_response.status_code
-        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': None, 'interests': 'I like testing'}
+        expected = {'first_name': 'test', 'last_name': 'user', 'email': 'testuser@test.com', 'date_of_birth': None,
+                    'interests': 'I like testing'}
         result = update_response.json
 
         self.assertEqual(status_code, 200)
@@ -404,8 +407,11 @@ class TestUserAPI(TestAPI):
         )
 
         result = refresh_response.json
-        # print(result)
+        status_code = refresh_response.status_code
 
+        self.assertEqual(status_code, 200)
+        self.assertTrue(result["access_token"])
+        
     def test_refresh_token_fail_expired_token(self):
         """Come back to these later"""
         register_response = self.client.post("/user/register", json=default_user)
@@ -417,8 +423,12 @@ class TestUserAPI(TestAPI):
             }
         )
 
+        status_code = refresh_response.status_code
+        expected = {'error': 'token_expired', 'message': 'Token has expired'}
         result = refresh_response.json
-        # print(result)
+
+        self.assertEqual(status_code, 401)
+        self.assertEqual(expected, result)
 
     def test_logout_successful(self):
         """Test logging out successfully"""
@@ -432,8 +442,55 @@ class TestUserAPI(TestAPI):
         self.assertEqual(status_code, 200)
         self.assertEqual(expected, result)
 
+    def test_get_all_members_results_in_list(self):
+        """Test getting list of all users successfully, may move this to admin space in future"""
+        register_response = self.client.post("/user/register", json=default_user)
+        member_response = self.client.get(f"/user/members")
+        status_code = member_response.status_code
+        result = member_response.json
+        list_length = len(result)
 
-# TODO: Test other routes - logout, members etc
+        self.assertEqual(status_code, 200)
+        self.assertEqual(list_length, 1)
+
+    def test_get_all_members_no_users(self):
+        """Test getting list of all users, empty list"""
+        get_response = self.client.get(f"/user/members")
+        status_code = get_response.status_code
+        expected = []
+        result = get_response.json
+        list_length = len(result)
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(list_length, 0)
+        self.assertEqual(expected, result)
+    
+    def test_search_member_successfully(self):
+        """Test searching a user by username, may move this to admin space in future"""
+        register_response = self.client.post("/user/register", json=default_user)
+        member = "testuser"
+        member_response = self.client.get(f"/user/members/{member}")
+
+        status_code = member_response.status_code
+        result = member_response.json["first_name"]
+        expected = "test"
+
+        self.assertEqual(status_code, 200)
+        self.assertEqual(expected, result)
+
+    def test_search_member_not_found(self):
+        """Test searching a user by username, no user exists"""
+        member = "testuser"
+        member_response = self.client.get(f"/user/members/{member}")
+        
+        status_code = member_response.status_code
+        expected = {'message': f'User not found. You have requested this URI [/user/members/{member}] but did you mean '
+                               f'/user/members/<string:member> or /user/members or /user/register ?'}
+        result = member_response.json
+
+        self.assertEqual(status_code, 404)
+        self.assertEqual(expected, result)
+
 
 if __name__ == "__main__":
     unittest.main()
