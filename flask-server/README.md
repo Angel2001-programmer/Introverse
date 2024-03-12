@@ -1,6 +1,6 @@
 # Server for IntroVerse project
 
-This is the flask server for Queen of Code's project IntroVerse. IntroVerse is a website which started out as our final project for the CFGdegree. It is designed to be a safe nurturing environment for introverts who love anime, reading and gaming; to get recommendations, discuss and connect with others, and find resources, both for mental wellbeing and times of need.
+This is the flask server for Queens of Code's project IntroVerse. IntroVerse is a website which started out as our final project for the CFGdegree. It is designed to be a safe nurturing environment for introverts who love anime, reading and gaming; to get recommendations, discuss and connect with others, and find resources, both for mental wellbeing and times of need.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ This project uses MySQL for the development and testing databases. However, if y
 1. Create a virtual python environment (can do this with command or VScode should prompt you when try to run a file) and select it.
 
 ```
-python -m venv path
+python -m venv venv
 ```
 
 2. Install the required packages with pip (or pip3 for mac).
@@ -48,7 +48,7 @@ Enjoy!
 
 ## How it is built and features
 
-The frontend of our website uses React and the backend uses Flask. The backend also uses SQLAlchemy and MySQL as the database, and Flask-RESTX (a fork of Flask-RESTPlus) with the swagger docs for the server on the base path. Tests have been written with unittest, with the hope of covering most common scenarios but welcome to suggestions.<br><br>
+The frontend of our website uses React and the backend uses Flask. The backend also uses SQLAlchemy and MySQL as the database, and Flask-RESTX (a fork of Flask-RESTPlus) with the swagger docs for the server on the base path. Tests have been written using unittest, in the hope of covering the most common scenarios but welcome to suggestions.<br><br>
 The API features are:
 
 - User registration, login, and logout, which uses flask-jwt-extended (and react-auth-token on the frontend)
@@ -131,7 +131,7 @@ load_dotenv(override=True)
 
 ### Localhost 5000
 
-This server uses the default port for Flask (5000) and the frontend is set up to use endpoints with that localhost. Mac users may need to disable AirPlay which also runs on port 5000, we also found this out the hard way from our Mac user.
+This server uses the default port for Flask (5000) and the frontend is set up to use endpoints with that localhost. Mac users may need to disable AirPlay which also runs on port 5000 (we found this out the hard way as well from our Mac user).
 
 ## Useful docs
 
