@@ -14,8 +14,9 @@ test_database = os.getenv("TESTDB")
 mysql_uri = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
 mysql_test = f"mysql+pymysql://{user}:{password}@{host}:{port}/{test_database}"
 
-# For SQLite DB
+# For SQLite DB, use these instead
 sqlite_uri = r"sqlite:///./db.sqlite"
+sqlite_test = r"sqlite:///./testdb.sqlite"
 
 
 class Config:
