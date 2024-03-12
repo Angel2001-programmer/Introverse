@@ -2,41 +2,40 @@ from flask_restx import Resource, Namespace, fields
 from exts import db
 from models.content_models import Books, Anime, Games
 
-
 content_ns = Namespace("content", description="A namespace for content recommendations.")
 
-books_model=content_ns.model("Books", {
-    "Book_ID": fields.Integer,
-    "Book_Name": fields.String,
-    "Book_Author": fields.String,
-    "Book_Genre": fields.String,
-    "Price": fields.Float,
-    "Book_Script": fields.String,
-    "Book_Image": fields.String
+books_model = content_ns.model("Books", {
+    "book_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "book_name": fields.String(description="Book title, unique"),
+    "book_author": fields.String(description="Author of the book"),
+    "book_genre": fields.String(description="Genre of the book"),
+    "price": fields.Float(description="Recommended retail price"),
+    "book_script": fields.String(description="Description of the book"),
+    "book_image": fields.String(description="URL of image, unique")
 })
 
-anime_model=content_ns.model("Anime", {
-    "Anime_ID": fields.Integer,
-    "Anime_Name": fields.String,
-    "Anime_Genre": fields.String,
-    "Where_TW": fields.String,
-    "Anime_Script": fields.String,
-    "Anime_Image": fields.String
+anime_model = content_ns.model("Anime", {
+    "anime_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "anime_name": fields.String(description="Anime title, unique"),
+    "anime_genre": fields.String(description="Genre of the anime"),
+    "where_tw": fields.String(description="Where to watch the anime"),
+    "anime_script": fields.String(description="Description of the anime"),
+    "anime_image": fields.String(description="URL of image, unique")
 })
 
-games_model=content_ns.model("Games", {
-    "Game_ID": fields.Integer,
-    "Game_Name": fields.String,
-    "Game_Genre": fields.String,
-    "W_Console": fields.String,
-    "Price": fields.Float,
-    "Game_Script": fields.String,
-    "Game_Image": fields.String
+games_model = content_ns.model("Games", {
+    "game_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "game_name": fields.String(description="Game title, unique"),
+    "game_genre": fields.String(description="Genre of the game"),
+    "w_console": fields.String(description="Which consoles the game is available on"),
+    "price": fields.Float(description="Recommended retail price"),
+    "game_script": fields.String(description="Description of the game"),
+    "game_image": fields.String(description="URL of image, unique")
 })
 
 
 @content_ns.route("/books")
-class BooksResource(Resource):
+class BooksAll(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self):
@@ -46,7 +45,7 @@ class BooksResource(Resource):
 
 
 @content_ns.route("/books/id/<int:id>")
-class BookIdResource(Resource):
+class BookById(Resource):
 
     @content_ns.marshal_with(books_model)
     def get(self, id):
@@ -57,40 +56,40 @@ class BookIdResource(Resource):
     
 
 @content_ns.route("/books/genre/<string:genre>")
-class BookGenreResource(Resource):
+class BooksByGenre(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, genre):
         """Get a book by genre"""
-        book = Books.query.filter(Books.Book_Genre == genre).all()
+        book = Books.query.filter(Books.book_genre == genre).all()
 
         return book
     
 
 @content_ns.route("/books/author/<string:author>")
-class BookAuthorResource(Resource):
+class BooksByAuthor(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, author):
         """Get a book by author"""
-        book = Books.query.filter(Books.Book_Author.ilike(f"%{author}%")).all()
+        book = Books.query.filter(Books.book_author.ilike(f"%{author}%")).all()
 
         return book
     
 
 @content_ns.route("/books/title/<string:title>")
-class BookNameResource(Resource):
+class BooksByName(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, title):
         """Get a book by title"""
-        book = Books.query.filter(Books.Book_Name.ilike(f"%{title}%")).all()
+        book = Books.query.filter(Books.book_name.ilike(f"%{title}%")).all()
 
         return book
     
 
 @content_ns.route("/anime")
-class AnimeResource(Resource):
+class AnimeAll(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self):
@@ -100,7 +99,7 @@ class AnimeResource(Resource):
     
 
 @content_ns.route("/anime/id/<int:id>")
-class AnimeIdResource(Resource):
+class AnimeById(Resource):
 
     @content_ns.marshal_with(anime_model)
     def get(self, id):
@@ -110,40 +109,40 @@ class AnimeIdResource(Resource):
         return anime
     
 @content_ns.route("/anime/genre/<string:genre>")
-class AnimeGenreResource(Resource):
+class AnimeByGenre(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, genre):
         """Get an anime by genre"""
-        anime = Anime.query.filter(Anime.Anime_Genre == genre).all()
+        anime = Anime.query.filter(Anime.anime_genre == genre).all()
 
         return anime
     
 
 @content_ns.route("/anime/stream/<string:stream>")
-class AnimeStreamResource(Resource):
+class AnimeByStream(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, stream):
         """Get an anime by where to watch"""
-        anime = Anime.query.filter(Anime.Where_TW.ilike(f"%{stream}%")).all()
+        anime = Anime.query.filter(Anime.where_tw.ilike(f"%{stream}%")).all()
 
         return anime
     
     
 @content_ns.route("/anime/title/<string:title>")
-class AnimeNameResource(Resource):
+class AnimeByName(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, title):
         """Get an anime by title"""
-        anime = Anime.query.filter(Anime.Anime_Name.ilike(f"%{title}%")).all()
+        anime = Anime.query.filter(Anime.anime_name.ilike(f"%{title}%")).all()
 
         return anime
     
 
 @content_ns.route("/games")
-class GamesResource(Resource):
+class GamesAll(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self):
@@ -153,7 +152,7 @@ class GamesResource(Resource):
 
 
 @content_ns.route("/games/id/<int:id>")
-class GameIdResource(Resource):
+class GameById(Resource):
 
     @content_ns.marshal_with(games_model)
     def get(self, id):
@@ -164,32 +163,40 @@ class GameIdResource(Resource):
     
 
 @content_ns.route("/games/genre/<string:genre>")
-class GameGenreResource(Resource):
+class GamesByGenre(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, genre):
         """Get a game by genre"""
-        game = Games.query.filter(Games.Game_Genre == genre).all()
+        game = Games.query.filter(Games.game_genre == genre).all()
 
         return game
 
 @content_ns.route("/games/console/<string:console>")
-class GameConsoleResource(Resource):
+class GamesByConsole(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, console):
         """Get a game by console"""
-        game = Games.query.filter(Games.W_Console.ilike(f"%{console}%")).all()
+        game = Games.query.filter(Games.w_console.ilike(f"%{console}%")).all()
 
         return game
     
 
 @content_ns.route("/games/title/<string:title>")
-class GameNameResource(Resource):
+class GamesByName(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, title):
         """Get a game by title"""
-        game = Games.query.filter(Games.Game_Name.ilike(f"%{title}%")).all()
+        game = Games.query.filter(Games.game_name.ilike(f"%{title}%")).all()
 
         return game
+
+
+@content_ns.route("/hello")
+class Hello(Resource):
+
+    def get(self):
+        """Basic route to test"""
+        return {"message": "Hello world!"}

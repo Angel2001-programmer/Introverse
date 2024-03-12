@@ -1,10 +1,8 @@
-# Run this file only if database is not yet created
 from dotenv import load_dotenv
 import os
 import mysql.connector
-# from mysqlconfig import HOST, USER, PASSWORD
 
-load_dotenv()
+load_dotenv(override=True)
 
 mydb = mysql.connector.connect(
     host=os.getenv("HOST"),
@@ -12,11 +10,18 @@ mydb = mysql.connector.connect(
     passwd=os.getenv("PASSWORD"),
 )
 
+database = os.getenv("DATABASE")
+test_database = os.getenv("TESTDB")
 my_cursor = mydb.cursor()
 
-my_cursor.execute("CREATE DATABASE introverse_dev")
-
-# Can run this bit below too if you want to see all the databases in your MySQL (and will confirm creation of new one)
-my_cursor.execute("SHOW DATABASES")
-for db in my_cursor:
-    print(db)
+def check_db_create_if_not_exist(dbname):
+    """Will check if database already exists and create it if not"""
+    my_cursor.execute(f"SHOW DATABASES LIKE '{dbname}';")
+    for db in my_cursor:
+        return f"{dbname} already exists"
+    else:
+        my_cursor.execute(f"CREATE DATABASE {dbname};")
+        return f"{dbname} has been created"
+    
+print(check_db_create_if_not_exist(database))
+print(check_db_create_if_not_exist(test_database))
