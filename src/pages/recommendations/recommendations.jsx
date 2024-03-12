@@ -38,16 +38,16 @@ const Recommendations = () => {
           <Fragment>
             {List.map((item) => (
               <div
-                key={item.Anime_ID}
+                key={item.anime_id}
                 className={styles.Container}
                 style={{ backgroundColor: 'white' }}
               >
                 <div className={styles.rowContainer}>
                   <div className={styles.ColumnContainer}>
-                    <h3>Name: {item.Anime_Name}</h3>
-                    <h3>Genre: {item.Anime_Genre}</h3>
-                    <h5>Description: {item.Anime_Script}</h5>
-                    <h3>You can find this on {item.Where_TW}</h3>
+                    <h3>Name: {item.anime_name}</h3>
+                    <h3>Genre: {item.anime_genre}</h3>
+                    <h5>Description: {item.anime_script}</h5>
+                    <h3>You can find this on {item.where_tw}</h3>
                   </div>
                 </div>
               </div>
@@ -61,7 +61,7 @@ const Recommendations = () => {
           <Fragment>
             {List.map((item) => (
               <div
-                key={item.Books_ID}
+                key={item.book_id}
                 className={styles.Container}
                 style={{ backgroundColor: 'white' }}
               >
@@ -69,23 +69,23 @@ const Recommendations = () => {
                   <img
                     className={styles.photo}
                     alt='book items'
-                    src={item.Book_Image}
+                    src={item.book_image}
                   />
                   <div className={styles.ColumnContainer}>
                     <h3 className={styles.forumTitle}>
-                      Name: {item.Book_Name}
+                      Name: {item.book_name}
                     </h3>
                     <h3 className={styles.forumTitle}>
-                      Genre: {item.Book_Genre}
+                      Genre: {item.book_genre}
                     </h3>
                     <h5 className={styles.description}>
-                      Description: {item.Book_Script}
+                      Description: {item.book_script}
                     </h5>
                     <h5 className={styles.forumTitle}>
-                      Auther: {item.Book_Author}
+                      Auther: {item.book_author}
                     </h5>
                     <h5 className={styles.forumTitle}>
-                      Price: {formatter.format(item.Price)}
+                      Price: {formatter.format(item.price)}
                     </h5>
                   </div>
                 </div>
@@ -101,17 +101,17 @@ const Recommendations = () => {
           <Fragment>
             {List.map((item) => (
               <div
-                key={item.Game_ID}
+                key={item.game_id}
                 className={styles.Container}
                 style={{ backgroundColor: 'white' }}
               >
                 <div className={styles.rowContainer}>
                   <div className={styles.ColumnContainer}>
-                    <h3>Name: {item.Game_Name}</h3>
-                    <h3>Genre: {item.Game_Genre}</h3>
-                    <h5>Description: {item.Game_Script}</h5>
-                    <h5>{formatter.format(item.Price)}</h5>
-                    <h3>You can play on {item.W_Console}</h3>
+                    <h3>Name: {item.game_name}</h3>
+                    <h3>Genre: {item.game_genre}</h3>
+                    <h5>Description: {item.game_script}</h5>
+                    <h5>{formatter.format(item.price)}</h5>
+                    <h3>You can play on {item.w_console}</h3>
                   </div>
                 </div>
               </div>

@@ -1,22 +1,21 @@
 from flask_restx import Resource, Namespace, fields
-from flask import request
-from models.user_models import Message
+from flask import request, jsonify, make_response, abort
+from models.forum_models import Message
 from flask_jwt_extended import get_jwt_identity, jwt_required
-from exts import db
 
 forum_ns = Namespace("forum", description="A namespace for the message board.")
 
-message_model=forum_ns.model("Message", {
-    "post_id": fields.Integer,
-    "post_content": fields.String,
-    "post_category": fields.String,
-    "post_author": fields.String,
-    "post_date": fields.DateTime(dt_format='rfc822')
+message_model = forum_ns.model("Message", {
+    "post_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "post_content": fields.String(description="Text content of the message"),
+    "post_category": fields.String(description="Category of the message"),
+    "post_author": fields.String(description="Author of the message"),
+    "post_date": fields.DateTime(description="Time and date message was posted", dt_format='rfc822')
 })
 
 
 @forum_ns.route("/all")
-class ForumResource(Resource):
+class ForumAll(Resource):
     @forum_ns.marshal_list_with(message_model)
     def get(self):
         """Get all messages"""
@@ -25,15 +24,15 @@ class ForumResource(Resource):
     
     @forum_ns.marshal_with(message_model)
     @forum_ns.expect(message_model)
-    # @jwt_required  # Not working at the moment, need to investigate
+    @jwt_required()
     def post(self):
         """Create a new message"""
         data = request.get_json()
         new_post = Message(
-            post_content = data.get("post_content"),
-            post_category = data.get("post_category"),
-            post_author = data.get("post_author"),
-            post_date = data.get("post_date")
+            post_content=data.get("post_content"),
+            post_category=data.get("post_category"),
+            post_author=data.get("post_author"),
+            post_date=data.get("post_date")
         )
 
         new_post.create()
@@ -42,7 +41,7 @@ class ForumResource(Resource):
 
 
 @forum_ns.route("/id/<int:id>")
-class ForumIdResource(Resource):
+class ForumById(Resource):
 
     @forum_ns.marshal_with(message_model)
     def get(self, id):
@@ -50,46 +49,44 @@ class ForumIdResource(Resource):
         result = Message.query.get_or_404(id)
 
         return result
-    
-    # @forum_ns.marshal_with(message_model)
-    # @jwt_required()  # Need to test if it works on frontend
-    # def put(self, id):
-    #     """Update a message by id"""
-    #     username=get_jwt_identity()
-    #     edit_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
 
-    #     data = request.get_json()
-
-    #     edit_message.update(data.get("post_content"))
-
-    #     return edit_message
-    
     @forum_ns.marshal_with(message_model)
-    # @jwt_required()  # This route used for testing in Postman, delete it and uncomment other route
+    @jwt_required()
     def put(self, id):
         """Update a message by id"""
-        edit_message = Message.query.filter(Message.post_id == id).first()
-
-        data = request.get_json()
-
-        edit_message.update(data.get("post_content"))
-
-        return edit_message
+        original_message = Message.query.get(id)
+        if original_message is None:
+            return abort(404, "Message not found")
+        
+        username = get_jwt_identity()
+        message_to_edit = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        if message_to_edit is None:
+            return abort(403, "Unauthorised: You are not the author of this message")
+        else:
+            data = request.get_json()
+            message_to_edit.update(data.get("post_content"))
+            return message_to_edit
     
     @forum_ns.marshal_with(message_model)
-    @jwt_required()  # This will not work currently, need to solve jwt required and identity issue
+    @jwt_required()
     def delete(self, id):
         """Delete a message by id"""
-        username=get_jwt_identity()
-        delete_message = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        username = get_jwt_identity()
+        original_message = Message.query.get(id)
+        if original_message is None:
+            return abort(404, "Message not found")
+        
+        message_to_delete = Message.query.filter(Message.post_id == id, Message.post_author == username).first()
+        if message_to_delete is None:
+            return abort(403, "Unauthorised: You are not the author of this message")
 
-        delete_message.delete()
+        message_to_delete.delete()
 
-        return delete_message
+        return message_to_delete
 
 
 @forum_ns.route("/category/<string:category>")
-class ForumCatResource(Resource):
+class ForumByCategory(Resource):
 
     @forum_ns.marshal_list_with(message_model)
     def get(self, category):
@@ -100,7 +97,7 @@ class ForumCatResource(Resource):
     
 
 @forum_ns.route("/author/<string:author>")
-class ForumAuthorResource(Resource):
+class ForumByAuthor(Resource):
 
     @forum_ns.marshal_list_with(message_model)
     def get(self, author):
