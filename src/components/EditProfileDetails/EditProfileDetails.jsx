@@ -18,71 +18,28 @@ const EditPosts = () => {
     date_of_birth: null,
     interests: null,
   });
-  const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
-  console.log(token);
+
   // let editable = true;
   const [userValues, setUserValues] = useState({
     first_name: 'ANGEL',
     last_name: '',
     username: '',
     email: '',
-    password: '',
+    password: ''
   });
 
-
-  const user = useSelector(selectCurrentUser)
   const [List, setList] = useState([]);
   const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY')
   console.log(token)
   const [profile, setProfile] = useState(null);
 
-  // 	useEffect(() => {
-  //     fetch("http://localhost:5000/user/current_user/", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}})
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //     })
-  //     .catch(error => console.log(error))
-  //     }, [token]
-  //     );
-
-
-  // const fetchSecretData = () => {
-  //   const URL = "http://localhost:5000/user/current_user/"
-  //   const headers = {"Authorization": `Bearer ${JSON.parse(token)}`};
-  //   fetch(URL, {headers})
-  //   .then(response => response.json())
-  //   .then(data => console.log(data));
-  // }
-  // fetchSecretData()
-
-  //   useEffect(() => {
-  //     const getAPI = async () => {
-  //       try {
-  //         const response = await httpClient.get("http://localhost:5000/user/current_user/", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}});
-  //         console.log(response.data)
-  //       } catch(error) {
-  //       console.log(error)
-  //     }
-  //     };
-  //     getAPI()
-  //   }, [user.name, token]);
-
-
-// const fetchSecretData = () => {
-//   const URL = "http://localhost:5000/user/current_user/"
-//   const headers = {"Authorization": `Bearer ${JSON.parse(token)}`};
-//   fetch(URL, {headers})
-//   .then(response => response.json())
-//   .then(data => console.log(data));
-// }
-// fetchSecretData()
-
   useEffect(() => {
     const getAPI = async () => {
       try {
         const response = await httpClient.get("http://localhost:5000/user/current_user", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}});
-        console.log(response.data)
+        // console.log(response.data)
+        setUserDetails((ud) => (ud = response.data));
+        // console.log(userDetails);
       } catch(error) {
       console.log(error)
     }
@@ -90,20 +47,20 @@ const EditPosts = () => {
     getAPI()
   }, [user.name, token]);
 
-  useEffect(() => {
-    const getAPI = async () => {
-      try {
-        const response = await httpClient.get(
-          'http://localhost:5000/user/members/' + user.name
-        );
-        setUserDetails((ud) => (ud = response.data));
-        console.log(userDetails);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAPI();
-  }, [user.name]);
+  // useEffect(() => {
+  //   const getAPI = async () => {
+  //     try {
+  //       const response = await httpClient.get(
+  //         'http://localhost:5000/user/members/' + user.name
+  //       );
+  //       setUserDetails((ud) => (ud = response.data));
+  //       console.log(userDetails);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getAPI();
+  // }, [user.name]);
 
   return (
     <form

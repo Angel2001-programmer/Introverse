@@ -185,7 +185,7 @@ class TestForumAPI(TestAPI):
         status_code = update_response.status_code
         after_get_by_id = self.client.get(f"/forum/id/{post_id}")
 
-        original_post = create_post_response.json
+        original_post = original_get_by_id.json
         changed_post = after_get_by_id.json
         result = update_response.json
         expected = {'message': 'Unauthorised: You are not the author of this message'}
