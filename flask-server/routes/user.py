@@ -1,28 +1,28 @@
 from flask_restx import Resource, Namespace, fields
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, abort
 from models.user_models import User, Profile
 from flask_jwt_extended import create_access_token, create_refresh_token, unset_jwt_cookies, get_jwt_identity, jwt_required
 from email_validator import validate_email, EmailNotValidError
 from exts import db
 from flask_bcrypt import Bcrypt
+from datetime import datetime as dt
 
 bcrypt = Bcrypt()
 
 user_ns = Namespace("user", description="A namespace for user authentication and services.")
-# from models.serializers import profile_model, user_model
 
 profile_model = user_ns.model("Profile", {
-    "first_name": fields.String,
-    "last_name": fields.String,
-    "email": fields.String,
-    "date_of_birth": fields.DateTime(dt_format='rfc822'),
-    "interests": fields.String
+    "first_name": fields.String(description="First name"),
+    "last_name": fields.String(description="First name"),
+    "email": fields.String(description="Email, unique"),
+    "date_of_birth": fields.DateTime(description="Date of birth", dt_format='rfc822'),
+    "interests": fields.String(description="Text field for interests")
 })
 
 user_model = user_ns.model("User", {
-    "user_id": fields.String,
-    "username": fields.String,
-    "password": fields.String
+    "user_id": fields.String(description="ID - primary key, generated UUID"),
+    "username": fields.String(description="Username, unique"),
+    "password": fields.String(description="Password, bcrypt hash")
 })
 
 
@@ -58,20 +58,19 @@ class Register(Resource):
         email_exists = Profile.query.filter_by(email=email).first() is not None
 
         if username_exists:
-            return make_response(jsonify({"error": "Username is already taken"}), 409)
+            return make_response(jsonify({"message": "Username is already taken"}), 409)
         
         if email_exists:
-            return make_response(jsonify({"error": "Email is already registered"}), 409)
+            return make_response(jsonify({"message": "Email is already registered"}), 409)
         
-        # Make validation neater later
         if len(username.strip()) < 1 or len(username) > 30:
-            return make_response(jsonify({"error": "Username must be between 1 and 30 characters"}), 400)
+            return make_response(jsonify({"message": "Username must be between 1 and 30 characters"}), 400)
         if len(first_name.strip()) < 1 or len(first_name) > 50:
-            return make_response(jsonify({"error": "First name must be between 1 and 50 characters"}), 400)
+            return make_response(jsonify({"message": "First name must be between 1 and 50 characters"}), 400)
         if len(last_name.strip()) < 1 or len(last_name) > 50:
-            return make_response(jsonify({"error": "Last name must be between 1 and 50 characters"}), 400)
+            return make_response(jsonify({"message": "Last name must be between 1 and 50 characters"}), 400)
         if not check_email(email):
-            return make_response(jsonify({"error": "Email address is invalid"}), 400)
+            return make_response(jsonify({"message": "Email address is invalid"}), 400)
 
         hashed_password = bcrypt.generate_password_hash(password)
         new_user = User(username=username, password=hashed_password)
@@ -96,10 +95,10 @@ class Login(Resource):
         user = User.query.filter_by(username=username).first()
 
         if user is None:
-            return make_response(jsonify({"error": "Invalid credentials"}), 401)
+            return make_response(jsonify({"message": "Invalid credentials"}), 401)
         
         if not bcrypt.check_password_hash(user.password, password):
-            return make_response(jsonify({"error": "Invalid credentials"}), 401)
+            return make_response(jsonify({"message": "Invalid credentials"}), 401)
         
         access_token, refresh_token = user_access_tokens(user)
         return make_response(jsonify(
@@ -117,7 +116,7 @@ class Logout(Resource):
 
 @user_ns.route("/refresh")
 class RefreshToken(Resource):
-    @jwt_required(refresh=True)
+    @jwt_required()
     def post(self):
         """Refresh access token"""
         current_user = get_jwt_identity()
@@ -130,26 +129,62 @@ class RefreshToken(Resource):
 class CurrentUser(Resource):
     @user_ns.marshal_with(profile_model)
     @jwt_required()
-    def get(self, current_user):
-        """Get current user by username, need to investigate issue with get identity, returns null"""
-        current_user = Profile.query.filter_by(username=get_jwt_identity()).first()  # Filter by username (from the JWT token)
-        return current_user
+    def get(self):
+        """Get current user profile by username"""
+        username = get_jwt_identity()
+        current_user = Profile.query.filter_by(username=username).first()
+        if current_user is None:
+            return abort(401, "Unauthorised")
+        else:
+            return current_user
+    
+    @user_ns.marshal_with(profile_model)
+    @jwt_required()
+    def put(self):
+        """Update profile of current user, one field per request"""
+        username = get_jwt_identity()
+        current_user = Profile.query.filter_by(username=username).first()
+        if current_user is None:
+            return abort(401, "Unauthorised")
+        
+        data = request.get_json()
+        interests = data.get("interests")
+        date_of_birth = data.get("date_of_birth")
 
+        # Will need to learn more scalable ways 
+        if interests is not None:
+            current_user.update_interests(interests)
+            return current_user
+        
+        if date_of_birth is not None:
+            try:
+                date = dt.strptime(date_of_birth, "%Y-%m-%d").date()
+                current_user.update_dob(date)
+                return current_user
+            except ValueError:
+                return abort(400, "Invalid date format")
+
+        return abort(400, "Nothing to update")
+    
 
 @user_ns.route("/members")
-class UsersResource(Resource):
+class MembersAll(Resource):
     @user_ns.marshal_list_with(profile_model)
     def get(self):
         """List all users"""
-        users=Profile.query.all()
+        # Might need to move these methods elsewhere, more for admins
+        users = Profile.query.all()
         return users
     
 
 @user_ns.route("/members/<string:member>")
-class MemberResource(Resource):
+class MemberByUsername(Resource):
     @user_ns.marshal_with(profile_model)
     def get(self, member):
         """List a member"""
+        # Turn into a search of member, also not sure something we want normal users to access
         user = Profile.query.filter(Profile.username == member).first()
-        return user
-
+        if user is not None:
+            return user
+        else:
+            return abort(404, "User not found")

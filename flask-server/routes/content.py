@@ -3,40 +3,39 @@ from exts import db
 from models.content_models import Books, Anime, Games
 
 content_ns = Namespace("content", description="A namespace for content recommendations.")
-# from models.serializers import books_model, anime_model, games_model
 
 books_model = content_ns.model("Books", {
-    "book_id": fields.Integer,
-    "book_name": fields.String,
-    "book_author": fields.String,
-    "book_genre": fields.String,
-    "price": fields.Float,
-    "book_script": fields.String,
-    "book_image": fields.String
+    "book_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "book_name": fields.String(description="Book title, unique"),
+    "book_author": fields.String(description="Author of the book"),
+    "book_genre": fields.String(description="Genre of the book"),
+    "price": fields.Float(description="Recommended retail price"),
+    "book_script": fields.String(description="Description of the book"),
+    "book_image": fields.String(description="URL of image, unique")
 })
 
 anime_model = content_ns.model("Anime", {
-    "anime_id": fields.Integer,
-    "anime_name": fields.String,
-    "anime_genre": fields.String,
-    "where_tw": fields.String,
-    "anime_script": fields.String,
-    "anime_image": fields.String
+    "anime_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "anime_name": fields.String(description="Anime title, unique"),
+    "anime_genre": fields.String(description="Genre of the anime"),
+    "where_tw": fields.String(description="Where to watch the anime"),
+    "anime_script": fields.String(description="Description of the anime"),
+    "anime_image": fields.String(description="URL of image, unique")
 })
 
 games_model = content_ns.model("Games", {
-    "game_id": fields.Integer,
-    "game_name": fields.String,
-    "game_genre": fields.String,
-    "w_console": fields.String,
-    "price": fields.Float,
-    "game_script": fields.String,
-    "game_image": fields.String
+    "game_id": fields.Integer(description="ID - primary key, autoincrement from 1"),
+    "game_name": fields.String(description="Game title, unique"),
+    "game_genre": fields.String(description="Genre of the game"),
+    "w_console": fields.String(description="Which consoles the game is available on"),
+    "price": fields.Float(description="Recommended retail price"),
+    "game_script": fields.String(description="Description of the game"),
+    "game_image": fields.String(description="URL of image, unique")
 })
 
 
 @content_ns.route("/books")
-class BooksResource(Resource):
+class BooksAll(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self):
@@ -46,7 +45,7 @@ class BooksResource(Resource):
 
 
 @content_ns.route("/books/id/<int:id>")
-class BookIdResource(Resource):
+class BookById(Resource):
 
     @content_ns.marshal_with(books_model)
     def get(self, id):
@@ -57,7 +56,7 @@ class BookIdResource(Resource):
     
 
 @content_ns.route("/books/genre/<string:genre>")
-class BookGenreResource(Resource):
+class BooksByGenre(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, genre):
@@ -68,7 +67,7 @@ class BookGenreResource(Resource):
     
 
 @content_ns.route("/books/author/<string:author>")
-class BookAuthorResource(Resource):
+class BooksByAuthor(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, author):
@@ -79,7 +78,7 @@ class BookAuthorResource(Resource):
     
 
 @content_ns.route("/books/title/<string:title>")
-class BookNameResource(Resource):
+class BooksByName(Resource):
 
     @content_ns.marshal_list_with(books_model)
     def get(self, title):
@@ -90,7 +89,7 @@ class BookNameResource(Resource):
     
 
 @content_ns.route("/anime")
-class AnimeResource(Resource):
+class AnimeAll(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self):
@@ -100,7 +99,7 @@ class AnimeResource(Resource):
     
 
 @content_ns.route("/anime/id/<int:id>")
-class AnimeIdResource(Resource):
+class AnimeById(Resource):
 
     @content_ns.marshal_with(anime_model)
     def get(self, id):
@@ -110,7 +109,7 @@ class AnimeIdResource(Resource):
         return anime
     
 @content_ns.route("/anime/genre/<string:genre>")
-class AnimeGenreResource(Resource):
+class AnimeByGenre(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, genre):
@@ -121,7 +120,7 @@ class AnimeGenreResource(Resource):
     
 
 @content_ns.route("/anime/stream/<string:stream>")
-class AnimeStreamResource(Resource):
+class AnimeByStream(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, stream):
@@ -132,7 +131,7 @@ class AnimeStreamResource(Resource):
     
     
 @content_ns.route("/anime/title/<string:title>")
-class AnimeNameResource(Resource):
+class AnimeByName(Resource):
 
     @content_ns.marshal_list_with(anime_model)
     def get(self, title):
@@ -143,7 +142,7 @@ class AnimeNameResource(Resource):
     
 
 @content_ns.route("/games")
-class GamesResource(Resource):
+class GamesAll(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self):
@@ -153,7 +152,7 @@ class GamesResource(Resource):
 
 
 @content_ns.route("/games/id/<int:id>")
-class GameIdResource(Resource):
+class GameById(Resource):
 
     @content_ns.marshal_with(games_model)
     def get(self, id):
@@ -164,7 +163,7 @@ class GameIdResource(Resource):
     
 
 @content_ns.route("/games/genre/<string:genre>")
-class GameGenreResource(Resource):
+class GamesByGenre(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, genre):
@@ -174,7 +173,7 @@ class GameGenreResource(Resource):
         return game
 
 @content_ns.route("/games/console/<string:console>")
-class GameConsoleResource(Resource):
+class GamesByConsole(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, console):
@@ -185,7 +184,7 @@ class GameConsoleResource(Resource):
     
 
 @content_ns.route("/games/title/<string:title>")
-class GameNameResource(Resource):
+class GamesByName(Resource):
 
     @content_ns.marshal_list_with(games_model)
     def get(self, title):
