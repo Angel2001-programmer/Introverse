@@ -27,3 +27,5 @@ flask-server/venv/
 flask-server/__pycache__/
 **/__pycache__/
 *.pyc
+flask-server/__pycache__/config.cpython-312.pyc
+flask-server/models/__pycache__/
