@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import httpClient from '../../httpClient';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../redux/slices/userSlice';
+import EditInput from '../EditInput/EditInput';
 
 // Have added an API call ish but no idea how to get it into the profile box or how to convert the profile box to view rather than edit, tried to copy recommendations.js
 // Think would be cool to have the component as view only initially with an "edit" button, that then allows you to make a put or post request to edit certain fields
@@ -19,6 +20,14 @@ const EditPosts = () => {
   });
   const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
   console.log(token);
+  // let editable = true;
+  const [userValues, setUserValues] = useState({
+    first_name: 'ANGEL',
+    last_name: '',
+    username: '',
+    email: '',
+    password: '',
+  });
 
   // 	useEffect(() => {
   //     fetch("http://localhost:5000/user/current_user/", {headers: {"Authorization": `Bearer ${JSON.parse(token)}`}})
@@ -66,85 +75,86 @@ const EditPosts = () => {
     getAPI();
   }, [user.name]);
 
-  console.log(userDetails);
-
   return (
-    <form className={styles.EditAccountform}>
+    <form
+      className={styles.EditAccountform}
+      onSubmit={(e) => {
+        e.preventDefault();
+        alert('Changes submitted!');
+
+        return setUserValues({
+          first_name: '',
+          last_name: '',
+          username: '',
+          email: '',
+          password: '',
+        });
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'ENTER') return null;
+      }}
+    >
       <div className={styles.row}>
         <label>FirstName:</label>
-        <input
-          className={styles.editInput}
-          type='text'
-          name='text'
+        <EditInput
           placeholder={userDetails.first_name}
-          readOnly='readonly'
+          editProfile={editProfile}
+          type='text'
+          value={userValues.first_name}
+          onChange={(e) =>
+            setUserValues({ ...userValues, first_name: e.target.value })
+          }
         />
-        <img
-          className={styles.imageButton}
-          src={editProfile}
-          alt='edit Password.'
-        ></img>
       </div>
       <div className={styles.row}>
         <label>LastName:</label>
-        <input
-          className={styles.editInput}
-          type='text'
-          name='text'
+        <EditInput
           placeholder={userDetails.last_name}
-          readOnly='readonly'
+          editProfile={editProfile}
+          type='text'
+          value={userValues.last_name}
+          onChange={(e) =>
+            setUserValues({ ...userValues, last_name: e.target.value })
+          }
         />
-        <img
-          className={styles.imageButton}
-          src={editProfile}
-          alt='edit Password.'
-        ></img>
       </div>
       <div className={styles.row}>
         <label>UserName:</label>
-        <input
-          className={styles.editInput}
-          type='text'
-          name='text'
+        <EditInput
           placeholder={user.name}
-          readOnly='readonly'
+          editProfile={editProfile}
+          type='text'
+          value={userValues.username}
+          onChange={(e) =>
+            setUserValues({ ...userValues, username: e.target.value })
+          }
         />
-        <img
-          className={styles.imageButton}
-          src={editProfile}
-          alt='edit Password.'
-        ></img>
       </div>
       <div className={styles.row}>
         <label>Email:</label>
-        <input
-          className={styles.editInput}
-          type='email'
-          name='text'
+        <EditInput
           placeholder={userDetails.email}
-          readOnly='readonly'
+          editProfile={editProfile}
+          type='email'
+          value={userValues.email}
+          onChange={(e) =>
+            setUserValues({ ...userValues, email: e.target.value })
+          }
         />
-        <img
-          className={styles.imageButton}
-          src={editProfile}
-          alt='edit Password.'
-        ></img>
       </div>
       <div className={styles.row}>
         <label>Password:</label>
-        <input
-          className={styles.editInput}
+        <EditInput
+          placeholder='Password'
+          editProfile={editProfile}
           type='password'
-          name='password'
-          placeholder='currentPassword'
-          readOnly='readonly'
+          value={userValues.password}
+          onChange={(e) =>
+            setUserValues({ ...userValues, password: e.target.value })
+          }
         />
-        <img
-          className={styles.imageButton}
-          src={editProfile}
-          alt='edit Password.'
-        ></img>
       </div>
+      <button type='submit'>Submit Changes</button>
     </form>
   );
 };
