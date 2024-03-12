@@ -1,22 +1,11 @@
 -- Run create database
 CREATE DATABASE introverse_dev;
+CREATE DATABASE introverse_test;
 USE introverse_dev;
 
-
--- Table for forum message board, this table needs to be created in MySQL so that it can have the MySQL default method of getting the time for the example data
--- Going to drop the foreign key constraint on author to prevent any errors from creating mock posts to display the messages
-CREATE TABLE message_board (
-	post_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
-    post_content TEXT NOT NULL,
-    post_category VARCHAR(50) NOT NULL,
-	post_author VARCHAR(30) NOT NULL,
-    post_date DATETIME NOT NULL DEFAULT NOW()
-);
-
-
--- Tables for user profile and accounts (can also create them from Python - recommend create from python)
+-- Creating tables, recommend creating from Python
 CREATE TABLE user_profiles (
-        username VARCHAR(30) NOT NULL,
+        username VARCHAR(30) NOT NULL AUTO_INCREMENT DEFAULT(UUID()),
         first_name VARCHAR(50) NOT NULL,
         last_name VARCHAR(50) NOT NULL,
         email VARCHAR(254) NOT NULL,
@@ -37,28 +26,13 @@ CREATE TABLE user_accounts (
         UNIQUE (username)
 );
 
-
-
--- Mock posts
-INSERT INTO message_board
-(post_content, post_category, post_author)
-VALUES
-("What new Anime can I watch everyone?", "Anime", "BlueMonkey"),
-("Is there a new season of FairyTail coming out?", "Anime", "MarshmellowDestroyer"),
-("Should really get around to finishing Hokuto no Ken/FoTNS already...it's bad ass...", "Anime", "BlueMonkey"),
-("Look to the 80's and 90's for anime that isn't trying to give you a stiffy. Sure, there's still women in skimpy outfits, but it's not a primary goal of the anime.", "Anime", "randomDUDEEEEEE"),
-("I'm starting Welcome to the N.H.K myself. Reading the LN to and figure I might as well do a side by side comparison.", "Anime", "BloodLord55"),
-("D.Gray man's OST is really good. Only watched the first two seasons but those two have both of some my favourite openings of all time.", "Anime", "DogWar");
-
-INSERT INTO message_board
-(post_content, post_category, post_author)
-VALUES
-("Hello I am BlueMonkey here I got the nickname from my friends a while back", "Introduce", "BlueMonkey"),
-("Sup dudes, anyone play anything then?", "Introduce", "MarshmellowDestroyer"),
-("So what are rules to these forums then?", "Introduce", "MonkeyFivesss"),
-("Just some sound dude from new york.", "Introduce", "randomDUDEEEEEE"),
-("I got a really cute puppy anyone wanna see?", "Introduce", "BloodLord55"),
-("Just here for cool community!", "Introduce", "DogWar");
+CREATE TABLE message_board (
+	post_id INT PRIMARY KEY AUTO_INCREMENT UNIQUE,
+    post_content TEXT NOT NULL,
+    post_category VARCHAR(50) NOT NULL,
+	post_author VARCHAR(30) NOT NULL,
+    post_date DATETIME NOT NULL DEFAULT NOW()
+);
 
 -- Content tables for recommendations
 CREATE TABLE books ( 
@@ -90,8 +64,7 @@ CREATE TABLE games (
     game_image VARCHAR(100) UNIQUE
     );
 
-
--- Values for recommendation tables    
+-- Data for recommendation tables, INSERT THESE BEFORE RUNNING TO USE CONTENT RECOMMENDATION FEATURE  
 INSERT INTO books
 (book_id, book_name, book_author, book_genre, price, book_script, book_image)
 VALUES
@@ -140,16 +113,23 @@ VALUES
 (11, 'GAME DEV TYCOON', 'SIMULATION', 'PC', 8.50, 'In Game Dev Tycoon you replay the history of the gaming industry by starting your own video game development company in the 80s. Create best selling games. Research new technologies and invent new game types. Become the leader of the market and gain worldwide fans.'),
 (12, 'NAHEULBEUKS DUNGEON MASTER', 'SIMULATION', 'PC', 20.99, 'A dungeon in danger ! Build, manage, and defend your tower in the satirical heroic fantasy universe of Dungeon of Naheulbeuk. From a shaky establishment to an infamous lair!');
 
--- Values for user tables, need to update and best not to insert directly from SQL because need to hash passwords, but keeping them here in meantime for an idea
--- Just for reference of some of the users added through the website
--- INSERT INTO Users (UserID, Username, Email, Name, DateOfBirth, Interests, Password)
--- VALUES
--- (1,'the_kickboxer', 'kathoop@email.com', 'Katherine Hooper', '1990-01-01', 'Gaming ', 'password1'),
--- (2,'pokemon_girl', 'angel.pika@email.com', 'Angel Witchell', '2001-02-02', 'Shonen' , 'password2' ) ,
--- (3,'lover_ofbooks', 'agd@email.com', 'Abbie-Gayle Daniel', '2002-03-03', 'Reading', 'password3'),
--- (4, 'dog_mum', 'haiyingl@email.com', 'Haiying Liao', '2003-04-04', 'Cozy_games', 'password4'),
--- (5, 'the_baroness', 'katbray@email.com', 'Katalin Bray', '1920-04-04', 'History', 'password5'),
--- (6, 'friday_13', 'jimmychamp@email.com', 'Jimmy Champagne', '1970-05-05', 'Horror', 'password6'),
--- (7, 'elder_scrolls', 'pewdiepie@email.com', 'Felix Kjellberg', '1995-06-06', 'Adventure', 'password7'),
--- (8,'nerdrotic', 'garyb@email.com', 'Gary Brown', '1950-07-07', 'Fantasy', 'password8'),
--- (9, 'critical_drinker', 'willjordan@email.com', 'Will Jordan', '1980-07-07', 'Simulation', 'password8');
+-- Mock posts for forum, can use if want or post your own on the frontend
+INSERT INTO message_board
+(post_content, post_category, post_author, post_date)
+VALUES
+("What new Anime can I watch everyone?", "Anime", "BlueMonkey", NOW()),
+("Is there a new season of FairyTail coming out?", "Anime", "MarshmellowDestroyer", NOW()),
+("Should really get around to finishing Hokuto no Ken/FoTNS already...it's bad ass...", "Anime", "BlueMonkey", NOW()),
+("Look to the 80's and 90's for anime that isn't trying to give you a stiffy. Sure, there's still women in skimpy outfits, but it's not a primary goal of the anime.", "Anime", "randomDUDEEEEEE", NOW()),
+("I'm starting Welcome to the N.H.K myself. Reading the LN to and figure I might as well do a side by side comparison.", "Anime", "BloodLord55", NOW()),
+("D.Gray man's OST is really good. Only watched the first two seasons but those two have both of some my favourite openings of all time.", "Anime", "DogWar", NOW());
+
+INSERT INTO message_board
+(post_content, post_category, post_author, post_date)
+VALUES
+("Hello I am BlueMonkey here I got the nickname from my friends a while back", "Introduce", "BlueMonkey", NOW()),
+("Sup dudes, anyone play anything then?", "Introduce", "MarshmellowDestroyer", NOW()),
+("So what are rules to these forums then?", "Introduce", "MonkeyFivesss", NOW()),
+("Just some sound dude from new york.", "Introduce", "randomDUDEEEEEE", NOW()),
+("I got a really cute puppy anyone wanna see?", "Introduce", "BloodLord55", NOW()),
+("Just here for cool community!", "Introduce", "DogWar", NOW());

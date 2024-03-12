@@ -105,7 +105,7 @@ class Games(db.Model):
     game_genre : str
         genre of the game
     w_console : str
-        which consoles to play the game
+        which consoles the game is available on
     price : float
         rrp of the game
     game_script : str (text)
