@@ -21,7 +21,7 @@ See [Flask Readme](flask-server/README.md) for more information
 ## To set up and run the server
 1. Create a virtual python environment (can do this with command or VScode should prompt you when try to run a file) and select it.
 ```
-python -m venv path
+python -m venv venv
 ```
 2. Install the required packages with pip (or pip3 for mac).
 ```
