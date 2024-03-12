@@ -135,9 +135,9 @@ This server uses the default port for Flask (5000) and the frontend is set up to
 
 ## Useful docs
 
-[Flask]("https://flask.palletsprojects.com/en/3.0.x/")\
-[SQLAlchemy]("https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/")\
-[Flask-RESTX]("https://flask-restx.readthedocs.io/en/latest/")\
-[Flask-RESTPlus]("https://flask-restplus.readthedocs.io/en/stable/")\
-[Flask-JWT-Extended]("https://flask-jwt-extended.readthedocs.io/en/stable/")\
-[Flask-Migrate]("https://flask-migrate.readthedocs.io/en/latest/")
+[Flask](https://flask.palletsprojects.com/en/3.0.x/)\
+[SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/)\
+[Flask-RESTX](https://flask-restx.readthedocs.io/en/latest/)\
+[Flask-RESTPlus](https://flask-restplus.readthedocs.io/en/stable/)\
+[Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/)\
+[Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/)
