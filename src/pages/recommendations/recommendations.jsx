@@ -152,9 +152,12 @@ const Recommendations = () => {
         );
       }
     };
-    getAPI();
+    if (route !== '') {
+      getAPI();
+    }
   }, [GenreTitle]);
 
+  console.log(listComponent);
   return (
     <div>
       <NavBar
@@ -190,7 +193,15 @@ const Recommendations = () => {
               </h2>
               <h2 className={styles.title}>{GenreTitle}</h2>
             </div>
-            <div className={styles.ContainerMain}>{listComponent}</div>
+            <div className={styles.ContainerMain}>
+              {listComponent.props.children.length !== 0 ? (
+                listComponent
+              ) : (
+                <h3 className={styles.errorMessage}>
+                  Something went wrong please try again later!
+                </h3>
+              )}
+            </div>
           </Fragment>
         )}
       </div>
