@@ -24,18 +24,19 @@ export default function Forum() {
   const [title, setTitle] = useState('');
   const [loaded, setIsLoaded] = useState(false);
   const [newPost, setIsNewPost] = useState();
+  const [endpoint, setEndPoint] = useState('');
   const [isPressed, setIsPressed] = useState(false);
-  const [posts, setPosts] = useState('');
-  const [filteredposts, setfilteredposts] = useState([]);
+  const [posts, setPosts] = useState([]);
+  // const [filteredposts, setfilteredposts] = useState([]);
   // const currDate = new Date().toLocaleString('en-UK', { hour12: true }); Date and Time.
   // const currDate = new Date().toLocaleDateString('en-GB');
-
+  // let endpoint = '';
   const user = useSelector(selectCurrentUser);
 
   let postID = null;
 
   let error = '';
-  let APIres = [];
+  // let APIres = [];
 
   let timeStamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
@@ -51,7 +52,9 @@ export default function Forum() {
     setTitle(category.title);
     setIsClicked(true);
     // console.log("Clicked");
-    // console.log(category)
+    // console.log(category);
+    setEndPoint(category.title);
+    console.log('endpoint: ' + endpoint);
     // filterArray(category.title);
   };
 
@@ -77,8 +80,8 @@ export default function Forum() {
       .then((response) => {
         // console.log(response)
         setIsNewPost(!newPost);
-        setfilteredposts([...filteredposts, response]);
-        filterArray(title);
+        // setfilteredposts([...filteredposts, response]);
+        // filterArray(title);
         // console.log(filteredposts)
         alert('Post Added!, \n please refresh browser.');
       })
@@ -111,32 +114,32 @@ export default function Forum() {
   useEffect(() => {
     // console.log(newPost);
     // console.log(posts);
-    const getForms = async () => {
+    const getForms = async (ep) => {
       const res = await httpClient
-        .get('http://localhost:5000/forum/all')
+        .get(`http://localhost:5000/forum/category/${ep}`)
         .then((res) => {
-          APIres = res.data;
+          // APIres = res.data;
           setPosts(res.data);
-          if (res.data.post_id < postID) {
-            filterArray(title);
-          }
+          console.log('api response: ' + posts);
         })
         .catch((err) => {
-          setPosts(null);
+          setPosts([]);
           console.log(err);
           error = <h2>No Posts Yet.</h2>;
         });
     };
-    getForms();
-  }, [newPost]);
+    if (endpoint !== '') {
+      getForms(endpoint);
+    }
+  }, [endpoint, newPost]);
 
-  const filterArray = (category) => {
-    // console.log(category);
-    postID = posts[posts.length - 1].post_id;
-    let filterList = posts.filter((list) => list.post_category === category);
-    setfilteredposts(filterList);
-    // console.log(posts);
-  };
+  // const filterArray = (category) => {
+  //   console.log(category);
+  //   postID = posts[posts.length - 1].post_id;
+  //   let filterList = posts.filter((list) => list.post_category === category);
+  //   setfilteredposts(filterList);
+  //   console.log(posts);
+  // };
 
   return (
     <Fragment>
@@ -263,8 +266,8 @@ export default function Forum() {
             >
               <div className={styles.column}>
                 {error}
-                {posts !== null ? (
-                  filteredposts.map((category) => (
+                {posts.length !== 0 ? (
+                  posts.map((category) => (
                     <ForumItem
                       key={category.post_id}
                       icon=''
