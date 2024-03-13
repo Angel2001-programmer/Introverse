@@ -83,7 +83,7 @@ export default function Forum() {
         // setfilteredposts([...filteredposts, response]);
         // filterArray(title);
         // console.log(filteredposts)
-        alert('Post Added!, \n please refresh browser.');
+        alert('Post Added!');
       })
       .catch((error) => {
         if (error.response) {
