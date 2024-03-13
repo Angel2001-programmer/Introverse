@@ -78,7 +78,7 @@ export default function Forum() {
       },
     })
       .then((response) => {
-        // console.log(response)
+        console.log(response);
         setIsNewPost(!newPost);
         // setfilteredposts([...filteredposts, response]);
         // filterArray(title);
