@@ -1,5 +1,10 @@
-.Page{
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.023), rgba(0, 0, 0, 0.496)), url(../../assets/images/backgrounds/Agebackground.png); 
+.Page {
+  background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.023),
+      rgba(0, 0, 0, 0.496)
+    ),
+    url(../../assets/images/backgrounds/Agebackground.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -12,13 +17,13 @@
   gap: 40px;
 }
 
-.ContainerMain{
+.ContainerMain {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #433E8E;
+  background-color: #433e8e;
   min-width: 400px;
-  max-width: 700px;
+  /* max-width: 700px; */
   max-height: 550px;
   overflow-x: hidden;
   padding: 20px;
@@ -27,78 +32,93 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.Container{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-        background-color: #433E8E;
-        min-width: 600px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+.Container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #433e8e;
+  min-width: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.photo{
+.photo {
   display: flex;
   height: 250px;
+  width: 150px;
+  object-fit: cover;
+  object-position: 25% 25%;
 }
 
-.rowContainer{
+.description {
+  /* width: 20vh; */
+  margin: 0;
+}
+
+.forumTitle {
+  margin: 0;
+  margin-top: 16px;
+  margin-bottom: 5px;
+  padding: 0;
+}
+
+.rowContainer {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-
-}
-      
-.Message { 
-    color: whitesmoke;
-    text-align: center;
 }
 
-.ColumnContainer{
+.Message {
+  color: whitesmoke;
+  text-align: center;
+}
+
+.ColumnContainer {
   display: flex;
-  margin-left: 60px;
-  margin-right: 200px;
+  margin-left: 30px;
+  /* margin-right: 200px; */
+  width: 60vh;
   flex-direction: column;
 }
-      
+
 .AdditionalTextBelow {
-    color: whitesmoke;
-    text-align: center;
+  color: whitesmoke;
+  text-align: center;
 }
-      
-      .backButton {
-        width: 100%;
-        padding: 10px;
-        margin-top: 20px;
-        font-size: 16px;
-        color: white;
-        background-color: #4BA5E1;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
 
-    .title{
-      display: flex;
-      color: white;
-      font-size: 30px;
-    }
+.backButton {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4ba5e1;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-    .topMenu{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      gap: 60px;
-      width: 600px;
-      background-color: #433E8E;
-      border-radius: 10px;
-    }
+.title {
+  display: flex;
+  color: white;
+  font-size: 30px;
+}
 
-    .errorMessage{
-      color: white;
-    }
-    
+.topMenu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 60px;
+  width: 600px;
+  background-color: #433e8e;
+  border-radius: 10px;
+}
+
+.errorMessage {
+  color: white;
+}

@@ -1,152 +1,147 @@
-.container0{
-    display: flex;
-    min-height: 40vh;
-    background-color: #D16C01;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10vh;
+.container0 {
+  display: flex;
+  min-height: 40vh;
+  background-color: #d16c01;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10vh;
 }
 
-.container1{
-    display: flex;
-    min-height: 40vh;
-    background-color: #0DA4C5;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10vh;
+.container1 {
+  display: flex;
+  min-height: 40vh;
+  background-color: #0da4c5;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10vh;
 }
-
 
 @media all and (min-width: 1000px) {
-    .main{
-        height: 100vh;
+  .main {
+    height: 100vh;
+  }
 
-    }
-
-    .rowHome{
-        gap: 20vh;
-    }
+  .rowHome {
+    gap: 20vh;
+  }
 }
 
 @media all and (min-width: 900px) {
-    .main{
-        height: 100vh;
+  .main {
+    height: 100vh;
+  }
 
-    }
+  .textHeading {
+    font-size: 7vh;
+  }
 
-    .textHeading{
-        font-size: 7vh;
-    }
+  .rowHome {
+    gap: 40vh;
+  }
 
-    .rowHome{
-        gap: 40vh;
-    }
+  .dropArrow {
+    margin-left: 0;
+  }
 
-    .dropArrow{
-        margin-left: 0;
-    }
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-    }
-
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 }
 
 @media all and (max-width: 800px) {
-    .container0{
-        flex-direction: column;
-    }
+  .container0 {
+    flex-direction: column;
+  }
 
-    .container1{
-        flex-direction: column;
-    }
+  .container1 {
+    flex-direction: column;
+  }
 }
 
-
 @media all and (min-width: 800px) {
-    .main{
-        height: 100vh;
+  .main {
+    height: 100vh;
+  }
 
-    }
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+    padding-bottom: 15px;
+  }
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-        padding-bottom: 15px;
-    }
-
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-        padding-bottom: 15px;
-    }
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+    padding-bottom: 15px;
+  }
 }
 
 @media all and (max-width: 500px) {
-    .main{
-        height: 100vh;
-    }
+  .main {
+    height: 100vh;
+  }
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-    }
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 }
 
 @media all and (min-width: 400px) {
-    .main{
-        height: 100vh;
-    }
+  .main {
+    height: 100vh;
+  }
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-    }
-
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-    }
-
-    .MobileNav{
-        display: none;
-    } 
-}
-
-.container0{
+  .container0 {
     min-height: 30vh;
     gap: 1vh;
-}
+  }
 
-.container1{
+  .container1 {
     min-height: 30vh;
     gap: 1vh;
-} 
+  }
 
-@media all and (max-width: 360px) {    
-    .main{
-        height: 100vh;
-    }
+  .MobileNav {
+    display: none;
+  }
+}
 
-    .container0{
-        min-height: 30vh;
-        gap: 1vh;
-    }
+.container0 {
+  min-height: 30vh;
+  gap: 1vh;
+}
 
-    .container1{
-        min-height: 30vh;
-        gap: 1vh;
-    } 
+.container1 {
+  min-height: 30vh;
+  gap: 1vh;
+}
+
+@media all and (max-width: 360px) {
+  .main {
+    height: 100vh;
+  }
+
+  .container0 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
+
+  .container1 {
+    min-height: 30vh;
+    gap: 1vh;
+  }
 }

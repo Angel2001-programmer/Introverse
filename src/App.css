@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap');
 
-body{
+body {
   background-color: rgb(72, 72, 72);
 }
 
-li a{
+li a {
   text-decoration: none;
   color: black;
 }
@@ -15,7 +15,7 @@ li a{
   margin-left: 5px;
 }
 
-.mainText{
+.mainText {
   font-size: 35px;
   margin: 0;
   margin-top: 190px;
@@ -34,38 +34,38 @@ li a{
   background-color: rgb(215, 215, 215);
 }
 
-.headingTitles{
+.headingTitles {
   font-size: 5vh;
   font-weight: 400;
   padding: 0;
   margin: 0;
 }
 
-.mainText{
+.mainText {
   color: black;
   margin-top: 8vh;
 }
 
-.mainText2{
+.mainText2 {
   color: black;
   margin-top: 1vh;
   font-weight: 600;
   font-size: 27px;
 }
 
-.card{
+.card {
   height: 10vh;
   min-width: 5%;
   background-color: black;
 }
 
-.modal{
+.modal {
   background-color: purple;
   max-width: 500px;
   padding: 15px;
 }
 
-#modalBG{
+#modalBG {
   display: flex;
   position: fixed;
   justify-content: center;
@@ -76,35 +76,35 @@ li a{
   z-index: 2;
 }
 
-.errorMessage{
+.errorMessage {
   color: rgb(255, 0, 0);
   text-shadow: 6px 6px 10px rgba(0, 0, 0, 0.51);
   font-size: 20px;
   margin: 0;
 }
 
-.missionTitle{
+.missionTitle {
   margin: 0;
   padding: 0;
   margin-top: 50px;
   text-align: center;
 }
 
-.missionText{
-  display: flex;
-  max-width: 96%;
+.missionText {
+  /* display: flex; */
+  /* max-width: 96%; */
   font-size: 18px;
   text-align: justify;
-  justify-content: center;
-  margin: 0 auto;
+  /* justify-content: center; */
+  /* margin: 0 auto; */
 }
 
-.dropDownMenuContainer{
+.dropDownMenuContainer {
   display: flex;
   justify-content: flex-end;
 }
 
-.dropDownMenu{
+.dropDownMenu {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@ li a{
   z-index: 1;
 }
 
-.dropMenuItem{
+.dropMenuItem {
   font-size: 18px;
   font-weight: 700;
   padding: 2px;
@@ -124,21 +124,21 @@ li a{
   text-decoration: none;
 }
 
-.dropMenuItem:hover{
+.dropMenuItem:hover {
   background-color: rgb(224, 224, 224);
 }
 
-.dropMenuItem:last-child{
+.dropMenuItem:last-child {
   border-radius: 0 0 10px 10px;
 }
 
-.link{
+.link {
   text-decoration: none;
   color: black;
 }
 
 @media all and (min-width: 800px) {
-  html{
+  html {
     overflow-x: hidden;
   }
 }
@@ -148,19 +148,19 @@ li a{
     display: flex;
     flex-flow: row wrap;
   }
-  
+
   .main section {
     display: flex;
     flex-flow: row wrap;
   }
 
-  section.content{
+  section.content {
     height: 100vh;
   }
 }
 
-@media all and (min-width: 360px){
-  .mainText{
+@media all and (min-width: 360px) {
+  .mainText {
     margin-top: 12vh;
   }
 }
