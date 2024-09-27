@@ -9,6 +9,10 @@ const Button = props => {
             boxShadow: props.dropShadow,
             paddingLeft: props.paddingToLeft,
             paddingRight: props.paddingToRight,
+            paddingTop: props.paddingToTop,
+            paddingBottom: props.paddingToBottom,
+            height: props.height,
+            fontSize: props.fontSize,
         }}>
             <p>{props.text}</p>
         </button>
